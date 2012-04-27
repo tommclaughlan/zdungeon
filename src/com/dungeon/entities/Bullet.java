@@ -15,6 +15,7 @@ public class Bullet extends Entity {
 	public double startx;
 	public double starty;
 	public int damage;
+	public double crit;
 	public int lifetime;
 	Vector vec;
 	double distance = 0;
@@ -30,7 +31,7 @@ public class Bullet extends Entity {
 							   ,"\u2211","\u00B1","\u221E","\u222B"};
 	private String letter;
 	
-	public Bullet(Level level, double x, double y, double targetx, double targety, Vector velocity, boolean hostile, int damage) {
+	public Bullet(Level level, double x, double y, double targetx, double targety, Vector velocity, boolean hostile, int damage, double crit) {
 		super(level);
 		this.x = x;
 		this.y = y;
@@ -39,6 +40,7 @@ public class Bullet extends Entity {
 		this.targetx = targetx;
 		this.targety = targety;
 		this.damage = damage;
+		this.crit = crit;
 		speed = 8;
 		this.vec = new Vector(x, y, targetx, targety, 1.0); // force unit vector
 		vec.extend(speed);

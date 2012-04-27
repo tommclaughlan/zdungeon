@@ -11,6 +11,7 @@ import com.dungeon.boundingbox.BoundingBox;
 import com.dungeon.image.Art;
 import com.dungeon.image.ImageProcessing;
 import com.dungeon.level.Level;
+import com.dungeon.math.Combat;
 import com.dungeon.math.Vector;
 
 public class Player extends Entity {
@@ -24,6 +25,8 @@ public class Player extends Entity {
 	public int health;
 	public int mana;
 	public int strength;
+	public int defense;
+	public double crit;
 	Random rand = new Random();
 	public int fireRate = 6;
 	private int walkTime;
@@ -41,6 +44,8 @@ public class Player extends Entity {
 		mana = 100;
 		
 		strength = 2;
+		defense = 1;
+		crit = 0.2;
 		
 		walkTime = 0;
 		velocity = new Vector();
@@ -67,7 +72,7 @@ public class Player extends Entity {
 				BoundingBox playerbb = bullet.getBoundingBox();
 				if(mybb.intersects(playerbb) && rand.nextDouble() > 0.5) {
 					bullet.remove();
-					hurt(bullet.damage);
+					hurt(Combat.bulletDamage(bullet.damage, bullet.crit, this.defense));
 					level.getBullets().get(i).remove();
 				}
 		}
@@ -134,9 +139,14 @@ public class Player extends Entity {
 	}
 	
 	public void hurt(int damage) {
-		health-=damage;
-		level.damagetext.add(new DamageText(level, x, y, new Vector(), 20, 8, 1, true, damage, Color.RED));
-		flash();
+		if(damage > 0) {
+			health-=damage;
+			level.damagetext.add(new DamageText(level, x, y, new Vector(), 20, 8, 1, true, damage, Color.RED));
+			flash();
+		}
+		else {
+			level.damagetext.add(new DamageText(level, x, y, new Vector(), 20, 8, 1, true, "miss", Color.GREEN));
+		}
 	}
 
 	public void addHealth(int value) {

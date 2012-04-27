@@ -12,6 +12,7 @@ import com.dungeon.entities.items.ManaPotion;
 import com.dungeon.image.Art;
 import com.dungeon.image.ImageProcessing;
 import com.dungeon.level.Level;
+import com.dungeon.math.Combat;
 import com.dungeon.math.Node;
 import com.dungeon.math.Vector;
 
@@ -29,7 +30,11 @@ public class Mob extends Entity {
 	public int health = 15;
 	private boolean flash = false;
 	private int flashTime = 0;
+	
+	//stats!
 	public int strength = 1;
+	public int defense = 1;
+	public double crit = 0.01;
 
 	private int bounceTime = 0;
 	private boolean shootyMob = false;
@@ -98,11 +103,8 @@ public class Mob extends Entity {
 				BoundingBox playerbb = bullet.getBoundingBox();
 				if(mybb.intersects(playerbb)) {
 					bullet.remove();
-					hurt(bullet.damage);
-					spray(bullet.vec, 20, 15, 2);
-					if(!bounce)
-						bounceTime = 5;
-					bounce = true;
+					hurt(Combat.bulletDamage(bullet.damage, bullet.crit, this.defense), bullet);
+					
 				}
 		}
 		
@@ -113,6 +115,7 @@ public class Mob extends Entity {
 			if(metoplayer.length() > sightRadius*4)
 				return;
 			if(metoplayer.length() < sightRadius && mybb.intersects(player.getBoundingBox())) {
+				//TODO: collision hurt
 				player.hurt( (int) Math.max(1, strength*(1+rand.nextGaussian())) );
 				bounce = true;
 				playerbounce = true;
@@ -145,7 +148,7 @@ public class Mob extends Entity {
 					fixDirection = true;
 				}
 				//System.out.println("metoplayer = "+metoplayer.printVec());
-				level.enemyBullet(this, tx, ty, strength);
+				level.enemyBullet(this, tx, ty, strength, crit);
 				vomitCount--;
 			}
 			
@@ -211,10 +214,19 @@ public class Mob extends Entity {
 		}
 	}
 
-	public void hurt(int damage) {
-		health-=damage;
-		level.damagetext.add(new DamageText(level, x, y, new Vector(rand.nextGaussian(), -2), 20, 8, 1, true, damage, Color.YELLOW));
-		flash();
+	public void hurt(int damage, Bullet bullet) {
+		if(damage > 0) {
+			health-=damage;
+			level.damagetext.add(new DamageText(level, x, y, new Vector(rand.nextGaussian(), -2), 20, 8, 1, true, damage, Color.YELLOW));
+			flash();
+			spray(bullet.vec, 20, 15, 2);
+			if(!bounce)
+				bounceTime = 5;
+			bounce = true;
+		}
+		else {
+			level.damagetext.add(new DamageText(level, x, y, new Vector(rand.nextGaussian(), -2), 20, 8, 1, true, "miss", Color.RED));
+		}
 	}
 	
 	private void bounce(Vector metoplayer) {
@@ -367,11 +379,11 @@ public class Mob extends Entity {
 	}
 
 	public int getMapX() {
-		return (int) ((this.x + 16) / 32);
+		return (int) ((this.x) / 32);
 	}
 
 	public int getMapY() {
-		return (int) ((this.y + 16) / 32);
+		return (int) ((this.y) / 32);
 	}
 	
 }

@@ -144,7 +144,7 @@ public class Level {
 			playerhealth = player.health;
 			playermana = player.mana;
 			if(firing && ticks % Math.max(1,(10-player.fireRate)) == 0) {
-				newBullet(fireTx, fireTy, player.strength);
+				newBullet(fireTx, fireTy, player.strength, player.crit);
 			}
 		}
 		else {
@@ -352,7 +352,7 @@ public class Level {
 		
 	}
 
-	public void newBullet(int x, int y, int strength) {
+	public void newBullet(int x, int y, int strength, double crit) {
 		Player player = (Player) getPlayer();
 		if(player != null && player.mana > 0) {
 			double px = player.x;
@@ -369,17 +369,17 @@ public class Level {
 			if( height - (viewRadius*9/16) < py)
 				ty -= 2*(py - (height - (viewRadius*9/16)));
 			
-			bullets.add(new Bullet(this, px, py, tx, ty, player.velocity, false, (int) Math.max(1, 1+strength*rand.nextGaussian())));
+			bullets.add(new Bullet(this, px, py, tx, ty, player.velocity, false, strength, crit));
 			player.useMana();
 		}
 	}
 	
-	public void enemyBullet(Entity enemy, int tx, int ty, int strength) {
+	public void enemyBullet(Entity enemy, int tx, int ty, int strength, double crit) {
 		Player player = (Player) getPlayer();
 		if(player != null) {
 			double px = tx + rand.nextGaussian()*3;
 			double py = ty + rand.nextGaussian()*3;
-			bullets.add(new Bullet(this, enemy.x, enemy.y, px, py, enemy.velocity, true, (int) Math.max(1, 1+strength*rand.nextGaussian())));
+			bullets.add(new Bullet(this, enemy.x, enemy.y, px, py, enemy.velocity, true, strength, crit));
 		}
 	}
 	
