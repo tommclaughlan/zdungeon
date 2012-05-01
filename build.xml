@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="zdungeon" basedir="." default="jar">
+	<property name="src" value="src"/>
+	<property name="output" value="bin"/>
+
+	<target name="compile" depends="create">
+		<javac srcdir="${src}" destdir="bin"/>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar jarfile="zdungeon.jar" basedir="${output}"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${output}"/>
+	</target>
+
+	<target name="create" depends="clean">
+		<mkdir dir="${output}"/>
+	</target>
+
+</project>
+	
