@@ -2,13 +2,20 @@
 <project name="zdungeon" basedir="." default="jar">
 	<property name="src" value="src"/>
 	<property name="output" value="bin"/>
+	<property name="resources" value="res"/>
 
 	<target name="compile" depends="create">
 		<javac srcdir="${src}" destdir="bin"/>
 	</target>
 
 	<target name="jar" depends="compile">
-		<jar jarfile="zdungeon.jar" basedir="${output}"/>
+		<jar jarfile="zdungeon.jar" update="true">
+			<fileset dir="${output}"/>
+			<fileset dir="${resources}"/>
+			<manifest>
+        			<attribute name="Main-Class" value="com.dungeon.MainComponent"/>
+      			</manifest>
+		</jar>	
 	</target>
 
 	<target name="clean">
