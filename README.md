@@ -17,12 +17,3 @@ In the first few rooms, there might not be many zombies, but as time goes on, th
 zombie filled rooms reduces, meaning LOTS of zombies in the latter rooms.
 
 Items are currently consumed instantly, but this should be changed to be stored in an 'inventory' and used at will.
-
-
-
-Bugs:
-
-The pathfinding code struggles when a 1 block thick wall comes between you and a zombie. The zombie seems to think 
-it's actually IN the wall, and so just runs straight at it. It's probably some subtle coordinate bug I've missed.
-
-The Game Over screen doesn't interrupt the 'Game' thread properly. I should probably learn to use threads better...
