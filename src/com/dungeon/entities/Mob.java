@@ -27,13 +27,13 @@ public class Mob extends Entity {
     public boolean isDead = false;
 	boolean bounce = false;
 	boolean playerbounce = false;
-	public int health = 15;
+	public int health = 20;
 	private boolean flash = false;
 	private int flashTime = 0;
 	
 	//stats!
-	public int strength = 1;
-	public int defense = 1;
+	public int strength = 3;
+	public int defense = 3;
 	public double crit = 0.01;
 
 	private int bounceTime = 0;
