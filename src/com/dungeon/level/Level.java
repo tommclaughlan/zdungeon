@@ -1,5 +1,6 @@
 package com.dungeon.level;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -158,7 +159,6 @@ public class Level {
 				bullets.remove(i--);
 			}
 		}
-
 		
 		for(int i = 0; i < particles.size(); i++) {
 			Particle p = particles.get(i);
@@ -174,14 +174,14 @@ public class Level {
 		
 		if(getPlayer() != null) {
 			Player player = ((Player) getPlayer());
-			if(player.health <= 0){
-				gameOver();
-				return;
-			}
 			playerhealth = player.health;
 			playermana = player.mana;
 			if(firing && ticks % Math.max(1,(10-player.fireRate)) == 0) {
 				newBullet(fireTx, fireTy, player.strength, player.crit);
+			}
+			if(player.health <= 0){
+				gameOver();
+				return;
 			}
 		}
 		else {
@@ -217,13 +217,10 @@ public class Level {
 //				tmp.tick();
 //		}
 		
-		//int badGuyCount = 0;
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 			if(!e.removed) {
 				e.tick();
-				//if(e instanceof Mob)
-				//	badGuyCount++;
 			}
 			if(e.removed) {
 				entities.remove(i--);
@@ -281,13 +278,7 @@ public class Level {
 		for(int x = x0; x < x1; x++) {
 			for(int y = y0; y < y1; y++) {
 				Tile e = tiles[x][y];
-				double px = getPlayer().x / e.tileWidth;
-				double py = getPlayer().y / e.tileWidth;
-				Vector v = new Vector(x,y,px,py);
-				if(v.length() < 5)
-					result.add(e);
-				else
-					result.add(new Tile(this,x,y));
+				result.add(e);
 			}
 		}
 		
@@ -501,6 +492,7 @@ public class Level {
 	private void sortAndRender(Screen screen, int tX, int tY,
 			List<Tile> visibleTiles, List<Entity> visibleStains,
 			List<Entity> visibleParticles, Set<Entity> visibleEntities, List<Entity> visibleDamage) {
+		screen.getGraphics().setColor(Color.black);
         screen.getGraphics().fillRect(0,0, tX+2*viewRadius, tY+2*(viewRadius*9/16));
         screen.getGraphics().clipRect(0,0, tX+2*viewRadius, tY+2*(viewRadius*9/16));
 		for(int i = 0; i < visibleTiles.size(); i++) {

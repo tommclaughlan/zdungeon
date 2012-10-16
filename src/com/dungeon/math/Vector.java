@@ -40,6 +40,10 @@ public class Vector {
 	public double length() {
 		return Math.sqrt(x*x + y*y);
 	}
+
+	public double distance(double xto, double yto) {
+		return Math.sqrt((x-xto)*(x-xto) + (y-yto)*(y-yto));
+	}
 	
 	public void extend(double newLength) {
 		double scale = newLength / length();
