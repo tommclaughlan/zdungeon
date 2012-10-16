@@ -139,17 +139,16 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
                 createBufferStrategy(3);
                 continue;
             }
+
             if (shouldRender) {
                 frames++;
                 Graphics g = bs.getDrawGraphics();
-
     			if(level.gameOver) {
     				renderGameOver(g);
-    				running = false;
     			}
-    			else {
+    			else
     				render(g);
-    			}
+
                 long renderTime = System.nanoTime();
                 int timePassed = (int) (renderTime - lastRenderTime);
                 if (timePassed < min) {
@@ -176,6 +175,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
                     bs.show();
                 }
             }
+            
 
             if (System.currentTimeMillis() - lastTimer1 > 1000) {
                 lastTimer1 += 1000;
@@ -183,7 +183,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
                 frames = 0;
             }
         }
-		
+
 		
 	}
 	
@@ -315,6 +315,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 
 	public void mouseClicked(MouseEvent e) {
 		if(level.gameOver){
+			stop();
 			init();
 			start();
 		}

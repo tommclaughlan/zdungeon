@@ -1,6 +1,7 @@
 package com.dungeon.level;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -17,6 +18,7 @@ import com.dungeon.entities.Particle;
 import com.dungeon.entities.Player;
 import com.dungeon.level.tile.*;
 import com.dungeon.map.Map;
+import com.dungeon.math.Vector;
 import com.dungeon.screen.Screen;
 
 public class Level {
@@ -110,6 +112,34 @@ public class Level {
 
 	public void tick() {
 		//long beforeStain = System.nanoTime();
+		
+//		Iterator<Particle> s = stains.iterator();
+//		while(s.hasNext()) {
+//			Particle tmp = s.next();
+//			if(tmp.removed)
+//				s.remove();
+//			else
+//				tmp.tick();
+//		}
+//
+//		Iterator<Bullet> b = bullets.iterator();
+//		while(b.hasNext()) {
+//			Bullet tmp = b.next();
+//			if(tmp.removed)
+//				b.remove();
+//			else
+//				tmp.tick();
+//		}
+//		
+//		Iterator<Particle> p = particles.iterator();
+//		while(p.hasNext()) {
+//			Particle tmp = p.next();
+//			if(tmp.removed)
+//				p.remove();
+//			else
+//				tmp.tick();
+//		}
+		
 		for(int i = 0; i < stains.size(); i++) {
 			Particle p = stains.get(i);
 			if(!p.removed) {
@@ -119,7 +149,7 @@ public class Level {
 				stains.remove(i--);
 			}
 		}
-
+		
 		for(int i = 0; i < bullets.size(); i++) {
 			Bullet b = bullets.get(i);
 			if(!b.removed)
@@ -128,6 +158,7 @@ public class Level {
 				bullets.remove(i--);
 			}
 		}
+
 		
 		for(int i = 0; i < particles.size(); i++) {
 			Particle p = particles.get(i);
@@ -139,8 +170,14 @@ public class Level {
 			}
 		}
 		
+		
+		
 		if(getPlayer() != null) {
 			Player player = ((Player) getPlayer());
+			if(player.health <= 0){
+				gameOver();
+				return;
+			}
 			playerhealth = player.health;
 			playermana = player.mana;
 			if(firing && ticks % Math.max(1,(10-player.fireRate)) == 0) {
@@ -151,7 +188,34 @@ public class Level {
 			playerhealth = 0;
 			playermana = 0;
 		}
+		
 
+//		Iterator<Entity> e = entities.iterator();
+//		while(e.hasNext()) {
+//			Entity tmp = e.next();
+//			if(tmp.removed)
+//				e.remove();
+//			else
+//				tmp.tick();
+//		}
+//		
+//		Iterator<DamageText> dt = damagetext.iterator();
+//		while(dt.hasNext()) {
+//			DamageText tmp = dt.next();
+//			if(tmp.removed)
+//				dt.remove();
+//			else
+//				tmp.tick();
+//		}		
+//		
+//		Iterator<Item> i = items.iterator();
+//		while(i.hasNext()) {
+//			Item tmp = i.next();
+//			if(tmp.removed)
+//				i.remove();
+//			else
+//				tmp.tick();
+//		}
 		
 		//int badGuyCount = 0;
 		for(int i = 0; i < entities.size(); i++) {
@@ -165,6 +229,7 @@ public class Level {
 				entities.remove(i--);
 			}
 		}
+
 		
 		for(int i = 0; i < damagetext.size(); i++) {
 			DamageText b = damagetext.get(i);
@@ -174,6 +239,7 @@ public class Level {
 				damagetext.remove(i--);
 			}
 		}
+
 		
 		for(int i = 0; i < items.size(); i++) {
 			Item it = items.get(i);
@@ -215,7 +281,13 @@ public class Level {
 		for(int x = x0; x < x1; x++) {
 			for(int y = y0; y < y1; y++) {
 				Tile e = tiles[x][y];
-				result.add(e);
+				double px = getPlayer().x / e.tileWidth;
+				double py = getPlayer().y / e.tileWidth;
+				Vector v = new Vector(x,y,px,py);
+				if(v.length() < 5)
+					result.add(e);
+				else
+					result.add(new Tile(this,x,y));
 			}
 		}
 		
@@ -368,7 +440,7 @@ public class Level {
 			    tx -= 2*(px - (width - viewRadius));
 			if( height - (viewRadius*9/16) < py)
 				ty -= 2*(py - (height - (viewRadius*9/16)));
-			
+
 			bullets.add(new Bullet(this, px, py, tx, ty, player.velocity, false, strength, crit));
 			player.useMana();
 		}

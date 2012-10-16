@@ -43,7 +43,7 @@ public class Player extends Entity {
 		health = 10;
 		mana = 100;
 		
-		strength = 2;
+		strength = 3;
 		defense = 1;
 		crit = 0.2;
 		
@@ -58,8 +58,6 @@ public class Player extends Entity {
 	}
 	
 	public void tick() {
-		if(health <= 0)
-			level.gameOver();
 		if(mana < 100 && rand.nextDouble() > 0.93)
 			mana++;
 		
@@ -67,13 +65,12 @@ public class Player extends Entity {
 		for(int i = 0; i < level.getBullets().size(); i++) {
 			Bullet bullet = level.getBullets().get(i);
 				if(bullet.removed || !bullet.hostile) {
-					break;
+					continue;
 				}
 				BoundingBox playerbb = bullet.getBoundingBox();
 				if(mybb.intersects(playerbb) && rand.nextDouble() > 0.5) {
 					bullet.remove();
 					hurt(Combat.bulletDamage(bullet.damage, bullet.crit, this.defense));
-					level.getBullets().get(i).remove();
 				}
 		}
 		for(int i = 0; i < level.getItems().size(); i++) {

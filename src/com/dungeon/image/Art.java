@@ -1,5 +1,6 @@
 package com.dungeon.image;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,7 @@ public class Art {
 	public static BufferedImage playerImage = loadImage("/playerlo.png", 32, 20);
 	public static BufferedImage[][] playerImages = chop("/playersheet.png", 32, 32);
 	public static BufferedImage floorTest = loadImage("/floortest.png", 32, 32);
+	public static BufferedImage black = blackImage(32,32);
 	public static BufferedImage wallTest = loadImage("/walltest.png", 32, 48);
 	public static BufferedImage zombie1 = loadImage("/zombie1.png", 32, 32);
 	public static BufferedImage lessermana = loadImage("/lessermana.png", 32, 32);
@@ -45,6 +47,14 @@ public class Art {
 		return bi;
 	}
 	
+	private static BufferedImage blackImage(int i, int j) {
+		BufferedImage bi = new BufferedImage(i,j,BufferedImage.TYPE_INT_RGB);
+		Graphics gbi = bi.createGraphics();
+		gbi.setColor(Color.black);
+		gbi.fillRect(0, 0, i, j);
+		return bi;
+	}
+
 	public static BufferedImage[][] chop(String name, int w, int h) {
         
 		String imageLoc = name;

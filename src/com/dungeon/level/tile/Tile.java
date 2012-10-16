@@ -13,7 +13,7 @@ public class Tile implements BoundingBoxOwner {
 	
 	public int x,y;
 	public int tileWidth = 32;
-	BufferedImage bi = Art.floorTest;
+	BufferedImage bi = Art.black;
 	//Color color = Color.DARK_GRAY;
 	public boolean noclip = true;
 	

@@ -69,9 +69,6 @@ public class MobSpawner extends Entity {
 				if(e instanceof Mob)
 					badGuyCount++;
 			}
-			if(e.removed) {
-				level.entities.remove(i--);
-			}
 		}
 		
 		if(spawnTime <= 0) {
@@ -104,7 +101,6 @@ public class MobSpawner extends Entity {
 				if(mybb.intersects(playerbb)) {
 					bullet.remove();
 					hurt(bullet.damage);
-					level.getBullets().remove(bullet);
 				}
 		}
 	

@@ -32,7 +32,7 @@ public class Mob extends Entity {
 	private int flashTime = 0;
 	
 	//stats!
-	public int strength = 1;
+	public int strength = 2;
 	public int defense = 1;
 	public double crit = 0.01;
 
