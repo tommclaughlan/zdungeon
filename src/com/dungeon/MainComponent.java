@@ -274,7 +274,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 
 	private void manaBar(Graphics g) {
 		g.setColor(Color.BLUE);
-		g.fillRect(GAME_WIDTH * SCALE - 90, 26,(int)(50*(level.playermana/100.0)), 10);
+		g.fillRect(GAME_WIDTH * SCALE - 90, 26,(int)(50*(level.getPlayer().mana/(float) level.getPlayer().maxmana)), 10);
 		g.setColor(Color.DARK_GRAY);
 		g.drawRect(GAME_WIDTH * SCALE - 90, 26,50, 10);
 
@@ -293,7 +293,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 			g.setColor(Color.ORANGE);
 		if(level.playerhealth/10.0 < 0.3)
 			g.setColor(Color.RED);
-		g.fillRect(GAME_WIDTH * SCALE - 90, 11,(int)(50*(level.playerhealth/10.0)), 10);
+		g.fillRect(GAME_WIDTH * SCALE - 90, 11,(int)(50*(level.getPlayer().health/(float) level.getPlayer().maxhealth)), 10);
 		g.setColor(Color.DARK_GRAY);
 		g.drawRect(GAME_WIDTH * SCALE - 90, 11,50, 10);
 

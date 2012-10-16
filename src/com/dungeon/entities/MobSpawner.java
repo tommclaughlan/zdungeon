@@ -9,6 +9,7 @@ import com.dungeon.boundingbox.BoundingBox;
 import com.dungeon.entities.items.HealthPotion;
 import com.dungeon.entities.items.ManaPotion;
 import com.dungeon.level.Level;
+import com.dungeon.math.Combat;
 import com.dungeon.math.Vector;
 
 public class MobSpawner extends Entity {
@@ -89,7 +90,7 @@ public class MobSpawner extends Entity {
 		
 
 		BoundingBox mybb = getBoundingBox();
-		List<Bullet> bullets = level.getBullets((int) (this.x - 16), (int) (this.y - 16), (int) (this.x + 16), (int) (this.y + 16));
+		List<Bullet> bullets = level.getBullets((int) (this.x - (radiusx+1)), (int) (this.y  - (radiusy+1)), (int) (this.x + (radiusx+1)), (int) (this.y + (radiusy+1)));
 		for(int i = 0; i < bullets.size(); i++) {
 			Bullet bullet = bullets.get(i);
 				if(bullet.hostile)
@@ -100,7 +101,7 @@ public class MobSpawner extends Entity {
 				BoundingBox playerbb = bullet.getBoundingBox();
 				if(mybb.intersects(playerbb)) {
 					bullet.remove();
-					hurt(bullet.damage);
+					hurt(Combat.bulletDamage(bullet.damage, bullet.crit, 0));
 				}
 		}
 	

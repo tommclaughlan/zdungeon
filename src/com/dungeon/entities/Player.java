@@ -24,6 +24,10 @@ public class Player extends Entity {
 	private int flashTime = 0;
 	public int health;
 	public int mana;
+	
+	public int maxhealth = 30;
+	public int maxmana = 350;
+	
 	public int strength;
 	public int defense;
 	public double crit;
@@ -40,11 +44,11 @@ public class Player extends Entity {
 		this.radiusy = 10;
 		colour = Color.YELLOW;
 		speed = 2.5;
-		health = 10;
-		mana = 100;
+		health = maxhealth;
+		mana = maxmana;
 		
-		strength = 3;
-		defense = 1;
+		strength = 4;
+		defense = 2;
 		crit = 0.2;
 		
 		walkTime = 0;
@@ -58,7 +62,7 @@ public class Player extends Entity {
 	}
 	
 	public void tick() {
-		if(mana < 100 && rand.nextDouble() > 0.93)
+		if(mana < maxmana && rand.nextDouble() > 0.93)
 			mana++;
 		
 		BoundingBox mybb = getBoundingBox();
@@ -80,11 +84,11 @@ public class Player extends Entity {
 			}
 			BoundingBox playerbb = item.getBoundingBox();
 			if(mybb.intersects(playerbb)) {
-				level.getItems().get(i).remove();
+				item.remove();
 			}
 		}
 
-		if(health < 10 && rand.nextDouble() > 0.999)
+		if(health < maxhealth && rand.nextDouble() > 0.999)
 			health++;
 		
 		if(flash)
@@ -148,8 +152,8 @@ public class Player extends Entity {
 
 	public void addHealth(int value) {
 		health+=value;
-		if(health > 10)
-			health = 10;
+		if(health > maxhealth)
+			health = maxhealth;
 	}
 	
 	public void useMana() {
@@ -158,8 +162,8 @@ public class Player extends Entity {
 
 	public void addMana(int value) {
 		mana+=value;
-		if(mana > 100)
-			mana = 100;
+		if(mana > maxmana)
+			mana = maxmana;
 	}
 
 	public void bouncePlayer(Vector metoplayer, int bounceTime) {
