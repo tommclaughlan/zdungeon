@@ -267,22 +267,23 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		g.setColor(Color.WHITE);
 		g.drawString(msg, GAME_WIDTH * SCALE - 91, 10);
 		*/
-		manaBar(g);
+		ammoStatus(g);
 		healthBar(g);
 			
 	}
 
-	private void manaBar(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.fillRect(GAME_WIDTH * SCALE - 90, 26,(int)(50*(level.getPlayer().mana/(float) level.getPlayer().maxmana)), 10);
-		g.setColor(Color.DARK_GRAY);
-		g.drawRect(GAME_WIDTH * SCALE - 90, 26,50, 10);
-
-        String msg = "MANA";
+	private void ammoStatus(Graphics g) {
+//		g.setColor(Color.BLUE);
+//		g.fillRect(GAME_WIDTH * SCALE - 90, 26,(int)(50*(level.getPlayer().ammo/(float) level.getPlayer().maxammo)), 10);
+//		g.setColor(Color.DARK_GRAY);
+//		g.drawRect(GAME_WIDTH * SCALE - 90, 26,50, 10);
+//
+        String msg = "AMMO"+" "+level.getPlayer().ammo+" / "+level.getPlayer().maxammo;
 		g.setColor(Color.BLACK);
 		g.drawString(msg, GAME_WIDTH * SCALE - 145, 26+9);
 		g.setColor(Color.LIGHT_GRAY);
 		g.drawString(msg, GAME_WIDTH * SCALE - 146, 26+8);
+		
 	}
 	
 	private void healthBar(Graphics g) {

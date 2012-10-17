@@ -2,7 +2,6 @@ package com.dungeon.level;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -19,7 +18,6 @@ import com.dungeon.entities.Particle;
 import com.dungeon.entities.Player;
 import com.dungeon.level.tile.*;
 import com.dungeon.map.Map;
-import com.dungeon.math.Vector;
 import com.dungeon.screen.Screen;
 
 public class Level {
@@ -175,9 +173,10 @@ public class Level {
 		if(getPlayer() != null) {
 			Player player = ((Player) getPlayer());
 			playerhealth = player.health;
-			playermana = player.mana;
+			playermana = player.ammo;
 			if(firing && ticks % Math.max(1,(10-player.fireRate)) == 0) {
-				newBullet(fireTx, fireTy, player.strength, player.crit);
+				//newBullet(fireTx, fireTy, player.strength, player.crit);
+				player.getWeapon().fire(this, fireTx, fireTy, player.strength, player.crit);
 			}
 			if(player.health <= 0){
 				gameOver();
@@ -417,7 +416,7 @@ public class Level {
 
 	public void newBullet(int x, int y, int strength, double crit) {
 		Player player = (Player) getPlayer();
-		if(player != null && player.mana > 0) {
+		if(player != null && player.ammo > 0) {
 			double px = player.x;
 			double py = player.y - 4;
 			double tx = (x) - (px);
@@ -432,8 +431,8 @@ public class Level {
 			if( height - (viewRadius*9/16) < py)
 				ty -= 2*(py - (height - (viewRadius*9/16)));
 
-			bullets.add(new Bullet(this, px, py, tx, ty, player.velocity, false, strength, crit));
-			player.useMana();
+			bullets.add(new Bullet(this, px, py, tx, ty, player.velocity, false, strength, crit, 8));
+			player.useAmmo();
 		}
 	}
 	
@@ -442,7 +441,7 @@ public class Level {
 		if(player != null) {
 			double px = tx + rand.nextGaussian()*3;
 			double py = ty + rand.nextGaussian()*3;
-			bullets.add(new Bullet(this, enemy.x, enemy.y, px, py, enemy.velocity, true, strength, crit));
+			bullets.add(new Bullet(this, enemy.x, enemy.y, px, py, enemy.velocity, true, strength, crit, 3));
 		}
 	}
 	

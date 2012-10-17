@@ -20,18 +20,10 @@ public class Bullet extends Entity {
 	Vector vec;
 	double distance = 0;
 	protected Random rand = new Random();
-	private int speed;
 	private int startradiusx = 5, startradiusy = 5;
 	public boolean hostile = false;
 	
-	private String[] letters = {"\u0393","\u0394","\u0396","\u03B1","\u03B2","\u03B3"
-							   ,"\u03B4","\u03B5","\u03B6","\u03B7","\u03B8","\u03BB"
-							   ,"\u03BC","\u03BD","\u03BE","\u03C0","\u03C1","\u03C3"
-							   ,"\u03C4","\u03C6","\u03C7","\u03C8","\u03C9","\u2202"
-							   ,"\u2211","\u00B1","\u221E","\u222B"};
-	private String letter;
-	
-	public Bullet(Level level, double x, double y, double targetx, double targety, Vector velocity, boolean hostile, int damage, double crit) {
+	public Bullet(Level level, double x, double y, double targetx, double targety, Vector velocity, boolean hostile, int damage, double crit, int speed) {
 		super(level);
 		this.x = x;
 		this.y = y;
@@ -41,7 +33,6 @@ public class Bullet extends Entity {
 		this.targety = targety;
 		this.damage = damage;
 		this.crit = crit;
-		speed = 8;
 		this.vec = new Vector(x, y, targetx, targety, 1.0); // force unit vector
 		vec.extend(speed);
 		lifetime = (int) (20+(rand.nextGaussian()*10));
@@ -52,13 +43,11 @@ public class Bullet extends Entity {
 		this.hostile = hostile;
 		if(hostile) {
 			lifetime = (int) (20+(rand.nextGaussian()*8));
-			speed = 5;
 			vec.extend(speed);
 			vec.x += rand.nextGaussian();
 			vec.y += rand.nextGaussian();
 			this.colour = new Color(rand.nextInt(20), rand.nextInt(135-100)+100, rand.nextInt(20));
 		}
-		letter = letters[rand.nextInt(letters.length)];
 	}
 	
 	public void tick() {
@@ -111,7 +100,7 @@ public class Bullet extends Entity {
 		if(!hostile) {
 			Font font = new Font("Serif", Font.ITALIC, Math.max(3*radiusx,3*radiusy));
 			g.setFont(font);
-			g.drawString(letter, (int)x - radiusx, (int)y + radiusy);
+			g.fillOval((int)(this.x - radiusx), (int)(this.y - radiusy), radiusx, radiusy);
 		}
 	}
 	

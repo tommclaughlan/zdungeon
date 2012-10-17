@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.dungeon.Keys;
 import com.dungeon.boundingbox.BoundingBox;
+import com.dungeon.entities.weapons.*;
 import com.dungeon.image.Art;
 import com.dungeon.image.ImageProcessing;
 import com.dungeon.level.Level;
@@ -23,10 +24,10 @@ public class Player extends Entity {
 	private boolean flash = false;
 	private int flashTime = 0;
 	public int health;
-	public int mana;
+	public int ammo;
 	
 	public int maxhealth = 30;
-	public int maxmana = 350;
+	public int maxammo = 500;
 	
 	public int strength;
 	public int defense;
@@ -34,6 +35,8 @@ public class Player extends Entity {
 	Random rand = new Random();
 	public int fireRate = 6;
 	private int walkTime;
+	
+	private Weapon weapon = new Shotgun();
 	
 	public Player(Level level, Keys keys, int x, int y) {
 		super(level);
@@ -45,7 +48,7 @@ public class Player extends Entity {
 		colour = Color.YELLOW;
 		speed = 2.5;
 		health = maxhealth;
-		mana = maxmana;
+		ammo = maxammo;
 		
 		strength = 4;
 		defense = 2;
@@ -62,8 +65,8 @@ public class Player extends Entity {
 	}
 	
 	public void tick() {
-		if(mana < maxmana && rand.nextDouble() > 0.93)
-			mana++;
+		//if(ammo < maxammo && rand.nextDouble() > 0.93)
+		//	ammo++;
 		
 		BoundingBox mybb = getBoundingBox();
 		for(int i = 0; i < level.getBullets().size(); i++) {
@@ -156,16 +159,20 @@ public class Player extends Entity {
 			health = maxhealth;
 	}
 	
-	public void useMana() {
-		mana--;
+	public void useAmmo() {
+		ammo--;
 	}
 
 	public void addMana(int value) {
-		mana+=value;
-		if(mana > maxmana)
-			mana = maxmana;
+		ammo+=value;
+		if(ammo > maxammo)
+			ammo = maxammo;
 	}
 
+	public Weapon getWeapon() {
+		return weapon;
+	}
+	
 	public void bouncePlayer(Vector metoplayer, int bounceTime) {
 		if(metoplayer.x < 0 && x > 0 + radiusx)
 			xto=x-bounceTime/2;

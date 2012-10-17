@@ -62,4 +62,8 @@ public class Vector {
             y = 0;
         }
 	}
+	
+	public Vector clone() {
+		return new Vector(this.x, this.y);
+	}
 }
