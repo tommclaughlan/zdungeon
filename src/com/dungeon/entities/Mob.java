@@ -45,7 +45,7 @@ public class Mob extends Entity {
 	int tx = 0,ty = 0;
 	
 	//for pathfinding
-	public int sightRadius = 512;
+	public int sightRadius = 350;
 	int speed = 1;
 	int currentx, currenty;
 	int targetx, targety;
@@ -172,14 +172,14 @@ public class Mob extends Entity {
         walkTime++;
 
         
-        if(canSeePlayer)
-        	findPath();
-        else{
-        	if (facing == 0) velocity.y += speed;
-            if (facing == 1) velocity.x -= speed;
-            if (facing == 2) velocity.y -= speed;
-            if (facing == 3) velocity.x += speed;
-        }
+//        if(canSeePlayer)
+//        	findPath();
+//        else {
+//        	if (facing == 0) velocity.y += speed;
+//            if (facing == 1) velocity.x -= speed;
+//            if (facing == 2) velocity.y -= speed;
+//            if (facing == 3) velocity.x += speed;
+//        }
         
 		if(shootyMob && firing) {
 			xto = 0;
@@ -188,11 +188,19 @@ public class Mob extends Entity {
 		
         if(walkTime / 12 % 3 != 0) {
         	stepTime++;
-        	if(walkTime > 10 && rand.nextInt(200) == 0){
+        	if(walkTime > 8 && rand.nextInt(200) == 0){
         		facing = rand.nextInt(4);
         		walkTime = 0;
-
         	}
+        	Vector metoplayer = new Vector(x,y,player.x,player.y);
+    		if(canSeePlayer && (rand.nextInt(3) <= 1 || metoplayer.length() < sightRadius / 3))
+            	findPath();
+            else {
+            	if (facing == 0) velocity.y += speed;
+                if (facing == 1) velocity.x -= speed;
+                if (facing == 2) velocity.y -= speed;
+                if (facing == 3) velocity.x += speed;
+            }
 
             if(velocity.x != 0 && velocity.y != 0)
             	velocity.extend(speed);

@@ -73,7 +73,7 @@ public class MobSpawner extends Entity {
 		}
 		
 		if(spawnTime <= 0) {
-			if(badGuyCount < 128)
+			if(badGuyCount < 50)
 				spawnMob();
 			spawnTime = (int) (500 + rand.nextGaussian()*400);
 		}
