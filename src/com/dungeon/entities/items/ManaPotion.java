@@ -1,5 +1,7 @@
 package com.dungeon.entities.items;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -24,17 +26,24 @@ public class ManaPotion extends Item {
 	}
 	
 	public void draw(Graphics g) {
-		//Color oldCol = g.getColor();
-		//g.setColor(Color.BLUE);
-		if(value < 10)
-			bi = Art.lessermana;
-		BufferedImage renderImage = new BufferedImage(bi.getWidth(),bi.getHeight(),bi.getType());
-		Graphics gi = renderImage.createGraphics();
-		gi.drawImage(bi,0,0,bi.getWidth(),bi.getHeight(),null);
-		g.drawImage(renderImage, (int)(x-radiusx - 3), (int)(y-radiusy - 3), radiusx*2 + 6 , radiusy*2 + 6, null);
-		//g.fillRect((int) (x-radiusx), (int) (y-radiusx), 2*radiusx, 2*radiusy);
+		////Color oldCol = g.getColor();
+		////g.setColor(Color.BLUE);
+		//if(value < 10)
+		//	bi = Art.lessermana;
+		//BufferedImage renderImage = new BufferedImage(bi.getWidth(),bi.getHeight(),bi.getType());
+		//Graphics gi = renderImage.createGraphics();
+		//gi.drawImage(bi,0,0,bi.getWidth(),bi.getHeight(),null);
+		//g.drawImage(renderImage, (int)(x-radiusx - 3), (int)(y-radiusy - 3), radiusx*2 + 6 , radiusy*2 + 6, null);
+		////g.fillRect((int) (x-radiusx), (int) (y-radiusx), 2*radiusx, 2*radiusy);
 		
-		//g.setColor(oldCol);
+		Color oldCol = g.getColor();
+		g.setColor(Color.WHITE);
+		g.fillRect((int) (x-radiusx), (int) (y-radiusx), 2*radiusx, 2*radiusy);
+		g.setColor(Color.BLACK);
+		Font font = new Font("Serif", Font.PLAIN, radiusx/2);
+		g.setFont(font);
+		g.drawString("AMMO", (int) (x-radiusx), (int) (y));
+		g.setColor(oldCol);
 	}
 
 }

@@ -278,6 +278,35 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 //		g.setColor(Color.DARK_GRAY);
 //		g.drawRect(GAME_WIDTH * SCALE - 90, 26,50, 10);
 //
+
+        if(level.getPlayer().changedweapon){
+        	String weap = level.getPlayer().getWeapon().getName();
+			g.setColor(Color.BLACK);
+			g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+9);
+			g.setColor(Color.MAGENTA);
+			g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+8);
+        	String stats = level.getPlayer().getWeapon().getStrength();
+			g.setColor(Color.BLACK);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+9);
+			g.setColor(Color.YELLOW);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+8);
+        	stats = level.getPlayer().getWeapon().getCrit();
+			g.setColor(Color.BLACK);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+9);
+			g.setColor(Color.YELLOW);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+8);
+        	stats = level.getPlayer().getWeapon().getAccuracy();
+			g.setColor(Color.BLACK);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+9);
+			g.setColor(Color.YELLOW);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+8);
+        	stats = level.getPlayer().getWeapon().getSpeed();
+			g.setColor(Color.BLACK);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+9);
+			g.setColor(Color.YELLOW);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+8);
+        }
+		
         String msg = "AMMO"+" "+level.getPlayer().ammo+" / "+level.getPlayer().maxammo;
 		g.setColor(Color.BLACK);
 		g.drawString(msg, GAME_WIDTH * SCALE - 145, 26+9);

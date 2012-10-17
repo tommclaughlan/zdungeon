@@ -41,10 +41,10 @@ public class MobSpawner extends Entity {
 		remove();
 		level.score+=5;
 		if(rand.nextDouble() > 0.5) {
-			if(rand.nextDouble() > 0.5) 
-				level.items.add(new ManaPotion(level, x, y, 15));
+			if(rand.nextDouble() > 0.55) 
+				level.items.add(new ManaPotion(level, x, y, 50));
 			else
-				level.items.add(new HealthPotion(level, x, y, 3));
+				level.items.add(new HealthPotion(level, x, y, 4));
 				
 		}
 	}
@@ -73,7 +73,7 @@ public class MobSpawner extends Entity {
 		}
 		
 		if(spawnTime <= 0) {
-			if(badGuyCount < 50)
+			if(badGuyCount < 1)
 				spawnMob();
 			spawnTime = (int) (500 + rand.nextGaussian()*400);
 		}

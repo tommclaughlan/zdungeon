@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.dungeon.Keys;
 import com.dungeon.boundingbox.BoundingBox;
+import com.dungeon.entities.player.Inventory;
 import com.dungeon.entities.weapons.*;
 import com.dungeon.image.Art;
 import com.dungeon.image.ImageProcessing;
@@ -36,7 +37,12 @@ public class Player extends Entity {
 	public int fireRate = 6;
 	private int walkTime;
 	
-	private Weapon weapon = new Shotgun();
+	public boolean changedweapon = true;
+	private int weaponInfoTimer = 120;
+
+	private Weapon weapon;
+	
+	private Inventory inventory = new Inventory();
 	
 	public Player(Level level, Keys keys, int x, int y) {
 		super(level);
@@ -56,17 +62,42 @@ public class Player extends Entity {
 		
 		walkTime = 0;
 		velocity = new Vector();
+		
+		inventory.addWeapon(new MachineGun());
+		inventory.addWeapon(new Shotgun());
+		inventory.addWeapon(new Pistol());
+		
+		for(Weapon w : inventory.getWeapons()){
+			if(w instanceof Pistol)
+				weapon = w;
+		}
 	}
 	
 	public void move(int x, int y) {
 		this.x = x;
-		this.y = y;
-		
+		this.y = y;	
+	}
+	
+	public void changeWeapon(int i) {
+		for(Weapon w : inventory.getWeapons()){
+			if(i==1 && w instanceof Pistol)
+				weapon = w;
+			else if(i==2 && w instanceof Shotgun)
+				weapon = w;
+			else if(i==3 && w instanceof MachineGun)
+				weapon = w;
+		}
+		changedweapon = true;
+		weaponInfoTimer = 120;
 	}
 	
 	public void tick() {
 		//if(ammo < maxammo && rand.nextDouble() > 0.93)
 		//	ammo++;
+		if(changedweapon)
+			weaponInfoTimer--;
+		if(weaponInfoTimer <= 0)
+			changedweapon=false;
 		
 		BoundingBox mybb = getBoundingBox();
 		for(int i = 0; i < level.getBullets().size(); i++) {
@@ -127,6 +158,13 @@ public class Player extends Entity {
 		if(canMoveY()){
 			moveY();
 		}
+		
+		if(keys.weap1.wasReleased())
+			changeWeapon(1);
+		if(keys.weap2.wasReleased())
+			changeWeapon(2);
+		if(keys.weap3.wasReleased())
+			changeWeapon(3);
 		
 	}
 
@@ -193,4 +231,5 @@ public class Player extends Entity {
 		flash = true;
 		flashTime = 5;
 	}
+
 }

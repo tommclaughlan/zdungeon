@@ -20,6 +20,10 @@ public class InputHandler implements KeyListener {
 		mappings.put(KeyEvent.VK_S, keys.down);
 		mappings.put(KeyEvent.VK_A, keys.left);
 		mappings.put(KeyEvent.VK_D, keys.right);
+		
+		mappings.put(KeyEvent.VK_1, keys.weap1);
+		mappings.put(KeyEvent.VK_2, keys.weap2);
+		mappings.put(KeyEvent.VK_3, keys.weap3);
 	}
 
 	public void keyPressed(KeyEvent ke) {

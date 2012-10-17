@@ -16,10 +16,10 @@ public class Shotgun implements Weapon {
 		Player player = (Player) level.getPlayer();
 		if(player != null && player.ammo > 0) {
 			double px = player.x;
-			double py = player.y - 4;
+			double py = (player.y - 4);
 			double tx = (x) - (px);
 			double ty = (y) - (py);
-			
+
 			if(level.viewRadius < px)
 				tx += 2*(px - level.viewRadius);
 			if((level.viewRadius*9/16) < py)
@@ -28,20 +28,40 @@ public class Shotgun implements Weapon {
 			    tx -= 2*(px - (level.width - level.viewRadius));
 			if( level.height - (level.viewRadius*9/16) < py)
 				ty -= 2*(py - (level.height - (level.viewRadius*9/16)));
-
-			double theta = Math.atan2(tx, ty);
-			double L = Math.sqrt((Math.pow(ty, 2) + Math.pow(tx,2)));
-
-			for(int i=0; i<5; ++i) {
+			
+			double theta = Math.atan2(tx-px, ty-py);
+			double L = Math.sqrt((Math.pow(ty-py, 2) + Math.pow(tx-px,2)));
+			
+			for(int i=0; i<4; ++i) {
 				double phi = Math.min(rand.nextGaussian(),1.2);
-				double t1x = (L*Math.sin(theta + phi*acc));
-				double t1y = (L*Math.cos(theta + phi*acc));
+				double t1x = (L*Math.sin(theta + phi*acc)) + px;
+				double t1y = (L*Math.cos(theta + phi*acc)) + py;
+
 				level.bullets.add(new Bullet(level, px, py, t1x, t1y, player.velocity, false,  strength+str, Math.min(1.0, crit+crt), speed));
+				player.useAmmo();
 			}
-			player.useAmmo();
-			player.useAmmo();
 			level.firing = false;
 		}
+	}
+
+	public String getName() {
+		return "Shotgun";
+	}
+	
+	public String getStrength() {
+		return "Strength = "+str;
+	}
+	
+	public String getCrit() {
+		return "Crit = "+100*crt+"%";
+	}
+	
+	public String getAccuracy() {
+		return "Accuracy = "+acc;
+	}
+	
+	public String getSpeed() {
+		return "Bullet Speed = "+speed;
 	}
 
 }

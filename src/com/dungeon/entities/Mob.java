@@ -73,8 +73,8 @@ public class Mob extends Entity {
 		remove();
 		level.score++;
 		spray(new Vector(), 250, 200, 3);
-		if(rand.nextDouble() > 0.9)
-			level.items.add(new ManaPotion(level, x, y, 5));
+		if(rand.nextDouble() > 0.85)
+			level.items.add(new ManaPotion(level, x, y, 15));
 	}
 	
 	public void tick() {	

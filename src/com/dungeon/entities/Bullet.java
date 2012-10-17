@@ -98,8 +98,6 @@ public class Bullet extends Entity {
 			g.fillOval((int)(this.x - radiusx), (int)(this.y - radiusy), radiusx*2, radiusy*2);
 		}
 		if(!hostile) {
-			Font font = new Font("Serif", Font.ITALIC, Math.max(3*radiusx,3*radiusy));
-			g.setFont(font);
 			g.fillOval((int)(this.x - radiusx), (int)(this.y - radiusy), radiusx, radiusy);
 		}
 	}

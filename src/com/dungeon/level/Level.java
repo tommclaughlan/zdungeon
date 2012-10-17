@@ -16,6 +16,7 @@ import com.dungeon.entities.Item;
 import com.dungeon.entities.MobSpawner;
 import com.dungeon.entities.Particle;
 import com.dungeon.entities.Player;
+import com.dungeon.entities.items.ManaPotion;
 import com.dungeon.level.tile.*;
 import com.dungeon.map.Map;
 import com.dungeon.screen.Screen;
@@ -62,7 +63,6 @@ public class Level {
 		
 		playerhealth = 0;
 		playermana = 0;
-		
 		
 		ticks = 0;
 	}
