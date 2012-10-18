@@ -45,11 +45,13 @@ public class Mob extends Entity {
 	int tx = 0,ty = 0;
 	
 	//for pathfinding
-	public int sightRadius = 350;
+	public int sightRadius = 512;
 	int speed = 1;
 	int currentx, currenty;
 	int targetx, targety;
 	boolean canSeePlayer = false;
+	private boolean shotat = false;
+	private int attentionSpan = 1000;
 	boolean hasPath = false;
 	List<Node> path = new ArrayList<Node>();
 	
@@ -188,20 +190,26 @@ public class Mob extends Entity {
 		
         if(walkTime / 12 % 3 != 0) {
         	stepTime++;
-        	if(walkTime > 8 && rand.nextInt(200) == 0){
+        	if(walkTime > 4 && rand.nextInt(200) == 0){
         		facing = rand.nextInt(4);
         		walkTime = 0;
         	}
         	Vector metoplayer = new Vector(x,y,player.x,player.y);
-    		if(canSeePlayer && (rand.nextInt(3) <= 1 || metoplayer.length() < sightRadius / 3))
+    		if(canSeePlayer && (metoplayer.length() < sightRadius / 2 || shotat)){
             	findPath();
+            	if(shotat) {
+            		attentionSpan--;
+            		if(attentionSpan <= 0)
+            			shotat = false;
+            	}
+    		}
             else {
             	if (facing == 0) velocity.y += speed;
                 if (facing == 1) velocity.x -= speed;
                 if (facing == 2) velocity.y -= speed;
                 if (facing == 3) velocity.x += speed;
             }
-
+    		
             if(velocity.x != 0 && velocity.y != 0)
             	velocity.extend(speed);
             
@@ -235,6 +243,8 @@ public class Mob extends Entity {
 		else {
 			level.damagetext.add(new DamageText(level, x, y, new Vector(rand.nextGaussian(), -2), 20, 8, 1, true, "miss", Color.RED));
 		}
+		shotat = true;
+		attentionSpan = 1000;
 	}
 	
 	private void bounce(Vector metoplayer) {

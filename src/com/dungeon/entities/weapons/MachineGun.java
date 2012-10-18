@@ -8,7 +8,7 @@ import com.dungeon.level.Level;
 public class MachineGun implements Weapon {
 	
 	private int speed = 12;
-	private int str = 2;
+	private int str = 3;
 	private double crt = 0.050;
 	private double acc = 0.01;
 	

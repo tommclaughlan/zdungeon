@@ -10,7 +10,7 @@ public class Shotgun implements Weapon {
 	private int speed = 18;
 	private int str = 4;
 	private double crt = 0.1;
-	private double acc = 0.05;
+	private double acc = 0.08;
 	
 	public void fire(Level level, int x, int y, int strength, double crit) {
 		Player player = (Player) level.getPlayer();

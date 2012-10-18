@@ -127,11 +127,16 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
             if (toTick > 20) {
                 toTick = 20;
             }
-
+            
             for (int i = 0; i < tickCount; i++) {
                 toTick--;
                 tick();
                 shouldRender = true;
+            }
+
+            if(keys.pause.wasReleased()){
+            	paused = !paused;
+            	keys.pause.tick();
             }
 			
 			BufferStrategy bs = getBufferStrategy();
@@ -249,9 +254,6 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 				if(e instanceof Mob)
 					badGuyCount++;
 			}
-			if(e.removed) {
-				level.entities.remove(i--);
-			}
 		}
 
         msg = "ZOMBIES: " + badGuyCount;
@@ -269,6 +271,41 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		*/
 		ammoStatus(g);
 		healthBar(g);
+		
+		if(paused) {
+			String weap = level.getPlayer().getWeapon().getName();
+			g.setColor(Color.BLACK);
+			g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+9);
+			g.setColor(Color.MAGENTA);
+			g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+8);
+        	String stats = level.getPlayer().getWeapon().getStrength();
+			g.setColor(Color.BLACK);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+9);
+			g.setColor(Color.YELLOW);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+8);
+        	stats = level.getPlayer().getWeapon().getCrit();
+			g.setColor(Color.BLACK);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+9);
+			g.setColor(Color.YELLOW);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+8);
+        	stats = level.getPlayer().getWeapon().getAccuracy();
+			g.setColor(Color.BLACK);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+9);
+			g.setColor(Color.YELLOW);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+8);
+        	stats = level.getPlayer().getWeapon().getSpeed();
+			g.setColor(Color.BLACK);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+9);
+			g.setColor(Color.YELLOW);
+			g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+8);
+			Font font = new Font("", Font.BOLD, 100);
+	        msg = "PAUSED";
+			g.setColor(Color.WHITE);
+			g.setFont(font);
+			g.drawString(msg, 300, GAME_HEIGHT*SCALE / 2);
+			g.setColor(Color.RED);
+			g.drawString(msg, 299, (GAME_HEIGHT*SCALE / 2) -1);
+		}
 			
 	}
 
@@ -336,7 +373,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 
 	public void tick() {
 
-		if(level != null) {
+		if(level != null && !paused) {
 			level.tick();
 		}
 		keys.tick();
