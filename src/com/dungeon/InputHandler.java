@@ -17,6 +17,7 @@ public class InputHandler implements KeyListener {
 		mappings.put(KeyEvent.VK_RIGHT, keys.right);
 		
 		mappings.put(KeyEvent.VK_P, keys.pause);
+		mappings.put(KeyEvent.VK_I, keys.inventory);
 
 		mappings.put(KeyEvent.VK_W, keys.up);
 		mappings.put(KeyEvent.VK_S, keys.down);

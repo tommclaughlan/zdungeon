@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 
 import com.dungeon.entities.Entity;
 import com.dungeon.entities.Mob;
+import com.dungeon.entities.Weapon;
+import com.dungeon.entities.player.Inventory;
 import com.dungeon.level.Level;
 import com.dungeon.map.Map;
 import com.dungeon.screen.Screen;
@@ -33,6 +35,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     private int fps;
     private Level level;
     public boolean paused = false;
+    public boolean inventory = false;
     public int ticks = 0;
     
     public int highscore = 0;
@@ -74,6 +77,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 	public void start() {
         running = true;
         paused = false;
+        inventory = false;
         Thread thread = new Thread(this);
         thread.setPriority(Thread.MAX_PRIORITY);
         thread.start();
@@ -137,6 +141,10 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
             if(keys.pause.wasReleased()){
             	paused = !paused;
             	keys.pause.tick();
+            }
+            if(keys.inventory.wasReleased()){
+            	inventory = !inventory;
+            	keys.inventory.tick();
             }
 			
 			BufferStrategy bs = getBufferStrategy();
@@ -273,31 +281,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		healthBar(g);
 		
 		if(paused) {
-			String weap = level.getPlayer().getWeapon().getName();
-			g.setColor(Color.BLACK);
-			g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+9);
-			g.setColor(Color.MAGENTA);
-			g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+8);
-        	String stats = level.getPlayer().getWeapon().getStrength();
-			g.setColor(Color.BLACK);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+9);
-			g.setColor(Color.YELLOW);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+8);
-        	stats = level.getPlayer().getWeapon().getCrit();
-			g.setColor(Color.BLACK);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+9);
-			g.setColor(Color.YELLOW);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+8);
-        	stats = level.getPlayer().getWeapon().getAccuracy();
-			g.setColor(Color.BLACK);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+9);
-			g.setColor(Color.YELLOW);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+8);
-        	stats = level.getPlayer().getWeapon().getSpeed();
-			g.setColor(Color.BLACK);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+9);
-			g.setColor(Color.YELLOW);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+8);
+			drawWeaponStats(g, level.getPlayer().getWeapon());
 			Font font = new Font("", Font.BOLD, 100);
 	        msg = "PAUSED";
 			g.setColor(Color.WHITE);
@@ -306,7 +290,45 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 			g.setColor(Color.RED);
 			g.drawString(msg, 299, (GAME_HEIGHT*SCALE / 2) -1);
 		}
+		if(inventory) {
+			drawWeaponStats(g, level.getPlayer().getWeapon());
+			//drawInventory(g);
+		}
 			
+	}
+	
+	private void drawInventory(Graphics g) {
+		Inventory inv = level.getPlayer().getInventory();
+		
+		
+	}
+	
+	private void drawWeaponStats(Graphics g, Weapon w) {
+		String weap = w.getName();
+		g.setColor(Color.BLACK);
+		g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+9);
+		g.setColor(Color.MAGENTA);
+		g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+8);
+    	String stats = level.getPlayer().getWeapon().getStrength();
+		g.setColor(Color.BLACK);
+		g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+9);
+		g.setColor(Color.YELLOW);
+		g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+8);
+    	stats = level.getPlayer().getWeapon().getCrit();
+		g.setColor(Color.BLACK);
+		g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+9);
+		g.setColor(Color.YELLOW);
+		g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+8);
+    	stats = level.getPlayer().getWeapon().getAccuracy();
+		g.setColor(Color.BLACK);
+		g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+9);
+		g.setColor(Color.YELLOW);
+		g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+8);
+    	stats = level.getPlayer().getWeapon().getSpeed();
+		g.setColor(Color.BLACK);
+		g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+9);
+		g.setColor(Color.YELLOW);
+		g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+8);
 	}
 
 	private void ammoStatus(Graphics g) {
@@ -317,31 +339,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 //
 
         if(level.getPlayer().changedweapon){
-        	String weap = level.getPlayer().getWeapon().getName();
-			g.setColor(Color.BLACK);
-			g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+9);
-			g.setColor(Color.MAGENTA);
-			g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+8);
-        	String stats = level.getPlayer().getWeapon().getStrength();
-			g.setColor(Color.BLACK);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+9);
-			g.setColor(Color.YELLOW);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+8);
-        	stats = level.getPlayer().getWeapon().getCrit();
-			g.setColor(Color.BLACK);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+9);
-			g.setColor(Color.YELLOW);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+8);
-        	stats = level.getPlayer().getWeapon().getAccuracy();
-			g.setColor(Color.BLACK);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+9);
-			g.setColor(Color.YELLOW);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+8);
-        	stats = level.getPlayer().getWeapon().getSpeed();
-			g.setColor(Color.BLACK);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+9);
-			g.setColor(Color.YELLOW);
-			g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+8);
+        	drawWeaponStats(g, level.getPlayer().getWeapon());
         }
 		
         String msg = "AMMO"+" "+level.getPlayer().ammo+" / "+level.getPlayer().maxammo;
@@ -373,7 +371,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 
 	public void tick() {
 
-		if(level != null && !paused) {
+		if(level != null && !paused && !inventory) {
 			level.tick();
 		}
 		keys.tick();

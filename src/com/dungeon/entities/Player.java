@@ -232,4 +232,8 @@ public class Player extends Entity {
 		flashTime = 5;
 	}
 
+	public Inventory getInventory() {
+		return inventory;
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.dungeon.entities.player;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +12,17 @@ public class Inventory {
 	private List<Item> items = new ArrayList<Item>();
 	private List<Weapon> weapons = new ArrayList<Weapon>();
 	
+	private int maxitems = 10;
+	private int maxweapons = 6;
+	
 	public void addItem(Item it) {
-		items.add(it);
+		if(items.size() < maxitems)
+			items.add(it);
 	}	
 	
 	public void addWeapon(Weapon weap) {
-		weapons.add(weap);
+		if(weapons.size() < maxweapons)
+			weapons.add(weap);
 	}
 	
 	public List<Item> getItems() {
@@ -25,6 +31,10 @@ public class Inventory {
 	
 	public List<Weapon> getWeapons() {
 		return weapons;
+	}
+	
+	public void drawInventory(Graphics g) {
+		
 	}
 
 }
