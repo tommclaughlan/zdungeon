@@ -1,5 +1,6 @@
 package com.dungeon.entities;
 
+import java.awt.Graphics;
 import java.util.Random;
 
 import com.dungeon.level.Level;
@@ -22,7 +23,9 @@ public interface Weapon {
 	double getCrit();
 	
 	double getAccuracy();
-	
+
 	int getSpeed();
+	
+	int getShots();
 
 }

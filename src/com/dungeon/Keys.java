@@ -39,6 +39,7 @@ public class Keys {
     public Key pause = new Key();
     public Key inventory = new Key();
     public Key select = new Key();
+    public Key drop = new Key();
     public Key weap1 = new Key();
     public Key weap2 = new Key();
     public Key weap3 = new Key();

@@ -280,9 +280,11 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		ammoStatus(g);
 		healthBar(g);
 		
+		Inventory inv = level.getPlayer().getInventory();
+		
 		if(paused) {
-			drawWeaponName(g, level.getPlayer().getWeapon(),GAME_WIDTH * SCALE - 145, 55);
-			drawWeaponStats(g, level.getPlayer().getWeapon(),GAME_WIDTH * SCALE - 145, 75, false);
+			inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 55);
+			inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 75, false);
 			Font font = new Font("", Font.BOLD, 100);
 	        msg = "PAUSED";
 			g.setColor(Color.WHITE);
@@ -292,102 +294,19 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 			g.drawString(msg, 299, (GAME_HEIGHT*SCALE / 2) -1);
 		}
 		if(inventory) {
-			drawWeaponName(g, level.getPlayer().getWeapon(),GAME_WIDTH * SCALE - 145, 55);
-			drawWeaponStats(g, level.getPlayer().getWeapon(),GAME_WIDTH * SCALE - 145, 75, false);
-			drawInventory(g);
+			inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 55);
+			inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 75, false);
+			inv.drawInventory(g);
 		}
 			
 	}
-	
-	private void drawInventory(Graphics g) {
-		Inventory inv = level.getPlayer().getInventory();
-		Font font = new Font("", Font.PLAIN, 20);
-		Font selectedfont = new Font("", Font.BOLD, 20);
-		Font oldfont = g.getFont();
-		
-		for(int i=0; i<inv.getWeapons().size(); ++i) {
-			if(i == inv.getSelectedWeapon()) {
-				g.setFont(font);
-				drawWeaponStats(g, inv.getWeapons().get(i),350, 150+(i*40), true);
-				g.setFont(selectedfont);
-			}
-			else
-				g.setFont(font);
-			drawWeaponName(g, inv.getWeapons().get(i),150, 150+(i*40));
-		}
-		
-		g.setFont(oldfont);
-		
-	}
-	
-	private void drawWeaponName(Graphics g, Weapon w, int x, int y) {
-		String weap = w.getName();
-		g.setColor(Color.BLACK);
-		g.drawString(weap, x, y);
-		g.setColor(Color.MAGENTA);
-		g.drawString(weap, x, y-1);
-	}
-
-	private void drawWeaponStats(Graphics g, Weapon w, int x, int y, boolean compare) {
-		int str = w.getStrength();
-    	String stat = "Strength = "+str;
-		g.setColor(Color.BLACK);
-		g.drawString(stat, x, y);
-		if(w.getStrength() == level.getPlayer().getWeapon().getStrength())
-			g.setColor(Color.YELLOW);
-		else if(str > level.getPlayer().getWeapon().getStrength())
-			g.setColor(Color.GREEN);
-		else if(str < level.getPlayer().getWeapon().getStrength())
-			g.setColor(Color.RED);
-		g.drawString(stat, x, y-1);
-		y+=20;
-    	double crt = w.getCrit();
-    	stat = "Crit = "+100*crt+"%";
-		g.setColor(Color.BLACK);
-		g.drawString(stat, x, y);		
-		if(crt == level.getPlayer().getWeapon().getCrit())
-			g.setColor(Color.YELLOW);
-		else if(crt > level.getPlayer().getWeapon().getCrit())
-			g.setColor(Color.GREEN);
-		else if(crt < level.getPlayer().getWeapon().getCrit())
-			g.setColor(Color.RED);
-		g.drawString(stat, x, y-1);
-		y+=20;
-    	double acc = w.getAccuracy();
-    	stat = "Accuracy = "+acc;
-		g.setColor(Color.BLACK);
-		g.drawString(stat, x, y);
-		if(acc == level.getPlayer().getWeapon().getAccuracy())
-			g.setColor(Color.YELLOW);
-		else if(acc < level.getPlayer().getWeapon().getAccuracy())
-			g.setColor(Color.GREEN);
-		else if(acc > level.getPlayer().getWeapon().getAccuracy())
-			g.setColor(Color.RED);
-		g.drawString(stat, x, y-1);
-		y+=20;
-    	double speed = w.getSpeed();
-    	stat = "Bullet Speed = "+speed;
-		g.setColor(Color.BLACK);
-		g.drawString(stat, x, y);
-		if(speed == level.getPlayer().getWeapon().getSpeed())
-			g.setColor(Color.YELLOW);
-		else if(speed > level.getPlayer().getWeapon().getSpeed())
-			g.setColor(Color.GREEN);
-		else if(speed < level.getPlayer().getWeapon().getSpeed())
-			g.setColor(Color.RED);
-		g.drawString(stat, x, y-1);
-	}
 
 	private void ammoStatus(Graphics g) {
-//		g.setColor(Color.BLUE);
-//		g.fillRect(GAME_WIDTH * SCALE - 90, 26,(int)(50*(level.getPlayer().ammo/(float) level.getPlayer().maxammo)), 10);
-//		g.setColor(Color.DARK_GRAY);
-//		g.drawRect(GAME_WIDTH * SCALE - 90, 26,50, 10);
-//
+		Inventory inv = level.getPlayer().getInventory();
 
         if(level.getPlayer().changedweapon){
-        	drawWeaponName(g, level.getPlayer().getWeapon(), GAME_WIDTH * SCALE - 145, 55);
-        	drawWeaponStats(g, level.getPlayer().getWeapon(), GAME_WIDTH * SCALE - 145, 75, false);
+        	inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 55);
+        	inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 75, false);
         }
 		
         String msg = "AMMO"+" "+level.getPlayer().ammo+" / "+level.getPlayer().maxammo;

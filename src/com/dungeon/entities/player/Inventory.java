@@ -9,6 +9,7 @@ import java.util.List;
 import com.dungeon.Keys;
 import com.dungeon.entities.Item;
 import com.dungeon.entities.Weapon;
+import com.dungeon.entities.items.WeaponItem;
 import com.dungeon.level.Level;
 
 public class Inventory {
@@ -56,6 +57,13 @@ public class Inventory {
 		return weapons.get(equippedweapon);
 	}
 	
+	public void dropWeapon(int i) {
+		if(weapons.size() == 1)
+			return;
+		Weapon dw = weapons.remove(i);
+		level.items.add(new WeaponItem(level, level.getPlayer().x, level.getPlayer().y, dw));
+	}
+	
 	public void tick() {
 		if(keys.down.wasReleased()) {
 			if(selectedweapon < weapons.size()-1)
@@ -73,6 +81,103 @@ public class Inventory {
 			equippedweapon = selectedweapon;
 			changedweapon = true;
 		}
+		if(keys.drop.wasReleased()){
+			dropWeapon(selectedweapon);
+			selectedweapon--;
+			if(selectedweapon<0)
+				selectedweapon=0;
+		}
 	}
 
+	public void drawInventory(Graphics g) {
+		g.setColor(Color.DARK_GRAY);
+		g.fillRoundRect(100, 100, 600, 400, 50, 50);
+		
+		Font font = new Font("", Font.PLAIN, 20);
+		Font selectedfont = new Font("", Font.BOLD, 24);
+		Font oldfont = g.getFont();
+		
+		for(int i=0; i<weapons.size(); ++i) {
+			if(i == selectedweapon) {
+				g.setFont(font);
+				drawWeaponStats(g, weapons.get(i),350, 150, true);
+				g.setFont(selectedfont);
+			}
+			else
+				g.setFont(font);
+			drawWeaponName(g, weapons.get(i),150, 150+(i*40));
+		}
+		g.setFont(oldfont);
+	}
+	
+	public void drawWeaponName(Graphics g, Weapon w, int x, int y) {
+		String weap = w.getName();
+		g.setColor(Color.BLACK);
+		g.drawString(weap, x, y);
+		g.setColor(Color.MAGENTA);
+		g.drawString(weap, x, y-1);
+	}
+
+	public void drawWeaponStats(Graphics g, Weapon w, int x, int y, boolean compare) {
+		Weapon pw = weapons.get(equippedweapon);
+		int str = w.getStrength();
+    	String stat = "Strength = "+str;
+		g.setColor(Color.BLACK);
+		g.drawString(stat, x, y);
+		g.setColor(Color.YELLOW);
+		if(compare) {
+			if(str > pw.getStrength())
+				g.setColor(Color.GREEN);
+			else if(str < pw.getStrength())
+				g.setColor(Color.RED);
+		}
+		g.drawString(stat, x, y-1);
+		y+=20;
+    	double crt = w.getCrit();
+    	stat = "Crit = "+String.format("%.2f", 100*crt)+"%";
+		g.setColor(Color.BLACK);
+		g.drawString(stat, x, y);
+		g.setColor(Color.YELLOW);
+		if(compare) {
+			if(crt > pw.getCrit())
+				g.setColor(Color.GREEN);
+			else if(crt < pw.getCrit())
+				g.setColor(Color.RED);
+		}
+		g.drawString(stat, x, y-1);
+		y+=20;
+    	double acc = w.getAccuracy();
+    	stat = "Accuracy = "+String.format("%.2f", acc);
+		g.setColor(Color.BLACK);
+		g.drawString(stat, x, y);
+		g.setColor(Color.YELLOW);
+		if(compare) {
+			if(acc < pw.getAccuracy())
+				g.setColor(Color.GREEN);
+			else if(acc > pw.getAccuracy())
+				g.setColor(Color.RED);
+		}
+		g.drawString(stat, x, y-1);
+		y+=20;
+    	double speed = w.getSpeed();
+    	stat = "Bullet Speed = "+speed;
+		g.setColor(Color.BLACK);
+		g.drawString(stat, x, y);
+		g.setColor(Color.YELLOW);
+		if(compare) {
+			if(speed > pw.getSpeed())
+				g.setColor(Color.GREEN);
+			else if(speed < pw.getSpeed())
+				g.setColor(Color.RED);
+		}
+		g.drawString(stat, x, y-1);
+		y+=20;
+    	double shots = w.getShots();
+    	stat = "Bullets per shot = "+shots;
+		g.setColor(Color.BLACK);
+		g.drawString(stat, x, y);
+		g.setColor(Color.YELLOW);
+		g.drawString(stat, x, y-1);
+	}
+	
 }

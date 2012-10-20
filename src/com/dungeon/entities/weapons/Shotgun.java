@@ -1,5 +1,7 @@
 package com.dungeon.entities.weapons;
 
+import java.util.Random;
+
 import com.dungeon.entities.Bullet;
 import com.dungeon.entities.Player;
 import com.dungeon.entities.Weapon;
@@ -9,8 +11,27 @@ public class Shotgun implements Weapon {
 	
 	private int speed = 18;
 	private int str = 4;
-	private double crt = 0.1;
-	private double acc = 0.08;
+	private double crt = 0.04;
+	private double acc = 0.10;
+	private int shots = 3;
+
+	private int maxstr = 6;
+	private int minstr = 2;
+	private int maxspeed = 22;
+	private int minspeed = 14;
+	private double maxcrt = 0.08;
+	private double mincrt = 0.01;
+	private double maxacc = 0.06;
+	private double minacc = 0.20;
+	
+	public Shotgun() {
+		Random rand = new Random();
+		str = minstr + ((int) (rand.nextDouble() * (maxstr-minstr)));
+		speed = minspeed + ((int) (rand.nextDouble() * (maxspeed-minspeed)));
+		crt = mincrt + (rand.nextDouble() * (maxcrt-mincrt));
+		acc = maxacc + (rand.nextDouble() * (minacc-maxacc));
+		shots = 2 + rand.nextInt(5);
+	}
 	
 	public void fire(Level level, int x, int y, int strength, double crit) {
 		Player player = (Player) level.getPlayer();
@@ -32,7 +53,7 @@ public class Shotgun implements Weapon {
 			double theta = Math.atan2(tx-px, ty-py);
 			double L = Math.sqrt((Math.pow(ty-py, 2) + Math.pow(tx-px,2)));
 			
-			for(int i=0; i<4; ++i) {
+			for(int i=0; i<shots; ++i) {
 				double phi = Math.min(rand.nextGaussian(),1.2);
 				double t1x = (L*Math.sin(theta + phi*acc)) + px;
 				double t1y = (L*Math.cos(theta + phi*acc)) + py;
@@ -62,6 +83,10 @@ public class Shotgun implements Weapon {
 	
 	public int getSpeed() {
 		return speed;
+	}
+	
+	public int getShots() {
+		return shots;
 	}
 
 }
