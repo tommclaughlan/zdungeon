@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.dungeon.boundingbox.BoundingBox;
-import com.dungeon.entities.items.ManaPotion;
+import com.dungeon.entities.items.*;
+import com.dungeon.entities.weapons.*;
 import com.dungeon.image.Art;
 import com.dungeon.image.ImageProcessing;
 import com.dungeon.level.Level;
@@ -75,8 +76,16 @@ public class Mob extends Entity {
 		remove();
 		level.score++;
 		spray(new Vector(), 250, 200, 3);
-		if(rand.nextDouble() > 0.85)
-			level.items.add(new ManaPotion(level, x, y, 15));
+		if(rand.nextDouble() > 0.85) {
+			if(rand.nextDouble() > 0.5)
+				level.items.add(new ManaPotion(level, x, y, 35));
+			else if(rand.nextDouble() > 0.9)
+				level.items.add(new WeaponItem(level, x, y, new Shotgun()));
+			else if(rand.nextDouble() > 0.7)
+				level.items.add(new WeaponItem(level, x, y, new MachineGun()));
+			else if(rand.nextDouble() > 0.5)
+				level.items.add(new WeaponItem(level, x, y, new Pistol()));
+		}
 	}
 	
 	public void tick() {	

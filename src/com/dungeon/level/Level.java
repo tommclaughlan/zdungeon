@@ -177,6 +177,7 @@ public class Level {
 			if(firing && ticks % Math.max(1,(10-player.fireRate)) == 0) {
 				//newBullet(fireTx, fireTy, player.strength, player.crit);
 				player.getWeapon().fire(this, fireTx, fireTy, player.strength, player.crit);
+				player.setFacing(fireTx, fireTy);
 			}
 			if(player.health <= 0){
 				gameOver();

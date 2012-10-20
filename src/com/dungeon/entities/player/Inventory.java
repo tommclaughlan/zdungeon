@@ -19,7 +19,7 @@ public class Inventory {
 	
 	private int maxitems = 10;
 	private int maxweapons = 6;
-	private int selectedweapon = 1;
+	private int selectedweapon = 0;
 	private int equippedweapon = 0;
 	public boolean changedweapon = false;
 	
@@ -62,6 +62,8 @@ public class Inventory {
 			return;
 		Weapon dw = weapons.remove(i);
 		level.items.add(new WeaponItem(level, level.getPlayer().x, level.getPlayer().y, dw));
+		if(equippedweapon >= weapons.size())
+			equippedweapon--;
 	}
 	
 	public void tick() {
