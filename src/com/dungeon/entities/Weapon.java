@@ -17,12 +17,12 @@ public interface Weapon {
 
 	String getName();
 
-	String getStrength();
+	int getStrength();
 	
-	String getCrit();
+	double getCrit();
 	
-	String getAccuracy();
+	double getAccuracy();
 	
-	String getSpeed();
+	int getSpeed();
 
 }

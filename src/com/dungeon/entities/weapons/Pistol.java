@@ -48,20 +48,20 @@ public class Pistol implements Weapon {
 		return "Pistol";
 	}
 	
-	public String getStrength() {
-		return "Strength = "+str;
+	public int getStrength() {
+		return str;
 	}
 	
-	public String getCrit() {
-		return "Crit = "+100*crt+"%";
+	public double getCrit() {
+		return crt;
 	}
 	
-	public String getAccuracy() {
-		return "Accuracy = "+acc;
+	public double getAccuracy() {
+		return acc;
 	}
 	
-	public String getSpeed() {
-		return "Bullet Speed = "+speed;
+	public int getSpeed() {
+		return speed;
 	}
 
 }

@@ -281,7 +281,8 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		healthBar(g);
 		
 		if(paused) {
-			drawWeaponStats(g, level.getPlayer().getWeapon());
+			drawWeaponName(g, level.getPlayer().getWeapon(),GAME_WIDTH * SCALE - 145, 55);
+			drawWeaponStats(g, level.getPlayer().getWeapon(),GAME_WIDTH * SCALE - 145, 75, false);
 			Font font = new Font("", Font.BOLD, 100);
 	        msg = "PAUSED";
 			g.setColor(Color.WHITE);
@@ -291,44 +292,90 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 			g.drawString(msg, 299, (GAME_HEIGHT*SCALE / 2) -1);
 		}
 		if(inventory) {
-			drawWeaponStats(g, level.getPlayer().getWeapon());
-			//drawInventory(g);
+			drawWeaponName(g, level.getPlayer().getWeapon(),GAME_WIDTH * SCALE - 145, 55);
+			drawWeaponStats(g, level.getPlayer().getWeapon(),GAME_WIDTH * SCALE - 145, 75, false);
+			drawInventory(g);
 		}
 			
 	}
 	
 	private void drawInventory(Graphics g) {
 		Inventory inv = level.getPlayer().getInventory();
+		Font font = new Font("", Font.PLAIN, 20);
+		Font selectedfont = new Font("", Font.BOLD, 20);
+		Font oldfont = g.getFont();
 		
+		for(int i=0; i<inv.getWeapons().size(); ++i) {
+			if(i == inv.getSelectedWeapon()) {
+				g.setFont(font);
+				drawWeaponStats(g, inv.getWeapons().get(i),350, 150+(i*40), true);
+				g.setFont(selectedfont);
+			}
+			else
+				g.setFont(font);
+			drawWeaponName(g, inv.getWeapons().get(i),150, 150+(i*40));
+		}
+		
+		g.setFont(oldfont);
 		
 	}
 	
-	private void drawWeaponStats(Graphics g, Weapon w) {
+	private void drawWeaponName(Graphics g, Weapon w, int x, int y) {
 		String weap = w.getName();
 		g.setColor(Color.BLACK);
-		g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+9);
+		g.drawString(weap, x, y);
 		g.setColor(Color.MAGENTA);
-		g.drawString(weap, GAME_WIDTH * SCALE - 145, 45+8);
-    	String stats = level.getPlayer().getWeapon().getStrength();
+		g.drawString(weap, x, y-1);
+	}
+
+	private void drawWeaponStats(Graphics g, Weapon w, int x, int y, boolean compare) {
+		int str = w.getStrength();
+    	String stat = "Strength = "+str;
 		g.setColor(Color.BLACK);
-		g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+9);
-		g.setColor(Color.YELLOW);
-		g.drawString(stats, GAME_WIDTH * SCALE - 145, 65+8);
-    	stats = level.getPlayer().getWeapon().getCrit();
+		g.drawString(stat, x, y);
+		if(w.getStrength() == level.getPlayer().getWeapon().getStrength())
+			g.setColor(Color.YELLOW);
+		else if(str > level.getPlayer().getWeapon().getStrength())
+			g.setColor(Color.GREEN);
+		else if(str < level.getPlayer().getWeapon().getStrength())
+			g.setColor(Color.RED);
+		g.drawString(stat, x, y-1);
+		y+=20;
+    	double crt = w.getCrit();
+    	stat = "Crit = "+100*crt+"%";
 		g.setColor(Color.BLACK);
-		g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+9);
-		g.setColor(Color.YELLOW);
-		g.drawString(stats, GAME_WIDTH * SCALE - 145, 78+8);
-    	stats = level.getPlayer().getWeapon().getAccuracy();
+		g.drawString(stat, x, y);		
+		if(crt == level.getPlayer().getWeapon().getCrit())
+			g.setColor(Color.YELLOW);
+		else if(crt > level.getPlayer().getWeapon().getCrit())
+			g.setColor(Color.GREEN);
+		else if(crt < level.getPlayer().getWeapon().getCrit())
+			g.setColor(Color.RED);
+		g.drawString(stat, x, y-1);
+		y+=20;
+    	double acc = w.getAccuracy();
+    	stat = "Accuracy = "+acc;
 		g.setColor(Color.BLACK);
-		g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+9);
-		g.setColor(Color.YELLOW);
-		g.drawString(stats, GAME_WIDTH * SCALE - 145, 91+8);
-    	stats = level.getPlayer().getWeapon().getSpeed();
+		g.drawString(stat, x, y);
+		if(acc == level.getPlayer().getWeapon().getAccuracy())
+			g.setColor(Color.YELLOW);
+		else if(acc < level.getPlayer().getWeapon().getAccuracy())
+			g.setColor(Color.GREEN);
+		else if(acc > level.getPlayer().getWeapon().getAccuracy())
+			g.setColor(Color.RED);
+		g.drawString(stat, x, y-1);
+		y+=20;
+    	double speed = w.getSpeed();
+    	stat = "Bullet Speed = "+speed;
 		g.setColor(Color.BLACK);
-		g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+9);
-		g.setColor(Color.YELLOW);
-		g.drawString(stats, GAME_WIDTH * SCALE - 145, 104+8);
+		g.drawString(stat, x, y);
+		if(speed == level.getPlayer().getWeapon().getSpeed())
+			g.setColor(Color.YELLOW);
+		else if(speed > level.getPlayer().getWeapon().getSpeed())
+			g.setColor(Color.GREEN);
+		else if(speed < level.getPlayer().getWeapon().getSpeed())
+			g.setColor(Color.RED);
+		g.drawString(stat, x, y-1);
 	}
 
 	private void ammoStatus(Graphics g) {
@@ -339,7 +386,8 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 //
 
         if(level.getPlayer().changedweapon){
-        	drawWeaponStats(g, level.getPlayer().getWeapon());
+        	drawWeaponName(g, level.getPlayer().getWeapon(), GAME_WIDTH * SCALE - 145, 55);
+        	drawWeaponStats(g, level.getPlayer().getWeapon(), GAME_WIDTH * SCALE - 145, 75, false);
         }
 		
         String msg = "AMMO"+" "+level.getPlayer().ammo+" / "+level.getPlayer().maxammo;
@@ -371,8 +419,11 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 
 	public void tick() {
 
-		if(level != null && !paused && !inventory) {
-			level.tick();
+		if(level != null && !paused) {
+			if(!inventory)
+				level.tick();
+			else
+				level.getPlayer().getInventory().tick();
 		}
 		keys.tick();
 		ticks++;
