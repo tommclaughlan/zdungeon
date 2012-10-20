@@ -292,19 +292,30 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 			g.drawString(msg, 300, GAME_HEIGHT*SCALE / 2);
 			g.setColor(Color.RED);
 			g.drawString(msg, 299, (GAME_HEIGHT*SCALE / 2) -1);
+			drawHelp(g);
 		}
 		if(inventory) {
 			inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 55);
 			inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 75, false);
 			inv.drawInventory(g);
+			drawHelp(g);
 		}
 			
+	}
+	
+	private void drawHelp(Graphics g) {
+		Font font = new Font("", Font.BOLD, 16);
+		g.setFont(font);
+		g.setColor(Color.WHITE);
+		g.drawString("Use W,A,S,D or arrow keys to move, and mouse to shoot", 300, 500);
+		g.drawString("'I' brings up the inventory, use 'E' or Enter to select an item", 300, 520);
+		g.drawString("'Q' will drop an item from the inventory. Use 'E' or Enter to pick items up", 300, 540);
 	}
 
 	private void ammoStatus(Graphics g) {
 		Inventory inv = level.getPlayer().getInventory();
 
-        if(level.getPlayer().changedweapon){
+        if(level.getPlayer().getInventory().changedweapon){
         	inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 55);
         	inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 75, false);
         }

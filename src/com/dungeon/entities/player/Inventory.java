@@ -21,7 +21,7 @@ public class Inventory {
 	private int maxweapons = 6;
 	private int selectedweapon = 0;
 	private int equippedweapon = 0;
-	public boolean changedweapon = false;
+	public boolean changedweapon = true;
 	
 	private Level level;
 	private Keys keys;
@@ -93,7 +93,7 @@ public class Inventory {
 
 	public void drawInventory(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
-		g.fillRoundRect(100, 100, 600, 400, 50, 50);
+		g.fillRoundRect(100, 100, 600, 350, 50, 50);
 		
 		Font font = new Font("", Font.PLAIN, 20);
 		Font selectedfont = new Font("", Font.BOLD, 24);

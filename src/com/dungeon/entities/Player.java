@@ -39,7 +39,6 @@ public class Player extends Entity {
 	private int walkTime;
     int facing=0;
 	
-	public boolean changedweapon = true;
 	private int weaponInfoTimer = 120;
 
 	private Weapon weapon;
@@ -80,7 +79,7 @@ public class Player extends Entity {
 	public void tick() {
 		//if(ammo < maxammo && rand.nextDouble() > 0.93)
 		//	ammo++;
-		if(changedweapon)
+		if(inventory.changedweapon)
 			weaponInfoTimer--;
 		if(weaponInfoTimer <= 0) {
 			inventory.changedweapon=false;
