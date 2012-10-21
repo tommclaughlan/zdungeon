@@ -1,10 +1,12 @@
 package com.dungeon.entities.weapons;
 
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import com.dungeon.entities.Bullet;
 import com.dungeon.entities.Player;
 import com.dungeon.entities.Weapon;
+import com.dungeon.image.Art;
 import com.dungeon.level.Level;
 
 public class Pistol implements Weapon {
@@ -23,6 +25,8 @@ public class Pistol implements Weapon {
 	private double mincrt = 0.005;
 	private double maxacc = 0.01;
 	private double minacc = 0.06;
+	
+	BufferedImage img = Art.pistol;
 	
 	
 	public Pistol() {
@@ -87,6 +91,10 @@ public class Pistol implements Weapon {
 	
 	public int getShots() {
 		return shots;
+	}
+	
+	public BufferedImage getImage() {
+		return img;
 	}
 
 }

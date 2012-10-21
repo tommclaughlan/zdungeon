@@ -78,7 +78,7 @@ public class Mob extends Entity {
 		spray(new Vector(), 250, 200, 3);
 		if(rand.nextDouble() > 0.85) {
 			if(rand.nextDouble() > 0.5)
-				level.items.add(new ManaPotion(level, x, y, 35));
+				level.items.add(new AmmoPack(level, x, y, 35));
 			else if(rand.nextDouble() > 0.9)
 				level.items.add(new WeaponItem(level, x, y, new Shotgun()));
 			else if(rand.nextDouble() > 0.7)

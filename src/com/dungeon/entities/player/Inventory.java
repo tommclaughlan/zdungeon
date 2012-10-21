@@ -9,19 +9,24 @@ import java.util.List;
 import com.dungeon.Keys;
 import com.dungeon.entities.Item;
 import com.dungeon.entities.Weapon;
-import com.dungeon.entities.items.WeaponItem;
+import com.dungeon.entities.items.*;
 import com.dungeon.level.Level;
 
 public class Inventory {
 	
-	private List<Item> items = new ArrayList<Item>();
+	private List<ConsumableItem> items = new ArrayList<ConsumableItem>();
 	private List<Weapon> weapons = new ArrayList<Weapon>();
 	
-	private int maxitems = 10;
+	private int maxitems = 6;
 	private int maxweapons = 6;
 	private int selectedweapon = 0;
 	private int equippedweapon = 0;
 	public boolean changedweapon = true;
+	
+	private int selecteditem = 0;
+	
+	private enum Tabs {WEAPONS, ITEMS}
+	private Tabs invtab = Tabs.WEAPONS;
 	
 	private Level level;
 	private Keys keys;
@@ -31,7 +36,7 @@ public class Inventory {
 		this.keys = keys;
 	}
 	
-	public void addItem(Item it) {
+	public void addItem(ConsumableItem it) {
 		if(items.size() < maxitems)
 			items.add(it);
 	}	
@@ -41,7 +46,7 @@ public class Inventory {
 			weapons.add(weap);
 	}
 	
-	public List<Item> getItems() {
+	public List<ConsumableItem> getItems() {
 		return items;
 	}
 	
@@ -56,7 +61,7 @@ public class Inventory {
 	public Weapon getEquippedWeapon() {
 		return weapons.get(equippedweapon);
 	}
-	
+
 	public void dropWeapon(int i) {
 		if(weapons.size() == 1)
 			return;
@@ -66,28 +71,77 @@ public class Inventory {
 			equippedweapon--;
 	}
 	
+	public void dropItem(int i) {
+		ConsumableItem dw = items.remove(i);
+		if(dw instanceof HealthPotion)
+			level.items.add(new HealthPotion(level, level.getPlayer().x, level.getPlayer().y, ((HealthPotion) dw).value));
+	}
+	
+	public void useItem(int i) {
+		ConsumableItem dw = items.remove(i);
+		dw.use();
+	}
+	
 	public void tick() {
-		if(keys.down.wasReleased()) {
-			if(selectedweapon < weapons.size()-1)
-				selectedweapon++;
-			else
-				selectedweapon = 0;
-		}
-		if(keys.up.wasReleased()){
-			if(selectedweapon > 0)
+		
+		if(invtab == Tabs.WEAPONS) {
+			if(keys.right.wasReleased())
+				invtab=Tabs.ITEMS;
+			if(keys.left.wasReleased())
+				invtab=Tabs.ITEMS;
+			
+			if(keys.down.wasReleased()) {
+				if(selectedweapon < weapons.size()-1)
+					selectedweapon++;
+				else
+					selectedweapon = 0;
+			}
+			if(keys.up.wasReleased()){
+				if(selectedweapon > 0)
+					selectedweapon--;
+				else
+					selectedweapon = weapons.size() - 1;
+			}
+			if(keys.select.wasReleased()){
+				equippedweapon = selectedweapon;
+				changedweapon = true;
+			}
+			if(keys.drop.wasReleased()){
+				dropWeapon(selectedweapon);
 				selectedweapon--;
-			else
-				selectedweapon = weapons.size() - 1;
+				if(selectedweapon<0)
+					selectedweapon=0;
+			}
 		}
-		if(keys.select.wasReleased()){
-			equippedweapon = selectedweapon;
-			changedweapon = true;
-		}
-		if(keys.drop.wasReleased()){
-			dropWeapon(selectedweapon);
-			selectedweapon--;
-			if(selectedweapon<0)
-				selectedweapon=0;
+		else if(invtab == Tabs.ITEMS){
+			if(keys.right.wasReleased())
+				invtab=Tabs.WEAPONS;
+			if(keys.left.wasReleased())
+				invtab=Tabs.WEAPONS;
+			
+			if(keys.down.wasReleased()) {
+				if(selecteditem < items.size()-1)
+					selecteditem++;
+				else
+					selecteditem = 0;
+			}
+			if(keys.up.wasReleased()){
+				if(selecteditem > 0)
+					selecteditem--;
+				else
+					selecteditem = weapons.size() - 1;
+			}
+			if(keys.select.wasReleased()){
+				if(selecteditem >= items.size() || selecteditem < 0)
+					return;
+				useItem(selecteditem);
+			}
+			if(keys.drop.wasReleased()){
+				dropItem(selecteditem);
+				selecteditem--;
+				if(selecteditem<0)
+					selecteditem=0;
+			}
 		}
 	}
 
@@ -99,17 +153,53 @@ public class Inventory {
 		Font selectedfont = new Font("", Font.BOLD, 24);
 		Font oldfont = g.getFont();
 		
-		for(int i=0; i<weapons.size(); ++i) {
-			if(i == selectedweapon) {
-				g.setFont(font);
-				drawWeaponStats(g, weapons.get(i),350, 150, true);
-				g.setFont(selectedfont);
+		if(invtab == Tabs.WEAPONS){
+			g.setFont(selectedfont);
+			g.setColor(Color.WHITE);
+			g.drawString("Weapons", 150, 150);
+			for(int i=0; i<weapons.size(); ++i) {
+				if(i == selectedweapon) {
+					g.setFont(font);
+					drawWeaponStats(g, weapons.get(i),350, 200, true);
+					g.setFont(selectedfont);
+				}
+				else
+					g.setFont(font);
+				drawWeaponName(g, weapons.get(i),150, 200+(i*40));
 			}
-			else
-				g.setFont(font);
-			drawWeaponName(g, weapons.get(i),150, 150+(i*40));
+		}
+		else if(invtab == Tabs.ITEMS){
+			g.setFont(selectedfont);
+			g.setColor(Color.WHITE);
+			g.drawString("Items", 150, 150);
+			for(int i=0; i<items.size(); ++i) {
+				if(i == selecteditem) {
+					g.setFont(font);
+					drawItemStats(g, items.get(i),350, 200);
+					g.setFont(selectedfont);
+				}
+				else
+					g.setFont(font);
+				drawItemName(g, items.get(i),150, 200+(i*40));
+			}
 		}
 		g.setFont(oldfont);
+	}
+	
+	public void drawItemName(Graphics g, ConsumableItem i, int x, int y) {
+		String name = i.getName();
+		g.setColor(Color.BLACK);
+		g.drawString(name, x, y);
+		g.setColor(Color.MAGENTA);
+		g.drawString(name, x, y-1);
+	}	
+	
+	public void drawItemStats(Graphics g, ConsumableItem i, int x, int y) {
+		String name = i.getValue();
+		g.setColor(Color.BLACK);
+		g.drawString(name, x, y);
+		g.setColor(Color.YELLOW);
+		g.drawString(name, x, y-1);
 	}
 	
 	public void drawWeaponName(Graphics g, Weapon w, int x, int y) {

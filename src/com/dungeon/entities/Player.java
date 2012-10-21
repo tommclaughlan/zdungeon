@@ -105,12 +105,8 @@ public class Player extends Entity {
 			}
 			BoundingBox playerbb = item.getBoundingBox();
 			if(mybb.intersects(playerbb)) {
-				if (!(item instanceof WeaponItem))
+				if(keys.select.wasPressed())
 					item.remove();
-				else {
-					if(keys.select.wasPressed())
-						item.remove();
-				}
 			}
 		}
 

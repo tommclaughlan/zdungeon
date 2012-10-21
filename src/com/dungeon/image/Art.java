@@ -21,6 +21,10 @@ public class Art {
 	public static BufferedImage zombie1 = loadImage("/zombie1.png", 32, 32);
 	public static BufferedImage lessermana = loadImage("/lessermana.png", 32, 32);
 	public static BufferedImage fullmana = loadImage("/fullmana.png", 32, 32);
+	public static BufferedImage ammo = loadImage("/ammo.png", 32, 32);
+	public static BufferedImage pistol = loadImage("/pistol.png", 32, 32);
+	public static BufferedImage shotgun = loadImage("/pistol.png", 32, 32);
+	public static BufferedImage machinegun = loadImage("/pistol.png", 32, 32);
 	public static BufferedImage fullhealth = loadImage("/fullhealth.png", 32, 32);
 
 	public static BufferedImage loadImage(String name, int w, int h) {

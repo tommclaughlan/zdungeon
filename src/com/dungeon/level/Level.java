@@ -16,7 +16,8 @@ import com.dungeon.entities.Item;
 import com.dungeon.entities.MobSpawner;
 import com.dungeon.entities.Particle;
 import com.dungeon.entities.Player;
-import com.dungeon.entities.items.ManaPotion;
+import com.dungeon.entities.items.AmmoPack;
+import com.dungeon.entities.items.HealthPotion;
 import com.dungeon.level.tile.*;
 import com.dungeon.map.Map;
 import com.dungeon.screen.Screen;
@@ -63,6 +64,9 @@ public class Level {
 		
 		playerhealth = 0;
 		playermana = 0;
+
+		items.add(new AmmoPack(this, 40, 40, 40));
+		items.add(new HealthPotion(this, 64, 64, 40));
 		
 		ticks = 0;
 	}

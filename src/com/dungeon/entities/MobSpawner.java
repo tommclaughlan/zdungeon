@@ -7,7 +7,7 @@ import java.util.Random;
 
 import com.dungeon.boundingbox.BoundingBox;
 import com.dungeon.entities.items.HealthPotion;
-import com.dungeon.entities.items.ManaPotion;
+import com.dungeon.entities.items.AmmoPack;
 import com.dungeon.entities.items.WeaponItem;
 import com.dungeon.entities.weapons.MachineGun;
 import com.dungeon.entities.weapons.Pistol;
@@ -46,7 +46,7 @@ public class MobSpawner extends Entity {
 		level.score+=5;
 		if(rand.nextDouble() > 0.5) {
 			if(rand.nextDouble() > 0.55) 
-				level.items.add(new ManaPotion(level, x, y, 75));
+				level.items.add(new AmmoPack(level, x, y, 75));
 			else if(rand.nextDouble() > 0.55)
 				level.items.add(new HealthPotion(level, x, y, 4));
 			else if(rand.nextDouble() > 0.9)
