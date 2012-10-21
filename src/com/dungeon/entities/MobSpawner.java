@@ -44,19 +44,17 @@ public class MobSpawner extends Entity {
 	public void die() {
 		remove();
 		level.score+=5;
-		if(rand.nextDouble() > 0.5) {
-			if(rand.nextDouble() > 0.55) 
-				level.items.add(new AmmoPack(level, x, y, 75));
-			else if(rand.nextDouble() > 0.55)
-				level.items.add(new HealthPotion(level, x, y, 4));
-			else if(rand.nextDouble() > 0.9)
-				level.items.add(new WeaponItem(level, x, y, new Shotgun()));
-			else if(rand.nextDouble() > 0.7)
-				level.items.add(new WeaponItem(level, x, y, new MachineGun()));
-			else if(rand.nextDouble() > 0.5)
-				level.items.add(new WeaponItem(level, x, y, new Pistol()));
+		if(rand.nextDouble() > 0.85)
+			level.items.add(new WeaponItem(level, x, y, new Shotgun(), 45));
+		else if(rand.nextDouble() > 0.8)
+			level.items.add(new WeaponItem(level, x, y, new MachineGun(), 60));
+		else if(rand.nextDouble() > 0.7)
+			level.items.add(new WeaponItem(level, x, y, new Pistol(), 30));
+		else if(rand.nextDouble() > 0.5)
+			level.items.add(new HealthPotion(level, x, y, 4));
+		else if(rand.nextDouble() > 0.2) 
+			level.items.add(new AmmoPack(level, x, y, 75));
 				
-		}
 	}
 
 	public void hurt() {
@@ -83,7 +81,7 @@ public class MobSpawner extends Entity {
 		}
 		
 		if(spawnTime <= 0) {
-			if(badGuyCount < 64)
+			if(badGuyCount < level.maxmobs)
 				spawnMob();
 			spawnTime = (int) (500 + rand.nextGaussian()*400);
 		}

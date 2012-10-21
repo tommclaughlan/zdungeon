@@ -77,14 +77,14 @@ public class Mob extends Entity {
 		level.score++;
 		spray(new Vector(), 250, 200, 3);
 		if(rand.nextDouble() > 0.85) {
-			if(rand.nextDouble() > 0.5)
-				level.items.add(new AmmoPack(level, x, y, 35));
-			else if(rand.nextDouble() > 0.9)
-				level.items.add(new WeaponItem(level, x, y, new Shotgun()));
+			if(rand.nextDouble() > 0.85)
+				level.items.add(new WeaponItem(level, x, y, new Shotgun(), 35));
+			else if(rand.nextDouble() > 0.8)
+				level.items.add(new WeaponItem(level, x, y, new MachineGun(), 50));
 			else if(rand.nextDouble() > 0.7)
-				level.items.add(new WeaponItem(level, x, y, new MachineGun()));
-			else if(rand.nextDouble() > 0.5)
-				level.items.add(new WeaponItem(level, x, y, new Pistol()));
+				level.items.add(new WeaponItem(level, x, y, new Pistol(), 20));
+			else if(rand.nextDouble() > 0.2)
+				level.items.add(new AmmoPack(level, x, y, 35));
 		}
 	}
 	

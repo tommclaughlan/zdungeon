@@ -14,16 +14,20 @@ public class WeaponItem extends Item {
 	
 	BufferedImage bi = Art.black;
 	private Weapon weap;
+	private int ammo = 0;
 
-	public WeaponItem(Level level, double x, double y, Weapon dw) {
+	public WeaponItem(Level level, double x, double y, Weapon dw, int am) {
 		super(level,x,y);
 		weap = dw;
 		bi = weap.getImage();
+		radiusx = (int) (radiusx*(bi.getWidth() / 32.0));
+		ammo = am;
 	}
 	
 	
 	public void remove() {
 		level.getPlayer().getInventory().addWeapon(weap);
+		level.getPlayer().addMana(ammo);
 		removed = true;
 	}
 	

@@ -18,6 +18,8 @@ import com.dungeon.entities.Particle;
 import com.dungeon.entities.Player;
 import com.dungeon.entities.items.AmmoPack;
 import com.dungeon.entities.items.HealthPotion;
+import com.dungeon.entities.items.WeaponItem;
+import com.dungeon.entities.weapons.Shotgun;
 import com.dungeon.level.tile.*;
 import com.dungeon.map.Map;
 import com.dungeon.screen.Screen;
@@ -42,6 +44,8 @@ public class Level {
 	
 	public int width, height;
 	
+	public int maxmobs = 32;
+	
 	public int score;
 	
 	private int ticks;
@@ -65,11 +69,45 @@ public class Level {
 		playerhealth = 0;
 		playermana = 0;
 
-		items.add(new AmmoPack(this, 40, 40, 40));
-		items.add(new HealthPotion(this, 64, 64, 40));
+		//items.add(new AmmoPack(this, 40, 40, 40));
+		//items.add(new HealthPotion(this, 64, 64, 40));
+		//items.add(new WeaponItem(this, 64, 64, new Shotgun()));
 		
 		ticks = 0;
 	}
+	public Level(Map map, int keepscore, Player player, int mobs) {
+
+		this.map = map;
+		
+		this.maxmobs = mobs;
+		
+		this.width = map.width*map.tileSize;
+		this.height = map.height*map.tileSize;
+		
+		tiles = new Tile[map.width][map.height];
+		
+		score = keepscore;
+		
+		playerhealth = 0;
+		playermana = 0;
+		player.level = this;
+		player.getInventory().newLevel(this);
+		this.addPlayer(player);
+		
+		System.out.print("NEW LEVEL\n");
+
+		items.add(new AmmoPack(this, 48, 48, 25+(int)(rand.nextDouble()*50)));
+		items.add(new AmmoPack(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 25+(int)(rand.nextDouble()*50)));
+		items.add(new AmmoPack(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 25+(int)(rand.nextDouble()*50)));
+		items.add(new AmmoPack(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 25+(int)(rand.nextDouble()*50)));
+		//items.add(new HealthPotion(this, 64, 64, 40));
+		//items.add(new WeaponItem(this, 64, 64, new Shotgun()));
+		
+		System.out.print("items size = "+items.size()+"\n");
+		
+		ticks = 0;
+	}
+	
 
 	public void renderMap() {
 		for(int x = 0; x < map.width; x++) {
@@ -258,8 +296,8 @@ public class Level {
 		ticks++;
 	}
 	
-	public void addPlayer(int x, int y, Keys keys) {
-		entities.add(new Player(this, keys, x, y));
+	public void addPlayer(Player p) {
+		entities.add(p);
 	}
 
 	public Set<Entity> getEntities() {

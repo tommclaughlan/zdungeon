@@ -13,6 +13,7 @@ import com.dungeon.MainComponent;
 
 public class Art {
 
+	public static BufferedImage titlescreen = loadImage("/titlescreen.png", 512, 288);
 	public static BufferedImage playerImage = loadImage("/playerlo.png", 32, 20);
 	public static BufferedImage[][] playerImages = chop("/playersheet.png", 32, 32);
 	public static BufferedImage floorTest = loadImage("/floortest.png", 32, 32);
@@ -23,8 +24,8 @@ public class Art {
 	public static BufferedImage fullmana = loadImage("/fullmana.png", 32, 32);
 	public static BufferedImage ammo = loadImage("/ammo.png", 32, 32);
 	public static BufferedImage pistol = loadImage("/pistol.png", 32, 32);
-	public static BufferedImage shotgun = loadImage("/pistol.png", 32, 32);
-	public static BufferedImage machinegun = loadImage("/pistol.png", 32, 32);
+	public static BufferedImage shotgun = loadImage("/shotgun.png", 64, 32);
+	public static BufferedImage machinegun = loadImage("/machinegun.png", 64, 32);
 	public static BufferedImage fullhealth = loadImage("/fullhealth.png", 32, 32);
 
 	public static BufferedImage loadImage(String name, int w, int h) {

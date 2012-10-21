@@ -39,11 +39,15 @@ public class Inventory {
 	public void addItem(ConsumableItem it) {
 		if(items.size() < maxitems)
 			items.add(it);
+		else
+			level.items.add(new HealthPotion(level, level.getPlayer().x, level.getPlayer().y, ((HealthPotion) it).value));
 	}	
 	
 	public void addWeapon(Weapon weap) {
 		if(weapons.size() < maxweapons)
 			weapons.add(weap);
+		else
+			level.items.add(new WeaponItem(level, level.getPlayer().x, level.getPlayer().y, weap, 0));
 	}
 	
 	public List<ConsumableItem> getItems() {
@@ -66,7 +70,7 @@ public class Inventory {
 		if(weapons.size() == 1)
 			return;
 		Weapon dw = weapons.remove(i);
-		level.items.add(new WeaponItem(level, level.getPlayer().x, level.getPlayer().y, dw));
+		level.items.add(new WeaponItem(level, level.getPlayer().x, level.getPlayer().y, dw, 0));
 		if(equippedweapon >= weapons.size())
 			equippedweapon--;
 	}
@@ -270,6 +274,10 @@ public class Inventory {
 		g.drawString(stat, x, y);
 		g.setColor(Color.YELLOW);
 		g.drawString(stat, x, y-1);
+	}
+
+	public void newLevel(Level level2) {
+		level = level2;
 	}
 	
 }
