@@ -20,6 +20,7 @@ public class Art {
 	public static BufferedImage black = blackImage(32,32);
 	public static BufferedImage wallTest = loadImage("/walltest.png", 32, 48);
 	public static BufferedImage zombie1 = loadImage("/zombie1.png", 32, 32);
+	public static BufferedImage spawner = loadImage("/spawner.png", 32, 32);
 	public static BufferedImage lessermana = loadImage("/lessermana.png", 32, 32);
 	public static BufferedImage fullmana = loadImage("/fullmana.png", 32, 32);
 	public static BufferedImage ammo = loadImage("/ammo.png", 32, 32);
