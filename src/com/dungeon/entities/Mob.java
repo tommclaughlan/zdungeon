@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.dungeon.boundingbox.BoundingBox;
-import com.dungeon.entities.items.ManaPotion;
+import com.dungeon.entities.items.*;
+import com.dungeon.entities.weapons.*;
 import com.dungeon.image.Art;
 import com.dungeon.image.ImageProcessing;
 import com.dungeon.level.Level;
@@ -35,6 +36,7 @@ public class Mob extends Entity {
 	public int strength = 3;
 	public int defense = 3;
 	public double crit = 0.01;
+	public int val = 15;
 
 	private int bounceTime = 0;
 	private boolean shootyMob = false;
@@ -45,16 +47,18 @@ public class Mob extends Entity {
 	int tx = 0,ty = 0;
 	
 	//for pathfinding
-	public int sightRadius = 350;
+	public int sightRadius = 512;
 	int speed = 1;
 	int currentx, currenty;
 	int targetx, targety;
 	boolean canSeePlayer = false;
+	private boolean shotat = false;
+	private int attentionSpan = 1000;
 	boolean hasPath = false;
 	List<Node> path = new ArrayList<Node>();
 	
 	
-	public Mob(Level level, double x, double y){
+	public Mob(Level level, double x, double y, int difficulty){
 		super(level);
 		this.x = x;
 		this.y = y;
@@ -62,9 +66,16 @@ public class Mob extends Entity {
 		currenty = (int) (this.y / 32);
 		this.radiusx = 10;
 		this.radiusy = 10;
-    	colour = Color.RED;
+    		colour = Color.RED;
 		velocity = new Vector();
 		facing = rand.nextInt(4);
+		
+		strength = (int)(2 + Math.sqrt(difficulty));
+		defense = (int)(1.5 + Math.sqrt(difficulty));
+		health = (int)(15 + 5*difficulty);
+		
+		val = 15 + difficulty*3;
+		
 		if(rand.nextDouble() > 0.85)
 			shootyMob = true;
 	}
@@ -72,9 +83,16 @@ public class Mob extends Entity {
 	public void die() {
 		remove();
 		level.score++;
+		level.getPlayer().addExp(val);
 		spray(new Vector(), 250, 200, 3);
-		if(rand.nextDouble() > 0.85)
-			level.items.add(new ManaPotion(level, x, y, 15));
+		if(rand.nextDouble() > 0.92)
+			level.items.add(new WeaponItem(level, x, y, new Shotgun(), 35));
+		else if(rand.nextDouble() > 0.88)
+			level.items.add(new WeaponItem(level, x, y, new MachineGun(), 50));
+		else if(rand.nextDouble() > 0.85)
+			level.items.add(new WeaponItem(level, x, y, new Pistol(), 20));
+		else if(rand.nextDouble() > 0.3)
+			level.items.add(new AmmoPack(level, x, y, 35));
 	}
 	
 	public void tick() {	
@@ -188,20 +206,26 @@ public class Mob extends Entity {
 		
         if(walkTime / 12 % 3 != 0) {
         	stepTime++;
-        	if(walkTime > 8 && rand.nextInt(200) == 0){
+        	if(walkTime > 4 && rand.nextInt(200) == 0){
         		facing = rand.nextInt(4);
         		walkTime = 0;
         	}
         	Vector metoplayer = new Vector(x,y,player.x,player.y);
-    		if(canSeePlayer && (rand.nextInt(3) <= 1 || metoplayer.length() < sightRadius / 3))
+    		if(canSeePlayer && (metoplayer.length() < sightRadius / 2 || shotat)){
             	findPath();
+            	if(shotat) {
+            		attentionSpan--;
+            		if(attentionSpan <= 0)
+            			shotat = false;
+            	}
+    		}
             else {
             	if (facing == 0) velocity.y += speed;
                 if (facing == 1) velocity.x -= speed;
                 if (facing == 2) velocity.y -= speed;
                 if (facing == 3) velocity.x += speed;
             }
-
+    		
             if(velocity.x != 0 && velocity.y != 0)
             	velocity.extend(speed);
             
@@ -235,6 +259,8 @@ public class Mob extends Entity {
 		else {
 			level.damagetext.add(new DamageText(level, x, y, new Vector(rand.nextGaussian(), -2), 20, 8, 1, true, "miss", Color.RED));
 		}
+		shotat = true;
+		attentionSpan = 1000;
 	}
 	
 	private void bounce(Vector metoplayer) {

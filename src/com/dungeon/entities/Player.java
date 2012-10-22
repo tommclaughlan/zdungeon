@@ -10,6 +10,7 @@ import com.dungeon.Keys;
 import com.dungeon.boundingbox.BoundingBox;
 import com.dungeon.entities.player.Inventory;
 import com.dungeon.entities.weapons.*;
+import com.dungeon.entities.items.*;
 import com.dungeon.image.Art;
 import com.dungeon.image.ImageProcessing;
 import com.dungeon.level.Level;
@@ -27,6 +28,12 @@ public class Player extends Entity {
 	public int health;
 	public int ammo;
 	
+	public int lvl = 1;
+	
+	public int exp = 0;
+	
+	public int expperlvl = 200;
+	
 	public int maxhealth = 30;
 	public int maxammo = 500;
 	
@@ -36,41 +43,41 @@ public class Player extends Entity {
 	Random rand = new Random();
 	public int fireRate = 6;
 	private int walkTime;
+    int facing=0;
 	
-	public boolean changedweapon = true;
 	private int weaponInfoTimer = 120;
+	private int levelupTimer = 150;
+	public boolean leveledUp = false;
 
 	private Weapon weapon;
 	
-	private Inventory inventory = new Inventory();
+	private Inventory inventory;
 	
 	public Player(Level level, Keys keys, int x, int y) {
 		super(level);
 		this.x = x;
 		this.y = y;
 		this.keys = keys;
+		this.inventory = new Inventory(level,keys);
 		this.radiusx = 9;
 		this.radiusy = 10;
 		colour = Color.YELLOW;
 		speed = 2.5;
 		health = maxhealth;
-		ammo = maxammo;
 		
-		strength = 4;
-		defense = 2;
-		crit = 0.2;
+		strength = lvl + 2;
+		defense = lvl + 1;
+		crit = 0.01*lvl;
+		maxammo = 400+(lvl*50);
+		ammo = maxammo;
 		
 		walkTime = 0;
 		velocity = new Vector();
-		
-		inventory.addWeapon(new MachineGun());
-		inventory.addWeapon(new Shotgun());
+
 		inventory.addWeapon(new Pistol());
-		
-		for(Weapon w : inventory.getWeapons()){
-			if(w instanceof Pistol)
-				weapon = w;
-		}
+		//inventory.addWeapon(new Shotgun());
+		//inventory.addWeapon(new MachineGun());
+		weapon = inventory.getEquippedWeapon();
 	}
 	
 	public void move(int x, int y) {
@@ -78,26 +85,20 @@ public class Player extends Entity {
 		this.y = y;	
 	}
 	
-	public void changeWeapon(int i) {
-		for(Weapon w : inventory.getWeapons()){
-			if(i==1 && w instanceof Pistol)
-				weapon = w;
-			else if(i==2 && w instanceof Shotgun)
-				weapon = w;
-			else if(i==3 && w instanceof MachineGun)
-				weapon = w;
-		}
-		changedweapon = true;
-		weaponInfoTimer = 120;
-	}
-	
 	public void tick() {
 		//if(ammo < maxammo && rand.nextDouble() > 0.93)
 		//	ammo++;
-		if(changedweapon)
+		if(inventory.changedweapon)
 			weaponInfoTimer--;
-		if(weaponInfoTimer <= 0)
-			changedweapon=false;
+		if(weaponInfoTimer <= 0) {
+			inventory.changedweapon=false;
+			weaponInfoTimer = 120;
+		}
+		
+		if(leveledUp)
+			levelupTimer--;
+		if(levelupTimer <=0)
+			leveledUp = false;
 		
 		BoundingBox mybb = getBoundingBox();
 		for(int i = 0; i < level.getBullets().size(); i++) {
@@ -118,7 +119,8 @@ public class Player extends Entity {
 			}
 			BoundingBox playerbb = item.getBoundingBox();
 			if(mybb.intersects(playerbb)) {
-				item.remove();
+				if(keys.select.wasPressed())
+					item.remove();
 			}
 		}
 
@@ -159,22 +161,41 @@ public class Player extends Entity {
 			moveY();
 		}
 		
-		if(keys.weap1.wasReleased())
-			changeWeapon(1);
-		if(keys.weap2.wasReleased())
-			changeWeapon(2);
-		if(keys.weap3.wasReleased())
-			changeWeapon(3);
+		if(inventory.changedweapon) {
+			weapon=inventory.getEquippedWeapon();
+		}
 		
 	}
 
 	public void draw(Graphics g) {
 
         int frame = (walkTime / 6 % 6 + 6) % 6;
+
+        if(!level.firing) {
+			if(keys.down.isDown && !keys.left.isDown && !keys.right.isDown)
+				facing = 0;
+			else if(keys.down.isDown && keys.left.isDown)
+				facing = 1;
+			else if(!keys.down.isDown && keys.left.isDown && !keys.up.isDown)
+				facing = 2;
+			else if(keys.left.isDown && keys.up.isDown)
+				facing = 3;
+			else if(keys.up.isDown && !keys.left.isDown && !keys.right.isDown)
+				facing = 4;
+			else if(keys.up.isDown && keys.right.isDown)
+				facing = 5;
+			else if(!keys.up.isDown && !keys.down.isDown && keys.right.isDown)
+				facing = 6;
+			else if(keys.down.isDown && keys.right.isDown)
+				facing = 7;
+        }
+        else {
+        	
+        }
         
 		BufferedImage renderImage = new BufferedImage(bi[frame][0].getWidth(),bi[frame][0].getHeight(),bi[frame][0].getType());
 		Graphics gi = renderImage.createGraphics();
-		gi.drawImage(bi[frame][0],0,0,bi[frame][0].getWidth(),bi[frame][0].getHeight(),null);
+		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
 		if(flash)
 			ImageProcessing.recolourImage(renderImage, 50, -255, -255);
 		g.drawImage(renderImage, (int)(x-radiusx - 7), (int)(y-radiusy - 20), radiusx*2+14  , radiusy*2+12, null);
@@ -197,11 +218,32 @@ public class Player extends Entity {
 			health = maxhealth;
 	}
 	
+	public void addExp(int val) {
+		exp+=val;
+		if(exp>=expperlvl){
+			levelUp();
+		}
+	}
+	
+	private void levelUp() {
+		exp=expperlvl-exp;
+		lvl++;
+		expperlvl*=Math.sqrt(lvl);
+		strength++;
+		defense++;
+		crit = 0.01*lvl;
+		maxhealth+=5;
+		health=maxhealth;
+		maxammo+=50;
+		leveledUp = true;
+		levelupTimer = 150;
+	}
+	
 	public void useAmmo() {
 		ammo--;
 	}
 
-	public void addMana(int value) {
+	public void addAmmo(int value) {
 		ammo+=value;
 		if(ammo > maxammo)
 			ammo = maxammo;
@@ -230,6 +272,39 @@ public class Player extends Entity {
 	public void flash() {
 		flash = true;
 		flashTime = 5;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public void setFacing(int fireTx, int fireTy) {
+		double px = x;
+		double py = y - 4;
+		double tx = (fireTx) - (px);
+		double ty = (fireTy) - (py);
+
+		if(level.viewRadius < px)
+			tx += 2*(px - level.viewRadius);
+		if((level.viewRadius*9/16) < py)
+			ty += 2*(py - (level.viewRadius*9/16));
+		if( level.width  - level.viewRadius < px)
+		    tx -= 2*(px - (level.width - level.viewRadius));
+		if( level.height - (level.viewRadius*9/16) < py)
+			ty -= 2*(py - (level.height - (level.viewRadius*9/16)));
+		
+		double theta = 2-((Math.atan2(tx-px, ty-py) + Math.PI)/Math.PI);
+		
+		if(theta >= 1-0.125)
+			theta-=1;
+		else if(theta < 1-0.125)
+			theta+=1;
+		
+		theta*=4;
+		
+		facing=(int)theta;
+		
+		//System.out.print("theta = "+theta+"\n");
 	}
 
 }

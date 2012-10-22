@@ -12,16 +12,20 @@ public class Combat {
 		
 		int hit = (int) (Math.ceil(rand.nextDouble() * attStr) - (Math.ceil(rand.nextDouble() * 0.8 * defDef)));
 		
-		if (hit < 0)
-			return 0;
+		if (hit <= 0) {
+			if(defDef>0)
+				return 0;
+			else
+				return 1;
+		}
 		
 		boolean crit = rand.nextDouble() < attCrit;
 		
 		if (crit) {
-			damage = (int) (rand.nextDouble() * attStr * 2);
+			damage = 1 + (int) (rand.nextDouble() * attStr * 2);
 		}
 		else {
-			damage = (int) (rand.nextDouble() * attStr);
+			damage = 1 + (int) (rand.nextDouble() * attStr);
 		}
 		
 		return damage;

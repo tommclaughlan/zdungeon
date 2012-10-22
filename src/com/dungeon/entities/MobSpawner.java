@@ -2,12 +2,19 @@ package com.dungeon.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Random;
 
 import com.dungeon.boundingbox.BoundingBox;
 import com.dungeon.entities.items.HealthPotion;
-import com.dungeon.entities.items.ManaPotion;
+import com.dungeon.entities.items.AmmoPack;
+import com.dungeon.entities.items.WeaponItem;
+import com.dungeon.entities.weapons.MachineGun;
+import com.dungeon.entities.weapons.Pistol;
+import com.dungeon.entities.weapons.Shotgun;
+import com.dungeon.image.Art;
+import com.dungeon.image.ImageProcessing;
 import com.dungeon.level.Level;
 import com.dungeon.math.Combat;
 import com.dungeon.math.Vector;
@@ -15,23 +22,28 @@ import com.dungeon.math.Vector;
 public class MobSpawner extends Entity {
 	
 	public int health = 40;
+	public int val = 15;
 	private boolean flash = false;
 	private int flashTime = 0;
 	Random rand = new Random();
 	private int spawnTime = (int) (500 + rand.nextGaussian()*400);
+	BufferedImage bi = Art.spawner;
 
-	public MobSpawner(Level level, int x, int y) {
+	public MobSpawner(Level level, int x, int y, int difficulty) {
 		super(level);
 		this.x = x;
 		this.y = y;
 
-		this.radiusx = 10;
-		this.radiusy = 10;
+		this.radiusx = 16;
+		this.radiusy = 16;
+		
+		this.health = 30 + 5*difficulty;
+		this.val = 20 + difficulty*2;
 
 	}
 	
 	public void spawnMob() {
-		Mob badGuyPoint = new Mob(level, x, y);
+		Mob badGuyPoint = new Mob(level, x, y, level.difficulty);
 		badGuyPoint.xto = x;
 		badGuyPoint.yto = y;
 		level.entities.add(badGuyPoint);
@@ -40,13 +52,18 @@ public class MobSpawner extends Entity {
 	public void die() {
 		remove();
 		level.score+=5;
-		if(rand.nextDouble() > 0.5) {
-			if(rand.nextDouble() > 0.55) 
-				level.items.add(new ManaPotion(level, x, y, 50));
-			else
-				level.items.add(new HealthPotion(level, x, y, 4));
+		level.getPlayer().addExp(val);
+		if(rand.nextDouble() > 0.92)
+			level.items.add(new WeaponItem(level, x, y, new Shotgun(), 35));
+		else if(rand.nextDouble() > 0.88)
+			level.items.add(new WeaponItem(level, x, y, new MachineGun(), 50));
+		else if(rand.nextDouble() > 0.85)
+			level.items.add(new WeaponItem(level, x, y, new Pistol(), 20));
+		else if(rand.nextDouble() > 0.6)
+			level.items.add(new HealthPotion(level, x, y, 5));
+		else if(rand.nextDouble() > 0.2)
+			level.items.add(new AmmoPack(level, x, y, 50));
 				
-		}
 	}
 
 	public void hurt() {
@@ -73,7 +90,7 @@ public class MobSpawner extends Entity {
 		}
 		
 		if(spawnTime <= 0) {
-			if(badGuyCount < 64)
+			if(badGuyCount < level.maxmobs)
 				spawnMob();
 			spawnTime = (int) (500 + rand.nextGaussian()*400);
 		}
@@ -114,16 +131,18 @@ public class MobSpawner extends Entity {
 	}
 
 	public void draw(Graphics g) {
-		Color oldCol = g.getColor();
-		g.setColor(Color.GREEN);
-		//BufferedImage renderImage = new BufferedImage(bi.getWidth(),bi.getHeight(),bi.getType());
-		//Graphics gi = renderImage.createGraphics();
-		//gi.drawImage(bi,0,0,bi.getWidth(),bi.getHeight(),null);
+//		Color oldCol = g.getColor();
+//		g.setColor(Color.GREEN);
+		BufferedImage renderImage = new BufferedImage(bi.getWidth(),bi.getHeight(),bi.getType());
+		Graphics gi = renderImage.createGraphics();
+		gi.drawImage(bi,0,0,bi.getWidth(),bi.getHeight(),null);
 		if(flash)
-			g.setColor(Color.RED);
-		//g.drawImage(renderImage, (int)(x-radiusx - 3), (int)(y-radiusy - 3), radiusx*2 + 6 , radiusy*2 + 6, null);
-		g.fillRect((int) (x-radiusx), (int) (y-radiusx), 2*radiusx, 2*radiusy);
-		
-		g.setColor(oldCol);
+			ImageProcessing.recolourImage(renderImage, 50, -255, -255);
+//		if(flash)
+//			g.setColor(Color.RED);
+		g.drawImage(renderImage, (int)(x-radiusx - 3), (int)(y-radiusy - 3), radiusx*2 + 6 , radiusy*2 + 6, null);
+//		g.fillRect((int) (x-radiusx), (int) (y-radiusx), 2*radiusx, 2*radiusy);
+//		
+//		g.setColor(oldCol);
 	}
 }

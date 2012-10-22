@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.dungeon.Keys;
 import com.dungeon.MainComponent;
 import com.dungeon.entities.Bullet;
 import com.dungeon.entities.DamageText;
@@ -16,6 +15,7 @@ import com.dungeon.entities.Item;
 import com.dungeon.entities.MobSpawner;
 import com.dungeon.entities.Particle;
 import com.dungeon.entities.Player;
+import com.dungeon.entities.items.AmmoPack;
 import com.dungeon.level.tile.*;
 import com.dungeon.map.Map;
 import com.dungeon.screen.Screen;
@@ -40,6 +40,9 @@ public class Level {
 	
 	public int width, height;
 	
+	public int maxmobs = 32;
+	public int difficulty = 1;
+	
 	public int score;
 	
 	private int ticks;
@@ -49,7 +52,7 @@ public class Level {
 	
 	private Map map;
 
-	public Level(Map map) {
+	public Level(Map map, int diff) {
 
 		this.map = map;
 		
@@ -62,9 +65,45 @@ public class Level {
 		
 		playerhealth = 0;
 		playermana = 0;
+
+		//items.add(new AmmoPack(this, 40, 40, 40));
+		//items.add(new HealthPotion(this, 64, 64, 40));
+		//items.add(new WeaponItem(this, 64, 64, new Shotgun()));
 		
 		ticks = 0;
 	}
+	public Level(Map map, int keepscore, Player player, int diff) {
+
+		this.map = map;
+		
+		this.maxmobs = 32 + (diff*5);
+		
+		this.width = map.width*map.tileSize;
+		this.height = map.height*map.tileSize;
+		
+		tiles = new Tile[map.width][map.height];
+		
+		score = keepscore;
+		
+		playerhealth = 0;
+		playermana = 0;
+		player.level = this;
+		player.getInventory().newLevel(this);
+		this.addPlayer(player);
+		
+		System.out.print("NEW LEVEL\n");
+		
+		for(int i=0; i<Math.min(diff, 6); ++i) {
+			items.add(new AmmoPack(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 25+(int)(rand.nextDouble()*50)));
+		}
+		//items.add(new HealthPotion(this, 64, 64, 40));
+		//items.add(new WeaponItem(this, 64, 64, new Shotgun()));
+		
+		System.out.print("items size = "+items.size()+"\n");
+		
+		ticks = 0;
+	}
+	
 
 	public void renderMap() {
 		for(int x = 0; x < map.width; x++) {
@@ -83,7 +122,7 @@ public class Level {
 	
 	public void addMobSpawners() {
 		for(int i=0; i < map.mobspawners.size(); i++) {
-			entities.add(new MobSpawner(this, map.mobspawners.get(i).x*32, map.mobspawners.get(i).y*32));
+			entities.add(new MobSpawner(this, map.mobspawners.get(i).x*32, map.mobspawners.get(i).y*32, difficulty));
 		}
 	}
 	
@@ -176,6 +215,7 @@ public class Level {
 			if(firing && ticks % Math.max(1,(10-player.fireRate)) == 0) {
 				//newBullet(fireTx, fireTy, player.strength, player.crit);
 				player.getWeapon().fire(this, fireTx, fireTy, player.strength, player.crit);
+				player.setFacing(fireTx, fireTy);
 			}
 			if(player.health <= 0){
 				gameOver();
@@ -252,8 +292,8 @@ public class Level {
 		ticks++;
 	}
 	
-	public void addPlayer(int x, int y, Keys keys) {
-		entities.add(new Player(this, keys, x, y));
+	public void addPlayer(Player p) {
+		entities.add(p);
 	}
 
 	public Set<Entity> getEntities() {

@@ -1,16 +1,40 @@
 package com.dungeon.entities.weapons;
 
+import java.awt.image.BufferedImage;
+import java.util.Random;
+
 import com.dungeon.entities.Bullet;
 import com.dungeon.entities.Player;
 import com.dungeon.entities.Weapon;
+import com.dungeon.image.Art;
 import com.dungeon.level.Level;
 
 public class MachineGun implements Weapon {
 	
 	private int speed = 12;
-	private int str = 2;
+	private int str = 3;
 	private double crt = 0.050;
 	private double acc = 0.01;
+	private int shots = 1;
+
+	private int maxstr = 6;
+	private int minstr = 2;
+	private int maxspeed = 28;
+	private int minspeed = 20;
+	private double maxcrt = 0.06;
+	private double mincrt = 0.001;
+	private double maxacc = 0.01;
+	private double minacc = 0.08;
+	
+	BufferedImage img = Art.machinegun;
+	
+	public MachineGun() {
+		Random rand = new Random();
+		str = minstr + ((int) (rand.nextDouble() * (maxstr-minstr)));
+		speed = minspeed + ((int) (rand.nextDouble() * (maxspeed-minspeed)));
+		crt = mincrt + (rand.nextDouble() * (maxcrt-mincrt));
+		acc = maxacc + (rand.nextDouble() * (minacc-maxacc));
+	}
 	
 	public void fire(Level level, int x, int y, int strength, double crit) {
 		Player player = (Player) level.getPlayer();
@@ -32,7 +56,7 @@ public class MachineGun implements Weapon {
 			double theta = Math.atan2(tx-px, ty-py);
 			double L = Math.sqrt((Math.pow(ty-py, 2) + Math.pow(tx-px,2)));
 			
-			for(int i=0; i<1; ++i) {
+			for(int i=0; i<shots; ++i) {
 				double phi = Math.min(rand.nextGaussian(),1.2);
 				double t1x = (L*Math.sin(theta + phi*acc)) + px;
 				double t1y = (L*Math.cos(theta + phi*acc)) + py;
@@ -46,20 +70,28 @@ public class MachineGun implements Weapon {
 		return "Machine Gun";
 	}
 	
-	public String getStrength() {
-		return "Strength = "+str;
+	public int getStrength() {
+		return str;
 	}
 	
-	public String getCrit() {
-		return "Crit = "+100*crt+"%";
+	public double getCrit() {
+		return crt;
 	}
 	
-	public String getAccuracy() {
-		return "Accuracy = "+acc;
+	public double getAccuracy() {
+		return acc;
 	}
 	
-	public String getSpeed() {
-		return "Bullet Speed = "+speed;
+	public int getSpeed() {
+		return speed;
+	}
+	
+	public int getShots() {
+		return shots;
+	}
+
+	public BufferedImage getImage() {
+		return img;
 	}
 
 }
