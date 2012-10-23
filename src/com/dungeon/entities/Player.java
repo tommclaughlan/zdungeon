@@ -62,11 +62,11 @@ public class Player extends Entity {
 		this.radiusy = 10;
 		colour = Color.YELLOW;
 		speed = 2.5;
-		maxhealth=28+(lvl*2);
+		maxhealth=80+(lvl*20);
 		health = maxhealth;
 		
-		strength = lvl + 2;
-		defense = lvl + 1;
+		strength = 25;
+		defense = 25;
 		crit = 0.01*lvl;
 		maxammo = 400;
 		ammo = maxammo;
@@ -199,6 +199,7 @@ public class Player extends Entity {
 	}
 	
 	public void hurt(int damage) {
+		damage = (int) (damage * (1 - Math.min(0.01*(defense/5),0.8)));
 		if(damage > 0) {
 			health-=damage;
 			level.damagetext.add(new DamageText(level, x, y, new Vector(), 20, 8, 1, true, damage, Color.RED));
@@ -225,13 +226,11 @@ public class Player extends Entity {
 	private void levelUp() {
 		exp=expperlvl-exp;
 		lvl++;
-		expperlvl*=Math.sqrt(lvl);
-		if(lvl%2==0)
-			strength++;
-		else
-			defense++;
+		expperlvl+=300*Math.sqrt(lvl);
+		strength+=5;
+		defense+=9;
 		crit = 0.005*lvl;
-		maxhealth+=2;
+		maxhealth+=20;
 		health=maxhealth;
 		maxammo+=10;
 		leveledUp = true;

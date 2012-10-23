@@ -44,8 +44,8 @@ public class MachineGun implements Weapon {
 			minacc = 0.10;
 		}
 		else if(ilvl==2) {
-			maxstr = 4;
-			minstr = 1;
+			maxstr = 22;
+			minstr = 6;
 			maxspeed = 24;
 			minspeed = 18;
 			maxcrt = 0.04;
@@ -54,8 +54,8 @@ public class MachineGun implements Weapon {
 			minacc = 0.08;
 		}
 		else if(ilvl==3) {
-			maxstr = 4;
-			minstr = 2;
+			maxstr = 42;
+			minstr = 17;
 			maxspeed = 25;
 			minspeed = 20;
 			maxcrt = 0.05;
@@ -64,8 +64,8 @@ public class MachineGun implements Weapon {
 			minacc = 0.07;
 		}
 		else if(ilvl==4) {
-			maxstr = 5;
-			minstr = 3;
+			maxstr = 80;
+			minstr = 30;
 			maxspeed = 26;
 			minspeed = 22;
 			maxcrt = 0.08;

@@ -34,7 +34,7 @@ public class Shotgun implements Weapon {
 		Random rand = new Random();
 		
 		if(ilvl==1) {
-			maxstr = 3;
+			maxstr = 4;
 			minstr = 1;
 			maxspeed = 18;
 			minspeed = 10;
@@ -44,8 +44,8 @@ public class Shotgun implements Weapon {
 			minacc = 0.16;
 		}
 		else if(ilvl==2) {
-			maxstr = 5;
-			minstr = 1;
+			maxstr = 25;
+			minstr = 3;
 			maxspeed = 20;
 			minspeed = 12;
 			maxcrt = 0.03;
@@ -54,8 +54,8 @@ public class Shotgun implements Weapon {
 			minacc = 0.14;
 		}
 		else if(ilvl==3) {
-			maxstr = 5;
-			minstr = 2;
+			maxstr = 45;
+			minstr = 10;
 			maxspeed = 24;
 			minspeed = 22;
 			maxcrt = 0.05;
@@ -64,12 +64,12 @@ public class Shotgun implements Weapon {
 			minacc = 0.12;
 		}
 		else if(ilvl==4) {
-			maxstr = 7;
-			minstr = 3;
+			maxstr = 90;
+			minstr = 20;
 			maxspeed = 26;
 			minspeed = 22;
 			maxcrt = 0.06;
-			mincrt = 0.01;
+			mincrt = 0.00;
 			maxacc = 0.04;
 			minacc = 0.08;
 		}

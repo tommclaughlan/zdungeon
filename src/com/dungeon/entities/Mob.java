@@ -49,7 +49,7 @@ public class Mob extends Entity {
 	
 	//for pathfinding
 	public int sightRadius = 512;
-	int speed = 1;
+	double speed = 0.8;
 	int currentx, currenty;
 	int targetx, targety;
 	boolean canSeePlayer = false;
@@ -67,22 +67,24 @@ public class Mob extends Entity {
 		currenty = (int) (this.y / 32);
 		this.radiusx = 10;
 		this.radiusy = 10;
-    		colour = Color.RED;
+    	colour = Color.RED;
 		velocity = new Vector();
 		facing = rand.nextInt(4);
 		
-		strength = (int)(1 + 2.2*difficulty);
-		defense = (int)(1 + 1.8*difficulty);
-		health = (int)(15 + 15*difficulty);
+		strength = (int)(6 + 12*difficulty);
+		defense = (int)(10 + 7*difficulty);
+		health = (int)(50 + 12*difficulty);
 		
 		ilvl = Math.min((int) Math.sqrt(difficulty), 4);
+		
+		speed = Math.min(Math.pow(difficulty, 1/4.0), 1.5);
 		
 		val = 15 + difficulty*3;
 		
 		if(rand.nextDouble() > 0.85)
 			shootyMob = true;
 		else if(rand.nextDouble() > 0.95)
-			speed = 3;
+			speed += 1.0;
 	}
 	
 	public void die() {

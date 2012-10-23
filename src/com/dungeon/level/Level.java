@@ -104,7 +104,7 @@ public class Level {
 			if(rand.nextDouble() > 0.3)
 				items.add(new AmmoPack(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 25+(int)(rand.nextDouble()*50)));
 			else
-				items.add(new HealthPotion(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 3+(int)(rand.nextDouble()*5)));
+				items.add(new HealthPotion(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 15+(int)(rand.nextDouble()*20*difficulty)));
 		}
 		
 		ticks = 0;

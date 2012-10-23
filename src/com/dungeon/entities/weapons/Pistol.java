@@ -45,8 +45,8 @@ public class Pistol implements Weapon {
 			minacc = 0.08;
 		}
 		else if(ilvl==2) {
-			maxstr = 3;
-			minstr = 1;
+			maxstr = 20;
+			minstr = 5;
 			maxspeed = 24;
 			minspeed = 20;
 			maxcrt = 0.05;
@@ -55,22 +55,22 @@ public class Pistol implements Weapon {
 			minacc = 0.06;
 		}
 		else if(ilvl==3) {
-			maxstr = 3;
-			minstr = 2;
+			maxstr = 38;
+			minstr = 16;
 			maxspeed = 24;
 			minspeed = 22;
-			maxcrt = 0.06;
-			mincrt = 0.005;
+			maxcrt = 0.08;
+			mincrt = 0.01;
 			maxacc = 0.02;
 			minacc = 0.05;
 		}
 		else if(ilvl==4) {
-			maxstr = 4;
-			minstr = 2;
+			maxstr = 75;
+			minstr = 28;
 			maxspeed = 26;
 			minspeed = 22;
-			maxcrt = 0.08;
-			mincrt = 0.01;
+			maxcrt = 0.10;
+			mincrt = 0.03;
 			maxacc = 0.01;
 			minacc = 0.04;
 		}

@@ -15,7 +15,7 @@ public class DamageText extends Particle {
 		super(level, x, y, direction, lifetime, radius, type, gravity);
 		this.damage = String.valueOf(damage);
 		this.color = color;
-		this.radiusx = this.radiusy = (int) (2 + Math.ceil(damage/2.0));
+		this.radiusx = this.radiusy = (int) (2 + Math.ceil(Math.sqrt(damage/3.0)));
 	}
 	
 	public DamageText(Level level, double x, double y, Vector direction,

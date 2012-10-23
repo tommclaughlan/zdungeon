@@ -10,7 +10,7 @@ public class Combat {
 		
 		int damage = 0;
 		
-		int hit = (int) (Math.ceil(rand.nextDouble() * attStr) - (Math.ceil(rand.nextDouble() * 0.8 * defDef)));
+		int hit = (int) (Math.ceil(rand.nextDouble() * attStr) - (Math.ceil(rand.nextDouble() * 0.75 * defDef)));
 		
 		if (hit <= 0) {
 			if(defDef>0)
