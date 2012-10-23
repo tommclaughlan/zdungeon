@@ -14,15 +14,12 @@ import com.dungeon.MainComponent;
 public class Art {
 
 	public static BufferedImage titlescreen = loadImage("/titlescreen.png", 512, 288);
-	public static BufferedImage playerImage = loadImage("/playerlo.png", 32, 20);
 	public static BufferedImage[][] playerImages = chop("/playersheet.png", 32, 32);
 	public static BufferedImage floorTest = loadImage("/floortest.png", 32, 32);
 	public static BufferedImage black = blackImage(32,32);
 	public static BufferedImage wallTest = loadImage("/walltest.png", 32, 48);
 	public static BufferedImage zombie1 = loadImage("/zombie1.png", 32, 32);
 	public static BufferedImage spawner = loadImage("/spawner.png", 32, 32);
-	public static BufferedImage lessermana = loadImage("/lessermana.png", 32, 32);
-	public static BufferedImage fullmana = loadImage("/fullmana.png", 32, 32);
 	public static BufferedImage ammo = loadImage("/ammo.png", 32, 32);
 	public static BufferedImage pistol = loadImage("/pistol.png", 32, 32);
 	public static BufferedImage shotgun = loadImage("/shotgun.png", 64, 32);

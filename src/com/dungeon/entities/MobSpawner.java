@@ -29,6 +29,7 @@ public class MobSpawner extends Entity {
 	Random rand = new Random();
 	private int spawnTime = (int) (500 + rand.nextGaussian()*400);
 	BufferedImage bi = Art.spawner;
+	private int diff;
 
 	public MobSpawner(Level level, int x, int y, int difficulty) {
 		super(level);
@@ -38,15 +39,17 @@ public class MobSpawner extends Entity {
 		this.radiusx = 16;
 		this.radiusy = 16;
 		
-		this.health = 30 + 30*difficulty;
-		this.val = 20 + difficulty*2;
+		diff = difficulty;
 		
-		this.ilvl = Math.min((int) Math.sqrt(difficulty), 4);
+		this.health = 30 + 30*diff;
+		this.val = 20 + diff*2;
+		
+		this.ilvl = Math.min((int) Math.sqrt(diff), 4);
 
 	}
 	
 	public void spawnMob() {
-		Mob badGuyPoint = new Mob(level, x, y, level.difficulty);
+		Mob badGuyPoint = new Mob(level, x, y, diff);
 		badGuyPoint.xto = x;
 		badGuyPoint.yto = y;
 		level.entities.add(badGuyPoint);
@@ -95,7 +98,7 @@ public class MobSpawner extends Entity {
 		if(spawnTime <= 0) {
 			if(badGuyCount < level.maxmobs)
 				spawnMob();
-			spawnTime = (int) (500 + rand.nextGaussian()*400);
+			spawnTime = Math.abs((int) (500 + rand.nextGaussian()*400));
 		}
 		
 		if(health <= 0)

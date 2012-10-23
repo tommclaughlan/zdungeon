@@ -72,7 +72,7 @@ public class Mob extends Entity {
 		facing = rand.nextInt(4);
 		
 		strength = (int)(1 + 2.2*difficulty);
-		defense = (int)(1 + 2*difficulty);
+		defense = (int)(1 + 1.8*difficulty);
 		health = (int)(15 + 15*difficulty);
 		
 		ilvl = Math.min((int) Math.sqrt(difficulty), 4);
@@ -81,6 +81,8 @@ public class Mob extends Entity {
 		
 		if(rand.nextDouble() > 0.85)
 			shootyMob = true;
+		else if(rand.nextDouble() > 0.95)
+			speed = 3;
 	}
 	
 	public void die() {
@@ -94,8 +96,8 @@ public class Mob extends Entity {
 			level.items.add(new WeaponItem(level, x, y, new MachineGun(ilvl), 50));
 		else if(rand.nextDouble() > 0.92)
 			level.items.add(new WeaponItem(level, x, y, new Pistol(ilvl), 20));
-		else if(rand.nextDouble() > 0.6)
-			level.items.add(new AmmoPack(level, x, y, 35));
+		else if(rand.nextDouble() > 0.8)
+			level.items.add(new AmmoPack(level, x, y, 25));
 	}
 	
 	public void tick() {	

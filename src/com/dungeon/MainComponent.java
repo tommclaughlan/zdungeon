@@ -55,7 +55,6 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     
     public Map map;
     
-    
 	public MainComponent() {
 		this.setPreferredSize(new Dimension(SCALE*GAME_WIDTH, SCALE*GAME_HEIGHT));
         this.addMouseMotionListener(this);
@@ -91,7 +90,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     	levelnum = 1;
     	map = new Map((int)(Math.sqrt(levelnum)*32),(int)(Math.sqrt(levelnum)*32));
     	map.generate();
-		level = new Level(map, 1, new Player(level, keys, 80,80));
+		level = new Level(map, levelnum, new Player(level, keys, 80,80));
 	}
 
 	public void start() {
@@ -104,6 +103,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     }
 	
     public void stop() {
+    	Thread.currentThread().interrupt();
         running = false;
     }
     
@@ -140,8 +140,9 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 	            return;
 	        }
         }
-        else
+        else {
         	nextlevel = false;
+        }
 
         int toTick = 0;
 

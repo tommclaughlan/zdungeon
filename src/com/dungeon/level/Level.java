@@ -66,6 +66,8 @@ public class Level {
 		player.getInventory().newLevel(this);
 		this.addPlayer(player);
 		
+		difficulty = diff;
+		
 		score = 0;
 		
 		playerhealth = 0;
@@ -83,6 +85,8 @@ public class Level {
 		
 		this.maxmobs = 32 + (diff*5);
 		
+		difficulty = diff;
+		
 		this.width = map.width*map.tileSize;
 		this.height = map.height*map.tileSize;
 		
@@ -96,7 +100,7 @@ public class Level {
 		player.getInventory().newLevel(this);
 		this.addPlayer(player);
 		
-		for(int i=0; i<Math.min(diff, 6); ++i) {
+		for(int i=0; i<Math.min(diff, 5); ++i) {
 			if(rand.nextDouble() > 0.3)
 				items.add(new AmmoPack(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 25+(int)(rand.nextDouble()*50)));
 			else

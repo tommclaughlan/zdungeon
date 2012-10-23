@@ -62,12 +62,13 @@ public class Player extends Entity {
 		this.radiusy = 10;
 		colour = Color.YELLOW;
 		speed = 2.5;
+		maxhealth=28+(lvl*2);
 		health = maxhealth;
 		
 		strength = lvl + 2;
 		defense = lvl + 1;
 		crit = 0.01*lvl;
-		maxammo = 400+(lvl*50);
+		maxammo = 400;
 		ammo = maxammo;
 		
 		walkTime = 0;
@@ -230,9 +231,9 @@ public class Player extends Entity {
 		else
 			defense++;
 		crit = 0.005*lvl;
-		maxhealth+=3;
+		maxhealth+=2;
 		health=maxhealth;
-		maxammo+=15;
+		maxammo+=10;
 		leveledUp = true;
 		levelupTimer = 150;
 	}
