@@ -21,7 +21,7 @@ public class Mob extends Entity {
 
 	Random rand = new Random();
 	
-	BufferedImage bi = Art.zombie1;
+	BufferedImage bi[][] = Art.zombie1Images;
     public int facing;
     public int walkTime;
     public int stepTime;
@@ -49,7 +49,7 @@ public class Mob extends Entity {
 	
 	//for pathfinding
 	public int sightRadius = 512;
-	double speed = 0.8;
+	double speed = 0.5;
 	int currentx, currenty;
 	int targetx, targety;
 	boolean canSeePlayer = false;
@@ -65,7 +65,7 @@ public class Mob extends Entity {
 		this.y = y;
 		currentx = (int) (this.x / 32);
 		currenty = (int) (this.y / 32);
-		this.radiusx = 10;
+		this.radiusx = 9;
 		this.radiusy = 10;
     	colour = Color.RED;
 		velocity = new Vector();
@@ -77,7 +77,7 @@ public class Mob extends Entity {
 		
 		ilvl = Math.min((int) Math.sqrt(difficulty), 4);
 		
-		speed = Math.min(Math.pow(difficulty, 1/4.0), 1.5);
+		speed = Math.min(Math.pow(difficulty/2.0, 1/4.0), 1.0);
 		
 		val = 15 + difficulty*3;
 		
@@ -211,7 +211,7 @@ public class Mob extends Entity {
 			yto = 0;
 		}
 		
-        if(walkTime / 12 % 3 != 0) {
+        if(walkTime / 12 % 2 != 0) {
         	stepTime++;
         	if(walkTime > 4 && rand.nextInt(200) == 0){
         		facing = rand.nextInt(4);
@@ -288,12 +288,23 @@ public class Mob extends Entity {
 	}
 
 	public void draw(Graphics g) {
-		BufferedImage renderImage = new BufferedImage(bi.getWidth(),bi.getHeight(),bi.getType());
+//		BufferedImage renderImage = new BufferedImage(bi.getWidth(),bi.getHeight(),bi.getType());
+//		Graphics gi = renderImage.createGraphics();
+//		gi.drawImage(bi,0,0,bi.getWidth(),bi.getHeight(),null);
+//		if(flash)
+//			ImageProcessing.recolourImage(renderImage, 50, -255, -255);
+//		g.drawImage(renderImage, (int)(x-radiusx - 3), (int)(y-radiusy - 3), radiusx*2 + 6 , radiusy*2 + 6, null);
+//		
+		
+		
+		int frame = (walkTime / 6 % 6 + 6) % 6;
+	       
+		BufferedImage renderImage = new BufferedImage(bi[frame][0].getWidth(),bi[frame][0].getHeight(),bi[frame][0].getType());
 		Graphics gi = renderImage.createGraphics();
-		gi.drawImage(bi,0,0,bi.getWidth(),bi.getHeight(),null);
+		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
 		if(flash)
 			ImageProcessing.recolourImage(renderImage, 50, -255, -255);
-		g.drawImage(renderImage, (int)(x-radiusx - 3), (int)(y-radiusy - 3), radiusx*2 + 6 , radiusy*2 + 6, null);
+		g.drawImage(renderImage, (int)(x-radiusx - 7), (int)(y-radiusy - 8), radiusx*2+14  , radiusy*2+12, null);
 	}
 
 	public void flash() {

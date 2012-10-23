@@ -169,7 +169,6 @@ public class Player extends Entity {
 
 	public void draw(Graphics g) {
 
-        int frame = (walkTime / 6 % 6 + 6) % 6;
 
         if(!level.firing) {
 			if(keys.down.isDown && !keys.left.isDown && !keys.right.isDown)
@@ -189,6 +188,7 @@ public class Player extends Entity {
 			else if(keys.down.isDown && keys.right.isDown)
 				facing = 7;
         }
+        int frame = (walkTime / 6 % 6 + 6) % 6;
         
 		BufferedImage renderImage = new BufferedImage(bi[frame][0].getWidth(),bi[frame][0].getHeight(),bi[frame][0].getType());
 		Graphics gi = renderImage.createGraphics();
