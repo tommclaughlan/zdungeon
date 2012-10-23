@@ -16,6 +16,7 @@ public class MachineGun implements Weapon {
 	private double crt = 0.050;
 	private double acc = 0.01;
 	private int shots = 1;
+	private int ilvl = 1;
 
 	private int maxstr = 6;
 	private int minstr = 2;
@@ -28,8 +29,52 @@ public class MachineGun implements Weapon {
 	
 	BufferedImage img = Art.machinegun;
 	
-	public MachineGun() {
+	public MachineGun(int ilvl) {
+		this.ilvl = ilvl;
 		Random rand = new Random();
+		
+		if(ilvl==1) {
+			maxstr = 3;
+			minstr = 1;
+			maxspeed = 22;
+			minspeed = 16;
+			maxcrt = 0.03;
+			mincrt = 0.001;
+			maxacc = 0.04;
+			minacc = 0.10;
+		}
+		else if(ilvl==2) {
+			maxstr = 4;
+			minstr = 1;
+			maxspeed = 24;
+			minspeed = 18;
+			maxcrt = 0.04;
+			mincrt = 0.005;
+			maxacc = 0.03;
+			minacc = 0.08;
+		}
+		else if(ilvl==3) {
+			maxstr = 4;
+			minstr = 2;
+			maxspeed = 25;
+			minspeed = 20;
+			maxcrt = 0.05;
+			mincrt = 0.01;
+			maxacc = 0.02;
+			minacc = 0.07;
+		}
+		else if(ilvl==4) {
+			maxstr = 5;
+			minstr = 3;
+			maxspeed = 26;
+			minspeed = 22;
+			maxcrt = 0.08;
+			mincrt = 0.03;
+			maxacc = 0.01;
+			minacc = 0.05;
+		}
+		
+		
 		str = minstr + ((int) (rand.nextDouble() * (maxstr-minstr)));
 		speed = minspeed + ((int) (rand.nextDouble() * (maxspeed-minspeed)));
 		crt = mincrt + (rand.nextDouble() * (maxcrt-mincrt));
@@ -88,6 +133,10 @@ public class MachineGun implements Weapon {
 	
 	public int getShots() {
 		return shots;
+	}
+	
+	public int getiLvl() {
+		return ilvl;
 	}
 
 	public BufferedImage getImage() {

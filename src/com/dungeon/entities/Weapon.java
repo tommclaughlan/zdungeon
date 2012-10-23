@@ -1,6 +1,5 @@
 package com.dungeon.entities;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -13,6 +12,7 @@ public interface Weapon {
 	double crt = 0;
 	int str = 0;
 	double acc = 0;
+	int lvl = 0;
 	
 	BufferedImage img = Art.black;
 	
@@ -31,6 +31,8 @@ public interface Weapon {
 	int getSpeed();
 	
 	int getShots();
+	
+	int getiLvl();
 	
 	BufferedImage getImage();
 

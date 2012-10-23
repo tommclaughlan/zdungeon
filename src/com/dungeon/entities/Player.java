@@ -10,7 +10,6 @@ import com.dungeon.Keys;
 import com.dungeon.boundingbox.BoundingBox;
 import com.dungeon.entities.player.Inventory;
 import com.dungeon.entities.weapons.*;
-import com.dungeon.entities.items.*;
 import com.dungeon.image.Art;
 import com.dungeon.image.ImageProcessing;
 import com.dungeon.level.Level;
@@ -65,7 +64,7 @@ public class Player extends Entity {
 		speed = 2.5;
 		health = maxhealth;
 		
-		strength = lvl + 1;
+		strength = lvl + 2;
 		defense = lvl + 1;
 		crit = 0.01*lvl;
 		maxammo = 400+(lvl*50);
@@ -74,7 +73,7 @@ public class Player extends Entity {
 		walkTime = 0;
 		velocity = new Vector();
 
-		inventory.addWeapon(new Pistol());
+		inventory.addWeapon(new Pistol(1));
 		//inventory.addWeapon(new Shotgun());
 		//inventory.addWeapon(new MachineGun());
 		weapon = inventory.getEquippedWeapon();

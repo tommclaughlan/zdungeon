@@ -23,6 +23,7 @@ public class MobSpawner extends Entity {
 	
 	public int health = 40;
 	public int val = 15;
+	private int ilvl = 1;
 	private boolean flash = false;
 	private int flashTime = 0;
 	Random rand = new Random();
@@ -39,6 +40,8 @@ public class MobSpawner extends Entity {
 		
 		this.health = 30 + 30*difficulty;
 		this.val = 20 + difficulty*2;
+		
+		this.ilvl = Math.min((int) Math.sqrt(difficulty), 4);
 
 	}
 	
@@ -54,11 +57,11 @@ public class MobSpawner extends Entity {
 		level.score+=5;
 		level.getPlayer().addExp(val);
 		if(rand.nextDouble() > 0.95)
-			level.items.add(new WeaponItem(level, x, y, new Shotgun(), 35));
+			level.items.add(new WeaponItem(level, x, y, new Shotgun(ilvl), 35));
 		else if(rand.nextDouble() > 0.93)
-			level.items.add(new WeaponItem(level, x, y, new MachineGun(), 50));
+			level.items.add(new WeaponItem(level, x, y, new MachineGun(ilvl), 50));
 		else if(rand.nextDouble() > 0.91)
-			level.items.add(new WeaponItem(level, x, y, new Pistol(), 20));
+			level.items.add(new WeaponItem(level, x, y, new Pistol(ilvl), 20));
 		else if(rand.nextDouble() > 0.75)
 			level.items.add(new HealthPotion(level, x, y, 5));
 		else if(rand.nextDouble() > 0.6)

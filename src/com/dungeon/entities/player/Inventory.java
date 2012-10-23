@@ -2,13 +2,11 @@ package com.dungeon.entities.player;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dungeon.Keys;
-import com.dungeon.entities.Item;
 import com.dungeon.entities.Player;
 import com.dungeon.entities.Weapon;
 import com.dungeon.entities.items.*;
@@ -302,6 +300,14 @@ public class Inventory {
 		y+=20;
 	    	double shots = w.getShots();
 	    	stat = "Bullets per shot = "+shots;
+		g.setColor(Color.BLACK);
+		g.drawString(stat, x, y);
+		g.setColor(Color.YELLOW);
+		g.drawString(stat, x, y-1);
+
+		y+=20;
+	    	double ilvl = w.getiLvl();
+	    	stat = "Item Level = "+ilvl;
 		g.setColor(Color.BLACK);
 		g.drawString(stat, x, y);
 		g.setColor(Color.YELLOW);

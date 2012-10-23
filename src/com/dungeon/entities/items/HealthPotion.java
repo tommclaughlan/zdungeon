@@ -3,13 +3,11 @@ package com.dungeon.entities.items;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import com.dungeon.entities.Item;
 import com.dungeon.image.Art;
 import com.dungeon.level.Level;
 
 public class HealthPotion extends ConsumableItem {
 	
-	public int value;
 	BufferedImage bi = Art.fullhealth;
 
 	public HealthPotion(Level level, double x, double y, int value) {

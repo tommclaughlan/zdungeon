@@ -20,7 +20,6 @@ import com.dungeon.entities.Entity;
 import com.dungeon.entities.Mob;
 import com.dungeon.entities.MobSpawner;
 import com.dungeon.entities.Player;
-import com.dungeon.entities.Weapon;
 import com.dungeon.entities.player.Inventory;
 import com.dungeon.image.Art;
 import com.dungeon.level.Level;
