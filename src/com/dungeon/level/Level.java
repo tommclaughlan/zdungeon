@@ -16,6 +16,7 @@ import com.dungeon.entities.MobSpawner;
 import com.dungeon.entities.Particle;
 import com.dungeon.entities.Player;
 import com.dungeon.entities.items.AmmoPack;
+import com.dungeon.entities.items.HealthPotion;
 import com.dungeon.level.tile.*;
 import com.dungeon.map.Map;
 import com.dungeon.screen.Screen;
@@ -52,7 +53,7 @@ public class Level {
 	
 	private Map map;
 
-	public Level(Map map, int diff) {
+	public Level(Map map, int diff, Player player) {
 
 		this.map = map;
 		
@@ -60,6 +61,10 @@ public class Level {
 		this.height = map.height*map.tileSize;
 		
 		tiles = new Tile[map.width][map.height];
+
+		player.level = this;
+		player.getInventory().newLevel(this);
+		this.addPlayer(player);
 		
 		score = 0;
 		
@@ -91,15 +96,12 @@ public class Level {
 		player.getInventory().newLevel(this);
 		this.addPlayer(player);
 		
-		System.out.print("NEW LEVEL\n");
-		
 		for(int i=0; i<Math.min(diff, 6); ++i) {
-			items.add(new AmmoPack(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 25+(int)(rand.nextDouble()*50)));
+			if(rand.nextDouble() > 0.3)
+				items.add(new AmmoPack(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 25+(int)(rand.nextDouble()*50)));
+			else
+				items.add(new HealthPotion(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 3+(int)(rand.nextDouble()*5)));
 		}
-		//items.add(new HealthPotion(this, 64, 64, 40));
-		//items.add(new WeaponItem(this, 64, 64, new Shotgun()));
-		
-		System.out.print("items size = "+items.size()+"\n");
 		
 		ticks = 0;
 	}

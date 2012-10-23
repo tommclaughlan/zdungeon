@@ -91,28 +91,28 @@ public class Inventory {
 	public void tick() {
 		
 		if(invtab == Tabs.WEAPONS) {
-			if(keys.right.wasReleased())
+			if(keys.right.wasPressed())
 				invtab=Tabs.ITEMS;
-			if(keys.left.wasReleased())
+			if(keys.left.wasPressed())
 				invtab=Tabs.ITEMS;
 			
-			if(keys.down.wasReleased()) {
+			if(keys.down.wasPressed()) {
 				if(selectedweapon < weapons.size()-1)
 					selectedweapon++;
 				else
 					selectedweapon = 0;
 			}
-			if(keys.up.wasReleased()){
+			if(keys.up.wasPressed()){
 				if(selectedweapon > 0)
 					selectedweapon--;
 				else
 					selectedweapon = weapons.size() - 1;
 			}
-			if(keys.select.wasReleased()){
+			if(keys.select.wasPressed()){
 				equippedweapon = selectedweapon;
 				changedweapon = true;
 			}
-			if(keys.drop.wasReleased()){
+			if(keys.drop.wasPressed()){
 				dropWeapon(selectedweapon);
 				selectedweapon--;
 				if(selectedweapon<0)
@@ -120,29 +120,29 @@ public class Inventory {
 			}
 		}
 		else if(invtab == Tabs.ITEMS){
-			if(keys.right.wasReleased())
+			if(keys.right.wasPressed())
 				invtab=Tabs.WEAPONS;
-			if(keys.left.wasReleased())
+			if(keys.left.wasPressed())
 				invtab=Tabs.WEAPONS;
 			
-			if(keys.down.wasReleased()) {
+			if(keys.down.wasPressed()) {
 				if(selecteditem < items.size()-1)
 					selecteditem++;
 				else
 					selecteditem = 0;
 			}
-			if(keys.up.wasReleased()){
+			if(keys.up.wasPressed()){
 				if(selecteditem > 0)
 					selecteditem--;
 				else
 					selecteditem = weapons.size() - 1;
 			}
-			if(keys.select.wasReleased()){
+			if(keys.select.wasPressed()){
 				if(selecteditem >= items.size() || selecteditem < 0)
 					return;
 				useItem(selecteditem);
 			}
-			if(keys.drop.wasReleased()){
+			if(keys.drop.wasPressed()){
 				dropItem(selecteditem);
 				selecteditem--;
 				if(selecteditem<0)

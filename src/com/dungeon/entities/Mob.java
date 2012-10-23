@@ -70,9 +70,9 @@ public class Mob extends Entity {
 		velocity = new Vector();
 		facing = rand.nextInt(4);
 		
-		strength = (int)(2 + Math.sqrt(difficulty));
-		defense = (int)(1.5 + Math.sqrt(difficulty));
-		health = (int)(15 + 5*difficulty);
+		strength = (int)(1 + 2.2*difficulty);
+		defense = (int)(2 + 2*difficulty);
+		health = (int)(15 + 15*difficulty);
 		
 		val = 15 + difficulty*3;
 		
@@ -85,13 +85,13 @@ public class Mob extends Entity {
 		level.score++;
 		level.getPlayer().addExp(val);
 		spray(new Vector(), 250, 200, 3);
-		if(rand.nextDouble() > 0.92)
+		if(rand.nextDouble() > 0.96)
 			level.items.add(new WeaponItem(level, x, y, new Shotgun(), 35));
-		else if(rand.nextDouble() > 0.88)
+		else if(rand.nextDouble() > 0.94)
 			level.items.add(new WeaponItem(level, x, y, new MachineGun(), 50));
-		else if(rand.nextDouble() > 0.85)
+		else if(rand.nextDouble() > 0.92)
 			level.items.add(new WeaponItem(level, x, y, new Pistol(), 20));
-		else if(rand.nextDouble() > 0.3)
+		else if(rand.nextDouble() > 0.6)
 			level.items.add(new AmmoPack(level, x, y, 35));
 	}
 	

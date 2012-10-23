@@ -37,7 +37,7 @@ public class MobSpawner extends Entity {
 		this.radiusx = 16;
 		this.radiusy = 16;
 		
-		this.health = 30 + 5*difficulty;
+		this.health = 30 + 30*difficulty;
 		this.val = 20 + difficulty*2;
 
 	}
@@ -53,15 +53,15 @@ public class MobSpawner extends Entity {
 		remove();
 		level.score+=5;
 		level.getPlayer().addExp(val);
-		if(rand.nextDouble() > 0.92)
+		if(rand.nextDouble() > 0.95)
 			level.items.add(new WeaponItem(level, x, y, new Shotgun(), 35));
-		else if(rand.nextDouble() > 0.88)
+		else if(rand.nextDouble() > 0.93)
 			level.items.add(new WeaponItem(level, x, y, new MachineGun(), 50));
-		else if(rand.nextDouble() > 0.85)
+		else if(rand.nextDouble() > 0.91)
 			level.items.add(new WeaponItem(level, x, y, new Pistol(), 20));
-		else if(rand.nextDouble() > 0.6)
+		else if(rand.nextDouble() > 0.75)
 			level.items.add(new HealthPotion(level, x, y, 5));
-		else if(rand.nextDouble() > 0.2)
+		else if(rand.nextDouble() > 0.6)
 			level.items.add(new AmmoPack(level, x, y, 50));
 				
 	}

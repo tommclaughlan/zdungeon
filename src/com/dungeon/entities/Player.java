@@ -65,7 +65,7 @@ public class Player extends Entity {
 		speed = 2.5;
 		health = maxhealth;
 		
-		strength = lvl + 2;
+		strength = lvl + 1;
 		defense = lvl + 1;
 		crit = 0.01*lvl;
 		maxammo = 400+(lvl*50);
@@ -189,9 +189,6 @@ public class Player extends Entity {
 			else if(keys.down.isDown && keys.right.isDown)
 				facing = 7;
         }
-        else {
-        	
-        }
         
 		BufferedImage renderImage = new BufferedImage(bi[frame][0].getWidth(),bi[frame][0].getHeight(),bi[frame][0].getType());
 		Graphics gi = renderImage.createGraphics();
@@ -229,12 +226,14 @@ public class Player extends Entity {
 		exp=expperlvl-exp;
 		lvl++;
 		expperlvl*=Math.sqrt(lvl);
-		strength++;
-		defense++;
-		crit = 0.01*lvl;
-		maxhealth+=5;
+		if(lvl%2==0)
+			strength++;
+		else
+			defense++;
+		crit = 0.005*lvl;
+		maxhealth+=3;
 		health=maxhealth;
-		maxammo+=50;
+		maxammo+=15;
 		leveledUp = true;
 		levelupTimer = 150;
 	}

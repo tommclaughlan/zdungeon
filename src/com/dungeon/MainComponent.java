@@ -83,7 +83,6 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     	levelnum++;
     	map = new Map(Math.min((int)(Math.sqrt(levelnum)*32), 150),Math.min((int)(Math.sqrt(levelnum)*32), 150));
     	map.generate();
-    	System.out.print(currentscore+"\n");
 		level = new Level(map, currentscore, player, levelnum);
 		player.x = 80;
 		player.y = 80;
@@ -93,8 +92,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     	levelnum = 1;
     	map = new Map((int)(Math.sqrt(levelnum)*32),(int)(Math.sqrt(levelnum)*32));
     	map.generate();
-		level = new Level(map, 1);
-    	level.addPlayer(new Player(level, keys, 80, 80));
+		level = new Level(map, 1, new Player(level, keys, 80,80));
 	}
 
 	public void start() {
@@ -152,6 +150,16 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
         int min = 999999999;
         int max = 0;
 		while(running) {
+
+            if(keys.pause.wasPressed()){
+            	paused = !paused;
+            	keys.pause.tick();
+            }
+            if(keys.inventory.wasPressed()){
+            	inventory = !inventory;
+            	keys.inventory.tick();
+            }
+			
             double nsPerTick = 1000000000.0 / framerate;
             boolean shouldRender = false;
             while (unprocessed >= 1) {
@@ -171,15 +179,6 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
                 toTick--;
                 tick();
                 shouldRender = true;
-            }
-
-            if(keys.pause.wasReleased()){
-            	paused = !paused;
-            	keys.pause.tick();
-            }
-            if(keys.inventory.wasReleased()){
-            	inventory = !inventory;
-            	keys.inventory.tick();
             }
 			
 			BufferStrategy bs = getBufferStrategy();
@@ -497,13 +496,13 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 
 	public void tick() {
 
-		if(level != null && !paused && !title && !nextlevel) {
+		if(level != null && !paused && !title && !nextlevel && !level.gameOver) {
 			if(!inventory)
 				level.tick();
 			else
 				level.getPlayer().getInventory().tick();
 		}
-		else if(nextlevel)
+		else if(nextlevel || level.gameOver)
 			nextleveltimer--;
 		keys.tick();
 		ticks++;
