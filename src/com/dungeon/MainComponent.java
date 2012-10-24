@@ -30,6 +30,7 @@ import com.dungeon.Keys;
 
 public class MainComponent extends Canvas implements Runnable, MouseMotionListener, MouseListener {
 
+	private final String version = "0.1";
 	private static final long serialVersionUID = 1L;
 	public static int GAME_WIDTH = 512;
 	public static int GAME_HEIGHT = (9 * GAME_WIDTH) / 16;
@@ -338,6 +339,12 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		Graphics gi = renderImage.createGraphics();
 		gi.drawImage(bi,0,0,bi.getWidth(),bi.getHeight(),null);
 		g.drawImage(renderImage, 0,0,GAME_WIDTH*SCALE + 2,GAME_HEIGHT*SCALE + 2, null);
+		g.setColor(Color.BLACK);
+		Font font = new Font("", Font.PLAIN, 18);
+		g.setFont(font);
+		g.drawString("version "+version, GAME_WIDTH*SCALE - 352, 277);
+		g.setColor(Color.WHITE);
+		g.drawString("version "+version, GAME_WIDTH*SCALE - 350, 275);
 	}
 	
 	private void render(Graphics g) {
