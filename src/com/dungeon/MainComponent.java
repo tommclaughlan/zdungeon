@@ -82,6 +82,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     	map = new Map(Math.min((int)(Math.sqrt(levelnum)*32), 150),Math.min((int)(Math.sqrt(levelnum)*32), 150));
     	map.generate();
 		level = new Level(map, currentscore, player, levelnum);
+    	nextlevel = false;
 		player.x = 80;
 		player.y = 80;
 	}
@@ -91,20 +92,16 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     	map = new Map((int)(Math.sqrt(levelnum)*32),(int)(Math.sqrt(levelnum)*32));
     	map.generate();
 		level = new Level(map, levelnum, new Player(level, keys, 80,80));
+    	nextlevel = false;
 	}
 
 	public void start() {
-        running = true;
-        paused = false;
-        inventory = false;
         Thread thread = new Thread(this);
         thread.setPriority(Thread.MAX_PRIORITY);
         thread.start();
     }
 	
     public void stop() {
-    	Thread.currentThread().interrupt();
-        running = false;
     }
     
     private void init() {
@@ -114,7 +111,9 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     	level.addMobSpawners();
         setFocusTraversalKeysEnabled(false);
         requestFocus();
-
+        running = true;
+        paused = false;
+        inventory = false;
     }
     
     private void init(Player player) {
@@ -124,6 +123,9 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     	level.addMobSpawners();
         setFocusTraversalKeysEnabled(false);
         requestFocus();
+        running = true;
+        paused = false;
+        inventory = false;
     }
     
 	public void run() {
@@ -518,7 +520,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 					spawnerCount++;
 			}
 		}
-		if(badGuyCount == 0 && spawnerCount == 0)
+		if(!nextlevel && badGuyCount == 0 && spawnerCount == 0)
 			nextlevel = true;
 	}
 
@@ -527,13 +529,11 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 			nextleveltimer = 100;
 			stop();
 			init();
-			start();
 		}
 		else if(nextlevel && nextleveltimer <=0) {
 			nextleveltimer = 100;
 			stop();
 			init(level.getPlayer());
-			start();
 		}
 	}
 

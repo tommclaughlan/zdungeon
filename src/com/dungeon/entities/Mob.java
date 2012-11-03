@@ -66,7 +66,7 @@ public class Mob extends Entity {
 		currentx = (int) (this.x / 32);
 		currenty = (int) (this.y / 32);
 		this.radiusx = 9;
-		this.radiusy = 10;
+		this.radiusy = 12;
     	colour = Color.RED;
 		velocity = new Vector();
 		facing = rand.nextInt(4);
@@ -304,7 +304,7 @@ public class Mob extends Entity {
 		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
 		if(flash)
 			ImageProcessing.recolourImage(renderImage, 50, -255, -255);
-		g.drawImage(renderImage, (int)(x-radiusx - 7), (int)(y-radiusy - 8), radiusx*2+14  , radiusy*2+12, null);
+		g.drawImage(renderImage, (int)(x-radiusx - 7), (int)(y-radiusy - 12), radiusx*2+14  , radiusy*2+8, null);
 	}
 
 	public void flash() {
