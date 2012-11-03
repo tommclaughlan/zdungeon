@@ -40,6 +40,7 @@ public class Mob extends Entity {
 	private int ilvl = 1;
 
 	private int bounceTime = 0;
+	private Vector bounceVec = new Vector();
 	private boolean shootyMob = false;
 	private boolean firing = false;
 	
@@ -71,9 +72,9 @@ public class Mob extends Entity {
 		velocity = new Vector();
 		facing = rand.nextInt(4);
 		
-		strength = (int)(6 + 12*difficulty);
+		strength = (int)(5 + 9*difficulty);
 		defense = (int)(10 + 7*difficulty);
-		health = (int)(50 + 12*difficulty);
+		health = (int)(15 + 35*difficulty);
 		
 		ilvl = Math.min((int) Math.sqrt(difficulty), 4);
 		
@@ -260,8 +261,10 @@ public class Mob extends Entity {
 			flash();
 			spray(bullet.vec, 20, 15, 2);
 			if(!bounce)
-				bounceTime = 5;
+				bounceTime = 8;
 			bounce = true;
+			bounceVec = bullet.vec;
+			bounceVec.extend(bounceVec.length() * 0.03);
 		}
 		else {
 			level.damagetext.add(new DamageText(level, x, y, new Vector(rand.nextGaussian(), -2), 20, 8, 1, true, "miss", Color.RED));
@@ -272,14 +275,17 @@ public class Mob extends Entity {
 	
 	private void bounce(Vector metoplayer) {
 		metoplayer.extend(1);
+		Vector bulletVec = bounceVec;
+		bulletVec.extend(bulletVec.length()*0.90);
+		System.out.print(bulletVec.length()+"\n");
 		if(metoplayer.x > 0 && x > 0 + radiusx)
-			xto=x-bounceTime*0.8;
+			xto=x-bounceTime*bulletVec.length();
 		if(metoplayer.x < 0 && x < level.width - radiusx)
-			xto=x+bounceTime*0.8;
+			xto=x+bounceTime*bulletVec.length();
 		if(metoplayer.y > 0 && y > 0 + radiusy)
-			yto=y-bounceTime*0.8;
+			yto=y-bounceTime*bulletVec.length();
 		if(metoplayer.y < 0 && y < level.height - radiusy)
-			yto=y+bounceTime*0.8;
+			yto=y+bounceTime*bulletVec.length();
 
 		if(canMoveX())
 			moveX();

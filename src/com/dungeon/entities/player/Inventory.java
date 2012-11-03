@@ -210,8 +210,8 @@ public class Inventory {
 		g.drawString("Strength "+(p.strength+w.getStrength()), 750, 275);
 		g.drawString("Defense "+p.defense, 750, 300);
 		g.drawString("Crit chance "+String.format("%.2f",(100*Math.min(p.crit+w.getCrit(),1.0)))+"%", 750, 325);
-		g.drawString("Max Health "+p.maxhealth, 750, 350);
-		g.drawString("Max Ammo "+p.maxammo, 750, 375);
+		g.drawString("Health "+p.health+"/"+p.maxhealth, 750, 350);
+		g.drawString("Ammo "+p.ammo+"/"+p.maxammo, 750, 375);
 		g.drawString("Exp "+p.exp+"/"+p.expperlvl, 750, 400);
 	}
 	

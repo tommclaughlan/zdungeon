@@ -26,6 +26,8 @@ public class Particle extends Entity {
 			this.colour = new Color(rand.nextInt(255-200)+200, rand.nextInt(255-200)+200, rand.nextInt(255-200)+200);
 		if(type == 3) // vom
 			this.colour = new Color(rand.nextInt(10), rand.nextInt(135-100)+100, rand.nextInt(10));
+		if(type == 4) // explosion!
+			this.colour = new Color(rand.nextInt(35)+210, rand.nextInt(25)+200, rand.nextInt(15));
 		this.radiusx = this.radiusy = (int) Math.ceil(rand.nextDouble()*radius);
 		velocity.x += rand.nextGaussian();
 		velocity.y += rand.nextGaussian();
