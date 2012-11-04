@@ -19,7 +19,7 @@
 	</target>
 
 	<target name="applet" depends="compile">
-		<jar jarfile="zdungeon-2310-1.jar" update="true">
+		<jar jarfile="zdungeon-0311-1.jar" update="true">
 			<fileset dir="${output}"/>
 			<fileset dir="${resources}"/>
 			<manifest>

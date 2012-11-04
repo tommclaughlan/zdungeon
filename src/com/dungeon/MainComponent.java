@@ -30,11 +30,14 @@ import com.dungeon.Keys;
 
 public class MainComponent extends Canvas implements Runnable, MouseMotionListener, MouseListener {
 
-	private final String version = "0.1";
+	private final String version = "0.2";
 	private static final long serialVersionUID = 1L;
 	public static int GAME_WIDTH = 512;
 	public static int GAME_HEIGHT = (9 * GAME_WIDTH) / 16;
 	public static int SCALE = 2;
+//	public static int GAME_WIDTH = 1024;
+//	public static int GAME_HEIGHT = (9 * GAME_WIDTH) / 16;
+//	public static int SCALE = 1;
 	private boolean running = true;
     private float framerate = 60;
     private int fps;

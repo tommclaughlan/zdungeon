@@ -277,7 +277,6 @@ public class Mob extends Entity {
 		metoplayer.extend(1);
 		Vector bulletVec = bounceVec;
 		bulletVec.extend(bulletVec.length()*0.90);
-		System.out.print(bulletVec.length()+"\n");
 		if(metoplayer.x > 0 && x > 0 + radiusx)
 			xto=x-bounceTime*bulletVec.length();
 		if(metoplayer.x < 0 && x < level.width - radiusx)
