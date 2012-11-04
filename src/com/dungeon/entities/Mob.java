@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.dungeon.MainComponent;
 import com.dungeon.boundingbox.BoundingBox;
 import com.dungeon.entities.items.*;
 import com.dungeon.entities.weapons.*;
@@ -49,7 +50,7 @@ public class Mob extends Entity {
 	int tx = 0,ty = 0;
 	
 	//for pathfinding
-	public int sightRadius = 512;
+	public int sightRadius = MainComponent.GAME_WIDTH;
 	double speed = 0.5;
 	int currentx, currenty;
 	int targetx, targety;
@@ -64,10 +65,10 @@ public class Mob extends Entity {
 		super(level);
 		this.x = x;
 		this.y = y;
-		currentx = (int) (this.x / 32);
-		currenty = (int) (this.y / 32);
-		this.radiusx = 9;
-		this.radiusy = 12;
+		currentx = (int) (this.x / level.getMap().tileSize);
+		currenty = (int) (this.y / level.getMap().tileSize);
+		this.radiusx = 18;
+		this.radiusy = 24;
     	colour = Color.RED;
 		velocity = new Vector();
 		facing = rand.nextInt(4);
@@ -78,7 +79,7 @@ public class Mob extends Entity {
 		
 		ilvl = Math.min((int) Math.sqrt(difficulty), 4);
 		
-		speed = Math.min(Math.pow(difficulty/2.0, 1/4.0), 1.0);
+		speed = 2*Math.min(Math.pow(difficulty/2.0, 1/4.0), 1.0);
 		
 		val = 15 + difficulty*3;
 		
@@ -309,7 +310,7 @@ public class Mob extends Entity {
 		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
 		if(flash)
 			ImageProcessing.recolourImage(renderImage, 50, -255, -255);
-		g.drawImage(renderImage, (int)(x-radiusx - 7), (int)(y-radiusy - 12), radiusx*2+14  , radiusy*2+8, null);
+		g.drawImage(renderImage, (int)(x-radiusx - 14), (int)(y-radiusy - 24), radiusx*2+28, radiusy*2+16, null);
 	}
 
 	public void flash() {
@@ -322,8 +323,8 @@ public class Mob extends Entity {
 		if(!hasPath) {
 			currentx = getMapX();
 			currenty = getMapY();
-			targetx = (int) (((level.getPlayer().x) / 32));
-			targety = (int) (((level.getPlayer().y) / 32));
+			targetx = (int) (((level.getPlayer().x) / level.getMap().tileSize));
+			targety = (int) (((level.getPlayer().y) / level.getMap().tileSize));
 			path = AStar(new Node(currentx,currenty, null), new Node(targetx,targety,null));
 		}
 		if(hasPath && walkTime % 500 == 0)
@@ -332,8 +333,8 @@ public class Mob extends Entity {
 		if(path != null) {
 			if(path.size()!=0) {
 				Node nextNode = path.get(path.size() - 1);
-				int nextx = nextNode.x*32 + 16;
-				int nexty = nextNode.y*32 + 16;
+				int nextx = nextNode.x*level.getMap().tileSize + (level.getMap().tileSize / 2);
+				int nexty = nextNode.y*level.getMap().tileSize + (level.getMap().tileSize / 2);
 				int myx = (int) x;
 				int myy = (int) y;
 				
@@ -436,11 +437,11 @@ public class Mob extends Entity {
 	}
 
 	public int getMapX() {
-		return (int) ((this.x) / 32);
+		return (int) ((this.x) / level.getMap().tileSize);
 	}
 
 	public int getMapY() {
-		return (int) ((this.y) / 32);
+		return (int) ((this.y) / level.getMap().tileSize);
 	}
 	
 }

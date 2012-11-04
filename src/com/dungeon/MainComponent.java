@@ -32,11 +32,8 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 
 	private final String version = "0.2";
 	private static final long serialVersionUID = 1L;
-	public static int GAME_WIDTH = 512;
+	public static int GAME_WIDTH = 1024;
 	public static int GAME_HEIGHT = (9 * GAME_WIDTH) / 16;
-	public static int SCALE = 2;
-//	public static int GAME_WIDTH = 1024;
-//	public static int GAME_HEIGHT = (9 * GAME_WIDTH) / 16;
 //	public static int SCALE = 1;
 	private boolean running = true;
     private float framerate = 60;
@@ -60,7 +57,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     public Map map;
     
 	public MainComponent() {
-		this.setPreferredSize(new Dimension(SCALE*GAME_WIDTH, SCALE*GAME_HEIGHT));
+		this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         this.addMouseMotionListener(this);
         this.addKeyListener(new InputHandler(keys));
         this.addMouseListener(this);
@@ -87,15 +84,15 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     	map.generate();
 		level = new Level(map, currentscore, player, levelnum);
     	nextlevel = false;
-		player.x = 80;
-		player.y = 80;
+		player.x = 160;
+		player.y = 160;
 	}
     
     private void createLevel() {
     	levelnum = 1;
     	map = new Map((int)(Math.sqrt(levelnum)*32),(int)(Math.sqrt(levelnum)*32));
     	map.generate();
-		level = new Level(map, levelnum, new Player(level, keys, 80,80));
+		level = new Level(map, levelnum, new Player(level, keys, 160,160));
     	nextlevel = false;
 	}
 
@@ -249,8 +246,8 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 			highscore = level.score;
         g.setColor(Color.BLACK);
 
-        g.fillRect(0, 0, GAME_WIDTH*SCALE + 2, GAME_HEIGHT*SCALE + 2);
-        g.clipRect(0, 0, GAME_WIDTH*SCALE, GAME_HEIGHT*SCALE);
+        g.fillRect(0, 0, GAME_WIDTH + 2, GAME_HEIGHT + 2);
+        g.clipRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
         String msg = "SCORE: " + level.score;
 		g.setColor(Color.LIGHT_GRAY);
@@ -274,17 +271,17 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
         msg = "GAME OVER!";
 		g.setColor(Color.WHITE);
 		g.setFont(font);
-		g.drawString(msg, 160, GAME_HEIGHT*SCALE / 2);
+		g.drawString(msg, 160, GAME_HEIGHT / 2);
 		g.setColor(Color.RED);
-		g.drawString(msg, 159, (GAME_HEIGHT*SCALE / 2) -1);
+		g.drawString(msg, 159, (GAME_HEIGHT / 2) -1);
 		if(nextleveltimer <= 0){
 			font = new Font("", Font.PLAIN, 32);
 	        msg = "Click the mouse to play again!";
 			g.setColor(Color.LIGHT_GRAY);
 			g.setFont(font);
-			g.drawString(msg, 200, GAME_HEIGHT*SCALE / 2 + 128);
+			g.drawString(msg, 200, GAME_HEIGHT / 2 + 128);
 			g.setColor(Color.WHITE);
-			g.drawString(msg, 199, (GAME_HEIGHT*SCALE / 2) -1 + 128);
+			g.drawString(msg, 199, (GAME_HEIGHT / 2) -1 + 128);
 		}
 	}	
 	
@@ -294,8 +291,8 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		currentscore = level.score;
         g.setColor(Color.BLACK);
 
-        g.fillRect(0, 0, GAME_WIDTH*SCALE + 2, GAME_HEIGHT*SCALE + 2);
-        g.clipRect(0, 0, GAME_WIDTH*SCALE, GAME_HEIGHT*SCALE);
+        g.fillRect(0, 0, GAME_WIDTH + 2, GAME_HEIGHT + 2);
+        g.clipRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
         String msg = "SCORE: " + level.score;
 		g.setColor(Color.LIGHT_GRAY);
@@ -319,37 +316,37 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
         msg = "NEXT LEVEL!";
 		g.setColor(Color.WHITE);
 		g.setFont(font);
-		g.drawString(msg, 160, GAME_HEIGHT*SCALE / 2);
+		g.drawString(msg, 160, GAME_HEIGHT / 2);
 		g.setColor(Color.RED);
-		g.drawString(msg, 159, (GAME_HEIGHT*SCALE / 2) -1);
+		g.drawString(msg, 159, (GAME_HEIGHT / 2) -1);
 		if(nextleveltimer <= 0){
 			font = new Font("", Font.PLAIN, 32);
 	        msg = "Click the mouse to continue!";
 			g.setColor(Color.LIGHT_GRAY);
 			g.setFont(font);
-			g.drawString(msg, 200, GAME_HEIGHT*SCALE / 2 + 128);
+			g.drawString(msg, 200, GAME_HEIGHT / 2 + 128);
 			g.setColor(Color.WHITE);
-			g.drawString(msg, 199, (GAME_HEIGHT*SCALE / 2) -1 + 128);
+			g.drawString(msg, 199, (GAME_HEIGHT / 2) -1 + 128);
 		}
 	}
 	
 	private void renderTitle(Graphics g) {
         g.setColor(Color.BLACK);
 
-        g.fillRect(0, 0, GAME_WIDTH*SCALE + 2, GAME_HEIGHT*SCALE + 2);
-        g.clipRect(0, 0, GAME_WIDTH*SCALE, GAME_HEIGHT*SCALE);
+        g.fillRect(0, 0, GAME_WIDTH + 2, GAME_HEIGHT + 2);
+        g.clipRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
         BufferedImage bi = Art.titlescreen;
         BufferedImage renderImage = new BufferedImage(bi.getWidth(),bi.getHeight(),bi.getType());
 		Graphics gi = renderImage.createGraphics();
 		gi.drawImage(bi,0,0,bi.getWidth(),bi.getHeight(),null);
-		g.drawImage(renderImage, 0,0,GAME_WIDTH*SCALE + 2,GAME_HEIGHT*SCALE + 2, null);
+		g.drawImage(renderImage, 0,0,GAME_WIDTH + 2,GAME_HEIGHT + 2, null);
 		g.setColor(Color.BLACK);
 		Font font = new Font("", Font.PLAIN, 18);
 		g.setFont(font);
-		g.drawString("version "+version, GAME_WIDTH*SCALE - 352, 277);
+		g.drawString("version "+version, GAME_WIDTH - 352, 277);
 		g.setColor(Color.WHITE);
-		g.drawString("version "+version, GAME_WIDTH*SCALE - 350, 275);
+		g.drawString("version "+version, GAME_WIDTH - 350, 275);
 	}
 	
 	private void render(Graphics g) {
@@ -357,9 +354,10 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 			level.render(screen, (int)level.getPlayer().x, (int)level.getPlayer().y);
 
 		g.setColor(Color.BLACK);
-		g.drawImage(screen, 0, 0, GAME_WIDTH*SCALE+2, GAME_HEIGHT*SCALE+2, null);
+		g.drawImage(screen, 0, 0, GAME_WIDTH+2, GAME_HEIGHT+2, null);
 
-
+		Font font = new Font("", Font.PLAIN, 12);
+		g.setFont(font);
         String msg = "FPS: " + fps;
 		g.setColor(Color.BLACK);
 		g.drawString(msg, 11, 11);
@@ -368,21 +366,21 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		
         msg = "SCORE: " + level.score;
 		g.setColor(Color.BLACK);
-		g.drawString(msg, GAME_WIDTH - 100, 11);
+		g.drawString(msg, 100, 11);
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString(msg, GAME_WIDTH - 101, 10);
+		g.drawString(msg, 99, 10);
 
         msg = "LEVEL: " + levelnum;
 		g.setColor(Color.BLACK);
-		g.drawString(msg, GAME_WIDTH - 100, 26);
+		g.drawString(msg, 100, 26);
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString(msg, GAME_WIDTH - 101, 25);
+		g.drawString(msg, 99, 25);
 		
         msg = "HIGH SCORE: " + highscore;
 		g.setColor(Color.BLACK);
-		g.drawString(msg, GAME_WIDTH, 11);
+		g.drawString(msg, GAME_WIDTH/2, 11);
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString(msg, GAME_WIDTH, 10);
+		g.drawString(msg, GAME_WIDTH/2, 10);
 
 		int badGuyCount = 0;
 		int spawnerCount = 0;
@@ -398,15 +396,15 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 
         msg = "ZOMBIES: " + badGuyCount;
 		g.setColor(Color.BLACK);
-		g.drawString(msg, GAME_WIDTH * SCALE - 250, 11);
+		g.drawString(msg, GAME_WIDTH - 250, 11);
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString(msg, GAME_WIDTH * SCALE - 251, 10);
+		g.drawString(msg, GAME_WIDTH - 251, 10);
 		
         msg = "SPAWNERS: " + spawnerCount;
 		g.setColor(Color.BLACK);
-		g.drawString(msg, GAME_WIDTH * SCALE - 250, 26);
+		g.drawString(msg, GAME_WIDTH - 250, 26);
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString(msg, GAME_WIDTH * SCALE - 251, 25);
+		g.drawString(msg, GAME_WIDTH - 251, 25);
 		
 		/*
         msg = "MANA: " +  level.playermana;
@@ -422,20 +420,20 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		Inventory inv = level.getPlayer().getInventory();
 		
 		if(paused) {
-			inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 55);
-			inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 75, false);
-			Font font = new Font("", Font.BOLD, 100);
+			inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH - 180, 55);
+			inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH - 180, 75, false);
+			font = new Font("", Font.BOLD, 100);
 	        msg = "PAUSED";
 			g.setColor(Color.WHITE);
 			g.setFont(font);
-			g.drawString(msg, 300, GAME_HEIGHT*SCALE / 2);
+			g.drawString(msg, 300, GAME_HEIGHT / 2);
 			g.setColor(Color.RED);
-			g.drawString(msg, 299, (GAME_HEIGHT*SCALE / 2) -1);
+			g.drawString(msg, 299, (GAME_HEIGHT / 2) -1);
 			drawHelp(g);
 		}
 		if(inventory) {
-			inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 55);
-			inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 75, false);
+			inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH - 180, 55);
+			inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH - 180, 75, false);
 			inv.drawInventory(g);
 			inv.drawPlayerStats(g);
 			drawHelp(g);
@@ -456,34 +454,34 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		Inventory inv = level.getPlayer().getInventory();
 
         if(level.getPlayer().getInventory().changedweapon){
-        	inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 55);
-        	inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH * SCALE - 180, 75, false);
+        	inv.drawWeaponName(g, inv.getEquippedWeapon(), GAME_WIDTH - 180, 55);
+        	inv.drawWeaponStats(g, inv.getEquippedWeapon(), GAME_WIDTH - 180, 75, false);
         }
 		
         String msg = "AMMO"+" "+level.getPlayer().ammo+" / "+level.getPlayer().maxammo;
 		g.setColor(Color.BLACK);
-		g.drawString(msg, GAME_WIDTH * SCALE - 145, 26+9);
+		g.drawString(msg, GAME_WIDTH - 145, 26+9);
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString(msg, GAME_WIDTH * SCALE - 146, 26+8);
+		g.drawString(msg, GAME_WIDTH - 146, 26+8);
 		
 	}
 	
 	private void expBar(Graphics g) {
 		g.setColor(Color.YELLOW);
-		g.drawString("PLAYER LEVEL: "+level.getPlayer().lvl, 15*SCALE, (GAME_HEIGHT-15)*SCALE);
+		g.drawString("PLAYER LEVEL: "+level.getPlayer().lvl, 15, (GAME_HEIGHT-15));
 		g.setColor(Color.BLUE);
-		g.fillRect(15*SCALE, (GAME_HEIGHT-10)*SCALE, (int)((level.getPlayer().exp / (double)level.getPlayer().expperlvl)*(GAME_WIDTH-30)*SCALE), 5*SCALE);
+		g.fillRect(15, (GAME_HEIGHT-10), (int)((level.getPlayer().exp / (double)level.getPlayer().expperlvl)*(GAME_WIDTH-30)), 5);
 		g.setColor(Color.WHITE);
-		g.drawRect(15*SCALE, (GAME_HEIGHT-10)*SCALE, (GAME_WIDTH-30)*SCALE, 5*SCALE);
+		g.drawRect(15, (GAME_HEIGHT-10), (GAME_WIDTH-30), 5);
 		
 		if(level.getPlayer().leveledUp) {
 			Font font = new Font("", Font.BOLD, 24);
 			g.setFont(font);
 			FontMetrics fm = g.getFontMetrics();
 			g.setColor(Color.BLACK);
-			g.drawString("Level Up!", ((GAME_WIDTH/2)*SCALE) - (fm.stringWidth("Level Up!") / 2)+1, (GAME_HEIGHT-15)*SCALE +1);
+			g.drawString("Level Up!", ((GAME_WIDTH/2)) - (fm.stringWidth("Level Up!") / 2)+1, (GAME_HEIGHT-15) +1);
 			g.setColor(Color.YELLOW);
-			g.drawString("Level Up!", ((GAME_WIDTH/2)*SCALE) - (fm.stringWidth("Level Up!") / 2), (GAME_HEIGHT-15)*SCALE);
+			g.drawString("Level Up!", ((GAME_WIDTH/2)) - (fm.stringWidth("Level Up!") / 2), (GAME_HEIGHT-15));
 		}
 	}
 	
@@ -495,15 +493,15 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 			g.setColor(Color.ORANGE);
 		if(level.playerhealth/10.0 < 0.3)
 			g.setColor(Color.RED);
-		g.fillRect(GAME_WIDTH * SCALE - 90, 11,(int)(50*(level.getPlayer().health/(float) level.getPlayer().maxhealth)), 10);
+		g.fillRect(GAME_WIDTH - 90, 11,(int)(50*(level.getPlayer().health/(float) level.getPlayer().maxhealth)), 10);
 		g.setColor(Color.DARK_GRAY);
-		g.drawRect(GAME_WIDTH * SCALE - 90, 11,50, 10);
+		g.drawRect(GAME_WIDTH - 90, 11,50, 10);
 
         String msg = "HEALTH";
 		g.setColor(Color.BLACK);
-		g.drawString(msg, GAME_WIDTH * SCALE - 145, 11+9);
+		g.drawString(msg, GAME_WIDTH - 145, 11+9);
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString(msg, GAME_WIDTH * SCALE - 146, 11+8);
+		g.drawString(msg, GAME_WIDTH - 146, 11+8);
 	}
 
 	public void tick() {

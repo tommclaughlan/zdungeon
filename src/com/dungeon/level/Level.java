@@ -102,9 +102,9 @@ public class Level {
 		
 		for(int i=0; i<Math.min(diff, 5); ++i) {
 			if(rand.nextDouble() > 0.3)
-				items.add(new AmmoPack(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 25+(int)(rand.nextDouble()*50)));
+				items.add(new AmmoPack(this, 64 + (rand.nextDouble()*100), 64 + (rand.nextDouble()*100), 25+(int)(rand.nextDouble()*50)));
 			else
-				items.add(new HealthPotion(this, 48 + (rand.nextDouble()*100), 48 + (rand.nextDouble()*100), 15+(int)(rand.nextDouble()*20*difficulty)));
+				items.add(new HealthPotion(this, 64 + (rand.nextDouble()*100), 64 + (rand.nextDouble()*100), 15+(int)(rand.nextDouble()*20*difficulty)));
 		}
 		
 		ticks = 0;
@@ -128,7 +128,7 @@ public class Level {
 	
 	public void addMobSpawners() {
 		for(int i=0; i < map.mobspawners.size(); i++) {
-			entities.add(new MobSpawner(this, map.mobspawners.get(i).x*32, map.mobspawners.get(i).y*32, difficulty));
+			entities.add(new MobSpawner(this, map.mobspawners.get(i).x*map.tileSize, map.mobspawners.get(i).y*map.tileSize, difficulty));
 		}
 	}
 	
@@ -459,28 +459,6 @@ public class Level {
 		
 	}
 
-	public void newBullet(int x, int y, int strength, double crit) {
-		Player player = (Player) getPlayer();
-		if(player != null && player.ammo > 0) {
-			double px = player.x;
-			double py = player.y - 4;
-			double tx = (x) - (px);
-			double ty = (y) - (py);
-			
-			if(viewRadius < px)
-				tx += 2*(px - viewRadius);
-			if((viewRadius*9/16) < py)
-				ty += 2*(py - (viewRadius*9/16));
-			if( width  - viewRadius < px)
-			    tx -= 2*(px - (width - viewRadius));
-			if( height - (viewRadius*9/16) < py)
-				ty -= 2*(py - (height - (viewRadius*9/16)));
-
-			bullets.add(new Bullet(this, px, py, tx, ty, player.velocity, false, strength, crit, 8));
-			player.useAmmo();
-		}
-	}
-	
 	public void enemyBullet(Entity enemy, int tx, int ty, int strength, double crit) {
 		Player player = (Player) getPlayer();
 		if(player != null) {
@@ -523,7 +501,7 @@ public class Level {
 		
 		screen.getGraphics().translate(-tX,-tY);
 		//screen.getGraphics().translate(xScroll - viewRadius, yScroll - (viewRadius*3/4));
-		List<Tile> visibleTiles = getTiles((xScroll - 2*viewRadius)/32, (yScroll - (2*viewRadius*9/16))/32, (xScroll + 2*viewRadius)/32, (yScroll + (2*viewRadius*9/16))/32);
+		List<Tile> visibleTiles = getTiles((xScroll - 2*viewRadius)/map.tileSize, (yScroll - (2*viewRadius*9/16))/map.tileSize, (xScroll + 2*viewRadius)/map.tileSize, (yScroll + (2*viewRadius*9/16))/map.tileSize);
 		Set<Entity> visibleEntities = getEntities(xScroll - 2*viewRadius, yScroll - (2*viewRadius*9/16), xScroll + 2*viewRadius, yScroll + (2*viewRadius*9/16));
 		List<Entity> visibleStains = getStains(xScroll - 2*viewRadius, yScroll - (2*viewRadius*9/16), xScroll + 2*viewRadius, yScroll + (2*viewRadius*9/16));
 		List<Entity> visibleParticles = getParticles(xScroll - 2*viewRadius, yScroll - (2*viewRadius*9/16), xScroll + 2*viewRadius, yScroll + (2*viewRadius*9/16));

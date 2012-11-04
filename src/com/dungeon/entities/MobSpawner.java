@@ -36,8 +36,8 @@ public class MobSpawner extends Entity {
 		this.x = x;
 		this.y = y;
 
-		this.radiusx = 16;
-		this.radiusy = 16;
+		this.radiusx = 32;
+		this.radiusy = 32;
 		
 		diff = difficulty;
 		

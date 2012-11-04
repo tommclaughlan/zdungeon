@@ -3,6 +3,7 @@ package com.dungeon.entities.weapons;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import com.dungeon.MainComponent;
 import com.dungeon.entities.Bullet;
 import com.dungeon.entities.Player;
 import com.dungeon.entities.Weapon;
@@ -36,7 +37,7 @@ public class Shotgun implements Weapon {
 		if(ilvl==1) {
 			maxstr = 4;
 			minstr = 1;
-			maxspeed = 18;
+			maxspeed = 38;
 			minspeed = 10;
 			maxcrt = 0.02;
 			mincrt = 0.00;
@@ -46,7 +47,7 @@ public class Shotgun implements Weapon {
 		else if(ilvl==2) {
 			maxstr = 25;
 			minstr = 3;
-			maxspeed = 20;
+			maxspeed = 40;
 			minspeed = 12;
 			maxcrt = 0.03;
 			mincrt = 0.00;
@@ -56,7 +57,7 @@ public class Shotgun implements Weapon {
 		else if(ilvl==3) {
 			maxstr = 45;
 			minstr = 10;
-			maxspeed = 24;
+			maxspeed = 44;
 			minspeed = 22;
 			maxcrt = 0.05;
 			mincrt = 0.00;
@@ -66,8 +67,8 @@ public class Shotgun implements Weapon {
 		else if(ilvl==4) {
 			maxstr = 90;
 			minstr = 20;
-			maxspeed = 26;
-			minspeed = 22;
+			maxspeed = 46;
+			minspeed = 32;
 			maxcrt = 0.06;
 			mincrt = 0.00;
 			maxacc = 0.04;
@@ -85,21 +86,25 @@ public class Shotgun implements Weapon {
 		Player player = (Player) level.getPlayer();
 		if(player != null && player.ammo > 0) {
 			double px = player.x;
-			double py = (player.y - 4);
-			double tx = (x) - (px);
-			double ty = (y) - (py);
-
-			if(level.viewRadius < px)
-				tx += 2*(px - level.viewRadius);
-			if((level.viewRadius*9/16) < py)
-				ty += 2*(py - (level.viewRadius*9/16));
-			if( level.width  - level.viewRadius < px)
-			    tx -= 2*(px - (level.width - level.viewRadius));
-			if( level.height - (level.viewRadius*9/16) < py)
-				ty -= 2*(py - (level.height - (level.viewRadius*9/16)));
+			double py = player.y - 4;
 			
-			double theta = Math.atan2(tx-px, ty-py);
-			double L = Math.sqrt((Math.pow(ty-py, 2) + Math.pow(tx-px,2)));
+			double tx = x - (MainComponent.GAME_WIDTH/2);
+			double ty = y - (MainComponent.GAME_HEIGHT/2);
+			
+			double tX = px - level.viewRadius;
+			double tY = py - (level.viewRadius*9/16);
+
+			if(tX < 0)
+				tx+=(MainComponent.GAME_WIDTH/2) - px;
+			if(tY < 0)
+				ty+=(MainComponent.GAME_HEIGHT/2) - py;
+			if(tX + 2*level.viewRadius > level.width)
+				tx-=(MainComponent.GAME_WIDTH/2) - (level.width - px);
+			if(tY + (level.viewRadius*9/8) > level.height)
+				ty-=(MainComponent.GAME_HEIGHT/2) - (level.height - py);
+			
+			double theta = Math.atan2(tx, ty);
+			double L = Math.sqrt((Math.pow(ty, 2) + Math.pow(tx,2)));
 			
 			for(int i=0; i<shots; ++i) {
 				double phi = Math.min(rand.nextGaussian(),1.2);

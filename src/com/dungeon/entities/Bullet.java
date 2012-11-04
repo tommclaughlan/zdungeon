@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
+import com.dungeon.MainComponent;
 import com.dungeon.level.Level;
 import com.dungeon.math.Vector;
 
@@ -19,7 +20,7 @@ public class Bullet extends Entity {
 	Vector vec;
 	double distance = 0;
 	protected Random rand = new Random();
-	private int startradiusx = 5, startradiusy = 5;
+	private int startradiusx = 6, startradiusy = 6;
 	public boolean hostile = false;
 	
 	public Bullet(Level level, double x, double y, double targetx, double targety, Vector velocity, boolean hostile, int damage, double crit, int speed) {
@@ -34,7 +35,7 @@ public class Bullet extends Entity {
 		this.crit = crit;
 		this.vec = new Vector(x, y, targetx, targety, 1.0); // force unit vector
 		vec.extend(speed);
-		lifetime = (int) (20+(rand.nextGaussian()*10));
+		lifetime = (int) (30+(rand.nextGaussian()*4));
 		this.colour = Color.WHITE;
 		this.radiusx = startradiusx;
 		this.radiusy = startradiusy;
