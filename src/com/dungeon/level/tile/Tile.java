@@ -12,12 +12,13 @@ import com.dungeon.level.Level;
 public class Tile implements BoundingBoxOwner {
 	
 	public int x,y;
-	public int tileWidth = 32;
+	public int tileWidth;
 	BufferedImage bi = Art.black;
 	//Color color = Color.DARK_GRAY;
 	public boolean noclip = true;
 	
 	public Tile(Level level, int x, int y) {
+		tileWidth = level.getMap().tileSize;
 		this.x = x*tileWidth;
 		this.y = y*tileWidth;
 	}

@@ -73,7 +73,7 @@ public class Entity implements BoundingBoxOwner{
 	public boolean canMoveX() {
 		// TODO: these need to be arranged in x and y coordinates so can easily grab the nearest tiles
 		// then check if we collide or not. looping over all tiles is just too inefficient!
-		List<Tile> tiles = level.getTiles((int) (xto/32) - 2, (int) (y/32) - 2, (int) (xto/32) + 2, (int) (y/32) + 2);
+		List<Tile> tiles = level.getTiles((int) (xto/level.getMap().tileSize) - 2, (int) (y/level.getMap().tileSize) - 2, (int) (xto/level.getMap().tileSize) + 2, (int) (y/level.getMap().tileSize) + 2);
 		for(int i=0; i < tiles.size(); i++) {
 			if(tiles.get(i) instanceof FloorTile)
 				continue;
@@ -84,7 +84,7 @@ public class Entity implements BoundingBoxOwner{
 	}
 	
 	public boolean canMoveY() {
-		List<Tile> tiles = level.getTiles((int) (x/32) - 2, (int) (yto/32) - 2, (int) (x/32) + 2, (int) (yto/32) + 2);
+		List<Tile> tiles = level.getTiles((int) (x/level.getMap().tileSize) - 2, (int) (yto/level.getMap().tileSize) - 2, (int) (x/level.getMap().tileSize) + 2, (int) (yto/level.getMap().tileSize) + 2);
 		for(int i=0; i < tiles.size(); i++) {
 			if(tiles.get(i) instanceof FloorTile)
 				continue;

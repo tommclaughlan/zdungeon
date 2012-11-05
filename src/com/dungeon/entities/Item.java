@@ -8,8 +8,8 @@ public class Item extends Entity {
 		super(level);
 		this.x = x;
 		this.y = y;
-		this.radiusx = 8;
-		this.radiusy = 8;
+		this.radiusx = 16;
+		this.radiusy = 16;
 	}
 	
 }

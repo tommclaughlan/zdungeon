@@ -36,8 +36,8 @@ public class MobSpawner extends Entity {
 		this.x = x;
 		this.y = y;
 
-		this.radiusx = 16;
-		this.radiusy = 16;
+		this.radiusx = 32;
+		this.radiusy = 32;
 		
 		diff = difficulty;
 		
@@ -58,6 +58,7 @@ public class MobSpawner extends Entity {
 	public void die() {
 		remove();
 		level.score+=5;
+		spray(new Vector(), 100, 20, 1);
 		level.getPlayer().addExp(val);
 		if(rand.nextDouble() > 0.95)
 			level.items.add(new WeaponItem(level, x, y, new Shotgun(ilvl), 35));
@@ -71,10 +72,20 @@ public class MobSpawner extends Entity {
 			level.items.add(new AmmoPack(level, x, y, 50));
 				
 	}
+	
+	private void spray(Vector velocity, int num, int life, int rad) {
+		for(int i=0; i < num; i++) {
+			level.stains.add(new Particle(level, x, y-8, velocity, life, rad, 4, false));
+		}
+	}
 
-	public void hurt() {
-		health--;
+	public void hurt(int damage, Bullet bullet) {
+		health-=damage;
+		level.damagetext.add(new DamageText(level, x, y, new Vector(rand.nextGaussian(), -2), 20, 8, 1, true, damage, Color.YELLOW));
 		flash();
+		Vector sprayvec = bullet.vec;
+		sprayvec.extend(sprayvec.length()/3.0);
+		spray(sprayvec, 20, 15, 1);
 	}
 
 	public void flash() {
@@ -124,7 +135,7 @@ public class MobSpawner extends Entity {
 				BoundingBox playerbb = bullet.getBoundingBox();
 				if(mybb.intersects(playerbb)) {
 					bullet.remove();
-					hurt(Combat.bulletDamage(bullet.damage, bullet.crit, 0));
+					hurt(Combat.bulletDamage(bullet.damage, bullet.crit, 0), bullet);
 				}
 		}
 	

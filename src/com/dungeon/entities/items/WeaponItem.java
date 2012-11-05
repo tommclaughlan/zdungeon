@@ -18,7 +18,7 @@ public class WeaponItem extends Item {
 		super(level,x,y);
 		weap = dw;
 		bi = weap.getImage();
-		radiusx = (int) (radiusx*(bi.getWidth() / 32.0));
+		radiusx = (int) (radiusx*(2*bi.getWidth() / (double)level.getMap().tileSize));
 		ammo = am;
 	}
 	
@@ -37,7 +37,7 @@ public class WeaponItem extends Item {
 		BufferedImage renderImage = new BufferedImage(bi.getWidth(),bi.getHeight(),bi.getType());
 		Graphics gi = renderImage.createGraphics();
 		gi.drawImage(bi,0,0,bi.getWidth(),bi.getHeight(),null);
-		g.drawImage(renderImage, (int)(x-radiusx - 3), (int)(y-radiusy - 3), radiusx*2 + 6 , radiusy*2 + 6, null);
+		g.drawImage(renderImage, (int)(x-radiusx - 6), (int)(y-radiusy - 6), radiusx*2 + 12 , radiusy*2 + 12, null);
 		////g.fillRect((int) (x-radiusx), (int) (y-radiusx), 2*radiusx, 2*radiusy);
 		
 //		Color oldCol = g.getColor();

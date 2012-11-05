@@ -7,6 +7,7 @@ import java.util.Random;
 
 
 import com.dungeon.Keys;
+import com.dungeon.MainComponent;
 import com.dungeon.boundingbox.BoundingBox;
 import com.dungeon.entities.player.Inventory;
 import com.dungeon.entities.weapons.*;
@@ -58,10 +59,10 @@ public class Player extends Entity {
 		this.y = y;
 		this.keys = keys;
 		this.inventory = new Inventory(level,keys);
-		this.radiusx = 9;
-		this.radiusy = 10;
+		this.radiusx = 18;
+		this.radiusy = 20;
 		colour = Color.YELLOW;
-		speed = 2.5;
+		speed = 5;
 		maxhealth=80+(lvl*20);
 		health = maxhealth;
 		
@@ -195,11 +196,11 @@ public class Player extends Entity {
 		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
 		if(flash)
 			ImageProcessing.recolourImage(renderImage, 50, -255, -255);
-		g.drawImage(renderImage, (int)(x-radiusx - 7), (int)(y-radiusy - 20), radiusx*2+14  , radiusy*2+12, null);
+		g.drawImage(renderImage, (int)(x-radiusx - 14), (int)(y-radiusy - 40), radiusx*2+28  , radiusy*2+24, null);
 	}
 	
 	public void hurt(int damage) {
-		damage = (int) (damage * (1 - Math.min(0.01*(defense/5),0.8)));
+		damage = (int) (damage * (1 - Math.min(0.01*(defense/5),0.75)));
 		if(damage > 0) {
 			health-=damage;
 			level.damagetext.add(new DamageText(level, x, y, new Vector(), 20, 8, 1, true, damage, Color.RED));
@@ -228,9 +229,9 @@ public class Player extends Entity {
 		lvl++;
 		expperlvl+=300*Math.sqrt(lvl);
 		strength+=5;
-		defense+=9;
+		defense+=8;
 		crit = 0.005*lvl;
-		maxhealth+=20;
+		maxhealth+=30;
 		health=maxhealth;
 		maxammo+=10;
 		leveledUp = true;

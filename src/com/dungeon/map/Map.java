@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.dungeon.MainComponent;
 import com.dungeon.math.Node;
 
 public class Map {
 	
 	public int width, height;
 	protected int[][] tiles;
-	public int tileSize = 32;
+	public int tileSize = 64;
 	public int maxCorridorsPerRoom = 2;
 	public List<Node> nodes = new ArrayList<Node>();
 	public List<Room> rooms = new ArrayList<Room>();
