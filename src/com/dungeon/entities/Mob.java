@@ -21,8 +21,9 @@ import com.dungeon.math.Vector;
 public class Mob extends Entity {
 
 	Random rand = new Random();
-	
+
 	BufferedImage bi[][] = Art.zombie1Images;
+	BufferedImage bitest = Art.zombieTest;
     public int facing;
     public int walkTime;
     public int stepTime;
@@ -67,8 +68,8 @@ public class Mob extends Entity {
 		this.y = y;
 		currentx = (int) (this.x / level.getMap().tileSize);
 		currenty = (int) (this.y / level.getMap().tileSize);
-		this.radiusx = 18;
-		this.radiusy = 24;
+		this.radiusx = (int) (level.getMap().tileSize / 4);
+		this.radiusy = (int) (level.getMap().tileSize / 3);
     	colour = Color.RED;
 		velocity = new Vector();
 		facing = rand.nextInt(4);
@@ -260,7 +261,7 @@ public class Mob extends Entity {
 			health-=damage;
 			level.damagetext.add(new DamageText(level, x, y, new Vector(rand.nextGaussian(), -2), 20, 8, 1, true, damage, Color.YELLOW));
 			flash();
-			spray(bullet.vec, 20, 15, 2);
+			spray(new Vector(bullet.vec.x/2,bullet.vec.y/2), 20, 15, 4);
 			if(!bounce)
 				bounceTime = 8;
 			bounce = true;
@@ -305,12 +306,15 @@ public class Mob extends Entity {
 		
 		int frame = (walkTime / 6 % 6 + 6) % 6;
 	       
-		BufferedImage renderImage = new BufferedImage(bi[frame][0].getWidth(),bi[frame][0].getHeight(),bi[frame][0].getType());
+//		BufferedImage renderImage = new BufferedImage(bi[frame][0].getWidth(),bi[frame][0].getHeight(),bi[frame][0].getType());
+//		Graphics gi = renderImage.createGraphics();
+//		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
+		BufferedImage renderImage = new BufferedImage(bitest.getWidth(),bitest.getHeight(),bitest.getType());
 		Graphics gi = renderImage.createGraphics();
-		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
+		gi.drawImage(bitest,0,0,bitest.getWidth(),bitest.getHeight(),null);
 		if(flash)
 			ImageProcessing.recolourImage(renderImage, 50, -255, -255);
-		g.drawImage(renderImage, (int)(x-radiusx - 14), (int)(y-radiusy - 24), radiusx*2+28, radiusy*2+16, null);
+		g.drawImage(renderImage, (int)(x-2*radiusx), (int)(y-2*radiusy), radiusx*4, radiusy*3, null);
 	}
 
 	public void flash() {

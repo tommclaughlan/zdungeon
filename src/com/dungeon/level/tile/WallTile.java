@@ -19,7 +19,7 @@ public class WallTile extends Tile {
 		//BufferedImage renderImage = new BufferedImage(bi.getWidth(),bi.getHeight(),bi.getType());
 		//Graphics gi = renderImage.createGraphics();
 		//gi.drawImage(bi,0,0,bi.getWidth(),bi.getHeight(),null);
-		g.drawImage(bi, x-2, y - 32, tileWidth + 4, tileWidth + 34, null);
+		g.drawImage(bi, x-(tileWidth/32), y - (tileWidth/2), tileWidth + (tileWidth/16), tileWidth + (tileWidth/2), null);
 	}
 
 }

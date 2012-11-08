@@ -20,7 +20,7 @@ public class Bullet extends Entity {
 	Vector vec;
 	double distance = 0;
 	protected Random rand = new Random();
-	private int startradiusx = 6, startradiusy = 6;
+	private int startradiusx, startradiusy;
 	public boolean hostile = false;
 	
 	public Bullet(Level level, double x, double y, double targetx, double targety, Vector velocity, boolean hostile, int damage, double crit, int speed) {
@@ -37,8 +37,10 @@ public class Bullet extends Entity {
 		vec.extend(speed);
 		lifetime = (int) (30+(rand.nextGaussian()*4));
 		this.colour = Color.WHITE;
-		this.radiusx = startradiusx;
-		this.radiusy = startradiusy;
+		this.startradiusx = level.getMap().tileSize / 8;
+		this.startradiusy = level.getMap().tileSize / 8;
+		this.radiusx = level.getMap().tileSize / 8;
+		this.radiusy = level.getMap().tileSize / 8;
 		this.velocity = new Vector(velocity);
 		this.hostile = hostile;
 		if(hostile) {
@@ -83,7 +85,7 @@ public class Bullet extends Entity {
 	
 	private void die() {
 		remove();
-		spray(new Vector(), 10, 10, 1);
+		spray(new Vector(), 10, 10, 2);
 	}
 
 	private void spray(Vector velocity, int num, int life, int rad) {

@@ -15,6 +15,8 @@ public class Art {
 
 	public static BufferedImage titlescreen = loadImage("/titlescreen.png", 512, 288);
 	public static BufferedImage[][] playerImages = chop("/playersheet.png", 32, 32);
+	public static BufferedImage playerTest = loadImage("/playerlotest.png",128, 128);
+	public static BufferedImage zombieTest = loadImage("/zombie1.png",128, 128);
 	public static BufferedImage[][] zombie1Images = chop("/zombiesheet1.png", 32, 32);
 	public static BufferedImage floorTest = loadImage("/floortest.png", 32, 32);
 	public static BufferedImage black = blackImage(32,32);

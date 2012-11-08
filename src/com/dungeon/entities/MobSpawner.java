@@ -36,8 +36,8 @@ public class MobSpawner extends Entity {
 		this.x = x;
 		this.y = y;
 
-		this.radiusx = 32;
-		this.radiusy = 32;
+		this.radiusx = level.getMap().tileSize / 2;
+		this.radiusy = level.getMap().tileSize / 2;
 		
 		diff = difficulty;
 		
@@ -83,9 +83,7 @@ public class MobSpawner extends Entity {
 		health-=damage;
 		level.damagetext.add(new DamageText(level, x, y, new Vector(rand.nextGaussian(), -2), 20, 8, 1, true, damage, Color.YELLOW));
 		flash();
-		Vector sprayvec = bullet.vec;
-		sprayvec.extend(sprayvec.length()/3.0);
-		spray(sprayvec, 20, 15, 1);
+		spray(new Vector(bullet.vec.x/3, bullet.vec.y/3), 20, 15, 2);
 	}
 
 	public void flash() {

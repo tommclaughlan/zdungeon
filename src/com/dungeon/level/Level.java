@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.dungeon.Keys;
 import com.dungeon.MainComponent;
 import com.dungeon.entities.Bullet;
 import com.dungeon.entities.DamageText;
@@ -53,7 +54,7 @@ public class Level {
 	
 	private Map map;
 
-	public Level(Map map, int diff, Player player) {
+	public Level(Map map, int diff) {
 
 		this.map = map;
 		
@@ -61,10 +62,6 @@ public class Level {
 		this.height = map.height*map.tileSize;
 		
 		tiles = new Tile[map.width][map.height];
-
-		player.level = this;
-		player.getInventory().newLevel(this);
-		this.addPlayer(player);
 		
 		difficulty = diff;
 		
@@ -555,5 +552,11 @@ public class Level {
 	public void gameOver() {
 		
 		gameOver = true;
+	}
+	public void newPlayer(Keys keys, int d, int e) {
+		Player player = new Player(this, keys, d,e);
+		player.level = this;
+		player.getInventory().newLevel(this);
+		this.addPlayer(player);
 	}
 }

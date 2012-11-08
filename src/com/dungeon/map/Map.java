@@ -12,7 +12,7 @@ public class Map {
 	
 	public int width, height;
 	protected int[][] tiles;
-	public int tileSize = 64;
+	public int tileSize = 80;
 	public int maxCorridorsPerRoom = 2;
 	public List<Node> nodes = new ArrayList<Node>();
 	public List<Room> rooms = new ArrayList<Room>();
