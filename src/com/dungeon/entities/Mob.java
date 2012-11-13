@@ -214,9 +214,9 @@ public class Mob extends Entity {
 			yto = 0;
 		}
 		
-        if(walkTime / 12 % 2 != 0) {
+        if(walkTime / 2 % 2 != 0) {
         	stepTime++;
-        	if(walkTime > 4 && rand.nextInt(200) == 0){
+        	if(walkTime > 18 && rand.nextInt(200) == 0){
         		facing = rand.nextInt(4);
         		walkTime = 0;
         	}
@@ -304,17 +304,17 @@ public class Mob extends Entity {
 //		
 		
 		
-		int frame = (walkTime / 6 % 6 + 6) % 6;
-	       
-//		BufferedImage renderImage = new BufferedImage(bi[frame][0].getWidth(),bi[frame][0].getHeight(),bi[frame][0].getType());
-//		Graphics gi = renderImage.createGraphics();
-//		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
-		BufferedImage renderImage = new BufferedImage(bitest.getWidth(),bitest.getHeight(),bitest.getType());
+		int frame = (walkTime % 36) / 2;
+	    facing = 0;
+		BufferedImage renderImage = new BufferedImage(bi[frame][0].getWidth(),bi[frame][0].getHeight(),bi[frame][0].getType());
 		Graphics gi = renderImage.createGraphics();
-		gi.drawImage(bitest,0,0,bitest.getWidth(),bitest.getHeight(),null);
+		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
+//		BufferedImage renderImage = new BufferedImage(bitest.getWidth(),bitest.getHeight(),bitest.getType());
+//		Graphics gi = renderImage.createGraphics();
+//		gi.drawImage(bitest,0,0,bitest.getWidth(),bitest.getHeight(),null);
 		if(flash)
 			ImageProcessing.recolourImage(renderImage, 50, -255, -255);
-		g.drawImage(renderImage, (int)(x-2*radiusx), (int)(y-2*radiusy), radiusx*4, radiusy*3, null);
+		g.drawImage(renderImage, (int)(x-2*radiusx), (int)(y-2*radiusy), (int)(radiusx*4*1.2), (int)(radiusy*3*1.2), null);
 	}
 
 	public void flash() {

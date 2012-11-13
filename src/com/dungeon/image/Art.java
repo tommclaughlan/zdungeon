@@ -17,7 +17,8 @@ public class Art {
 	public static BufferedImage[][] playerImages = chop("/playersheet.png", 32, 32);
 	public static BufferedImage playerTest = loadImage("/playerlotest.png",128, 128);
 	public static BufferedImage zombieTest = loadImage("/zombie1.png",128, 128);
-	public static BufferedImage[][] zombie1Images = chop("/zombiesheet1.png", 32, 32);
+	//public static BufferedImage[][] zombie1Images = chop("/zombiesheet1.png", 32, 32);
+	public static BufferedImage[][] zombie1Images = chop("/zombiesheethi1.png", 300, 290);
 	public static BufferedImage floorTest = loadImage("/floortest.png", 32, 32);
 	public static BufferedImage black = blackImage(32,32);
 	public static BufferedImage wallTest = loadImage("/walltest.png", 32, 48);
@@ -82,14 +83,14 @@ public class Art {
 		
 		int xTiles = (bi.getWidth()) / w;
         int yTiles = (bi.getHeight()) / h;
-
+        
         BufferedImage[][] result = new BufferedImage[xTiles][yTiles];
 		
         for (int x = 0; x < xTiles; x++) {
             for (int y = 0; y < yTiles; y++) {
                 result[x][y] = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
                 result[x][y].createGraphics().drawImage(img, 0, 0, w, h, x*w , y*h, x*w + w, y*h + h, null);
-        		ImageProcessing.recolourImage(result[x][y], -50, -50, -50);
+        		//ImageProcessing.recolourImage(result[x][y], -50, -50, -50);
             }
         }
 		
