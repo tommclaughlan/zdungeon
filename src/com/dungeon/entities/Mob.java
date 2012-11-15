@@ -14,6 +14,7 @@ import com.dungeon.entities.weapons.*;
 import com.dungeon.image.Art;
 import com.dungeon.image.ImageProcessing;
 import com.dungeon.level.Level;
+import com.dungeon.map.Map;
 import com.dungeon.math.Combat;
 import com.dungeon.math.Node;
 import com.dungeon.math.Vector;
@@ -342,13 +343,18 @@ public class Mob extends Entity {
 				int myx = (int) x;
 				int myy = (int) y;
 				
+				if(path.size() == 1){
+					nextx = (int) level.getPlayer().x;
+					nexty = (int) level.getPlayer().y;
+				}
+				
 				if(nextx > myx)
 					velocity.x+=speed;
-				if(nextx < myx)
+				if(nextx <= myx)
 					velocity.x-=speed;
 				if(nexty > myy)
 					velocity.y+=speed;
-				if(nexty < myy)
+				if(nexty <= myy)
 					velocity.y-=speed;
 				
 

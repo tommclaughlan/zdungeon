@@ -525,7 +525,7 @@ public class Level {
 		//quicker way to do this?
 		for(int y = 0; y < map.height; y++) {
 			for(Entity e : visibleEntities) {
-				if(e.y/map.tileSize <= y && e.y/map.tileSize > y - 1)
+				if(e.y <= y*map.tileSize && e.y > (y-1)*map.tileSize)
 					screen.draw(e);
 			}
 			for(int i = 0; i < visibleTiles.size(); i++) {
@@ -534,7 +534,6 @@ public class Level {
 						screen.draw(visibleTiles.get(i));
 				}
 			}
-		
 		}
 
 		for(int i = 0; i < visibleParticles.size(); i++) {

@@ -16,6 +16,7 @@ import com.dungeon.entities.weapons.Shotgun;
 import com.dungeon.image.Art;
 import com.dungeon.image.ImageProcessing;
 import com.dungeon.level.Level;
+import com.dungeon.map.Map;
 import com.dungeon.math.Combat;
 import com.dungeon.math.Vector;
 
@@ -49,10 +50,12 @@ public class MobSpawner extends Entity {
 	}
 	
 	public void spawnMob() {
-		Mob badGuyPoint = new Mob(level, x, y, diff);
-		badGuyPoint.xto = x;
-		badGuyPoint.yto = y;
-		level.entities.add(badGuyPoint);
+		Mob badGuyPoint = new Mob(level, x+(rand.nextBoolean() ? Map.tileSize : -1*Map.tileSize), y+(rand.nextBoolean() ? Map.tileSize : -1*Map.tileSize), diff);
+		badGuyPoint.xto = badGuyPoint.x;
+		badGuyPoint.yto = badGuyPoint.y;
+		if(badGuyPoint.canMoveX() && badGuyPoint.canMoveY()) {
+			level.entities.add(badGuyPoint);
+		}
 	}
 	
 	public void die() {

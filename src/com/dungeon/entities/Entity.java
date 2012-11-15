@@ -3,6 +3,7 @@ package com.dungeon.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
+import java.util.Set;
 
 import com.dungeon.boundingbox.BoundingBox;
 import com.dungeon.boundingbox.BoundingBoxOwner;
@@ -74,11 +75,23 @@ public class Entity implements BoundingBoxOwner{
 		// TODO: these need to be arranged in x and y coordinates so can easily grab the nearest tiles
 		// then check if we collide or not. looping over all tiles is just too inefficient!
 		List<Tile> tiles = level.getTiles((int) (xto/level.getMap().tileSize) - 2, (int) (y/level.getMap().tileSize) - 2, (int) (xto/level.getMap().tileSize) + 2, (int) (y/level.getMap().tileSize) + 2);
-		for(int i=0; i < tiles.size(); i++) {
+		for(int i=0; i < tiles.size(); ++i) {
 			if(tiles.get(i) instanceof FloorTile)
 				continue;
 			if(getToXBoundingBox().intersects(tiles.get(i).getBoundingBox()))
 				return false;	
+		}
+		if(this instanceof Mob || this instanceof Player) {
+			List<Entity> mobs = level.entities;
+			for(Entity m : mobs) {
+				if(m.equals(this))
+					continue;
+				if(m instanceof Mob || m instanceof MobSpawner){
+					if(getToXBoundingBox().intersects(m.getBoundingBox()))
+						return false;
+				}
+			}
+		
 		}
 		return true;
 	}
@@ -90,6 +103,18 @@ public class Entity implements BoundingBoxOwner{
 				continue;
 			if(getToYBoundingBox().intersects(tiles.get(i).getBoundingBox()))
 				return false;	
+		}
+		if(this instanceof Mob || this instanceof Player) {
+			List<Entity> mobs = level.entities;
+			for(Entity m : mobs) {
+				if(m.equals(this))
+					continue;
+				if(m instanceof Mob || m instanceof MobSpawner){
+					if(getToYBoundingBox().intersects(m.getBoundingBox()))
+						return false;
+				}
+			}
+		
 		}
 		return true;
 	}
