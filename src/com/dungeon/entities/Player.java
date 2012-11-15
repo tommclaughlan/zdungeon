@@ -20,6 +20,7 @@ import com.dungeon.math.Vector;
 public class Player extends Entity {
 
 	BufferedImage[][] bi = Art.playerImages;
+	BufferedImage bitest = Art.playerTest;
 	Color colour;
 	Keys keys;
 	public double speed;
@@ -59,8 +60,8 @@ public class Player extends Entity {
 		this.y = y;
 		this.keys = keys;
 		this.inventory = new Inventory(level,keys);
-		this.radiusx = 18;
-		this.radiusy = 20;
+		this.radiusx = level.getMap().tileSize / 4;
+		this.radiusy = level.getMap().tileSize / 4;
 		colour = Color.YELLOW;
 		speed = 5;
 		maxhealth=80+(lvl*20);
@@ -191,12 +192,15 @@ public class Player extends Entity {
         }
         int frame = (walkTime / 6 % 6 + 6) % 6;
         
-		BufferedImage renderImage = new BufferedImage(bi[frame][0].getWidth(),bi[frame][0].getHeight(),bi[frame][0].getType());
+//		BufferedImage renderImage = new BufferedImage(bi[frame][0].getWidth(),bi[frame][0].getHeight(),bi[frame][0].getType());
+//		Graphics gi = renderImage.createGraphics();
+//		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
+		BufferedImage renderImage = new BufferedImage(bitest.getWidth(),bitest.getHeight(),bitest.getType());
 		Graphics gi = renderImage.createGraphics();
-		gi.drawImage(bi[frame][facing],0,0,bi[frame][facing].getWidth(),bi[frame][facing].getHeight(),null);
+		gi.drawImage(bitest,0,0,bitest.getWidth(),bitest.getHeight(),null);
 		if(flash)
 			ImageProcessing.recolourImage(renderImage, 50, -255, -255);
-		g.drawImage(renderImage, (int)(x-radiusx - 14), (int)(y-radiusy - 40), radiusx*2+28  , radiusy*2+24, null);
+		g.drawImage(renderImage, (int)(x-(2*radiusx)), (int)(y-(4*radiusy)), radiusx*4  , radiusy*4, null);
 	}
 	
 	public void hurt(int damage) {

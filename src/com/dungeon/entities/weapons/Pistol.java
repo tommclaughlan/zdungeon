@@ -146,7 +146,7 @@ public class Pistol implements Weapon {
 				double phi = Math.min(rand.nextGaussian(),1.2);
 				double t1x = (L*Math.sin(theta + phi*acc)) + px;
 				double t1y = (L*Math.cos(theta + phi*acc)) + py;
-				level.bullets.add(new Bullet(level, px, py, t1x, t1y, player.velocity, false,  strength+str, Math.min(1.0, crit+crt), speed));
+				level.bullets.add(new Bullet(level, px, py-16, t1x, t1y, player.velocity, false,  strength+str, Math.min(1.0, crit+crt), speed));
 				player.useAmmo();
 			}
 			level.firing = false;

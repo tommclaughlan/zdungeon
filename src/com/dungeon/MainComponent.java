@@ -32,7 +32,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 
 	private final String version = "0.2";
 	private static final long serialVersionUID = 1L;
-	public static int GAME_WIDTH = 1024;
+	public static int GAME_WIDTH = 1280;
 	public static int GAME_HEIGHT = (9 * GAME_WIDTH) / 16;
 //	public static int SCALE = 1;
 	private boolean running = true;
@@ -84,15 +84,16 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
     	map.generate();
 		level = new Level(map, currentscore, player, levelnum);
     	nextlevel = false;
-		player.x = 160;
-		player.y = 160;
+		player.x = map.tileSize*1.5;
+		player.y = map.tileSize*1.5;
 	}
     
     private void createLevel() {
     	levelnum = 1;
     	map = new Map((int)(Math.sqrt(levelnum)*32),(int)(Math.sqrt(levelnum)*32));
     	map.generate();
-		level = new Level(map, levelnum, new Player(level, keys, 160,160));
+		level = new Level(map, levelnum);
+		level.newPlayer(keys,(int) (map.tileSize*1.5),(int)(map.tileSize*1.5));
     	nextlevel = false;
 	}
 
