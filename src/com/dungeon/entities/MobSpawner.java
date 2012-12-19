@@ -50,7 +50,12 @@ public class MobSpawner extends Entity {
 	}
 	
 	public void spawnMob() {
-		Mob badGuyPoint = new Mob(level, x+(rand.nextBoolean() ? Map.tileSize : -1*Map.tileSize), y+(rand.nextBoolean() ? Map.tileSize : -1*Map.tileSize), diff);
+		
+		Mob mob = new Mob(level, x+(rand.nextBoolean() ? Map.tileSize : -1*Map.tileSize), y+(rand.nextBoolean() ? Map.tileSize : -1*Map.tileSize), diff);
+		if(rand.nextDouble() < 0.9)
+			mob = new Exploder(level, x+(rand.nextBoolean() ? Map.tileSize : -1*Map.tileSize), y+(rand.nextBoolean() ? Map.tileSize : -1*Map.tileSize), diff);
+		
+		Mob badGuyPoint = mob;
 		badGuyPoint.xto = badGuyPoint.x;
 		badGuyPoint.yto = badGuyPoint.y;
 		if(badGuyPoint.canMoveX() && badGuyPoint.canMoveY()) {

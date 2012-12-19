@@ -40,7 +40,7 @@ public class Mob extends Entity {
 	public int defense = 3;
 	public double crit = 0.01;
 	public int val = 15;
-	private int ilvl = 1;
+	protected int ilvl = 1;
 
 	private int bounceTime = 0;
 	private Vector bounceVec = new Vector();
@@ -251,7 +251,7 @@ public class Mob extends Entity {
         }
 	}
 
-	private void spray(Vector velocity, int num, int life, int rad) {
+	protected void spray(Vector velocity, int num, int life, int rad) {
 		for(int i=0; i < num; i++) {
 			level.stains.add(new Particle(level, x, y, velocity, life, rad, 1, false));
 		}
