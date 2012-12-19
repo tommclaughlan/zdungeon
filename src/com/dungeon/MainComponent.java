@@ -507,6 +507,7 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 
 	public void tick() {
 
+		keys.tick();
 		if(level != null && !paused && !title && !nextlevel && !level.gameOver) {
 			if(!inventory)
 				level.tick();
@@ -515,7 +516,6 @@ public class MainComponent extends Canvas implements Runnable, MouseMotionListen
 		}
 		else if(nextlevel || level.gameOver)
 			nextleveltimer--;
-		keys.tick();
 		ticks++;
 		
 		int badGuyCount = 0;
